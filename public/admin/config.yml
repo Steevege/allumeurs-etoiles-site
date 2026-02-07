@@ -2,11 +2,9 @@
 # Interface admin accessible sur : /admin/
 
 backend:
-  name: git-gateway
-  branch: main
-
-# Paramètres locaux pour développement
-local_backend: true
+  name: github
+  repo: Steevege/allumeurs-etoiles-site
+  branch: master
 
 # Médias stockés dans /public/images/
 media_folder: "public/images/uploads"
