@@ -1,0 +1,376 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+// Récupérer tous les événements
+const today = new Date();
+const allEvents = await getCollection('events');
+
+// Événements à venir
+const upcomingEvents = allEvents
+  .filter(e => e.data.date >= today)
+  .sort((a, b) => a.data.date.getTime() - b.data.date.getTime());
+
+// Événements passés (pour archive)
+const pastEvents = allEvents
+  .filter(e => e.data.date < today)
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .slice(0, 6);
+---
+
+<Layout 
+  title="Calendrier Tournée" 
+  description="Découvrez toutes nos dates de spectacles à venir. Réservez votre place pour nos prochaines représentations."
+>
+  <!-- En-tête de page -->
+  <section class="page-header">
+    <div class="container">
+      <h1>Calendrier Tournée</h1>
+      <p class="page-subtitle">
+        Retrouvez-nous en tournée dans toute la France
+      </p>
+    </div>
+  </section>
+
+  <!-- Prochains événements -->
+  {upcomingEvents.length > 0 ? (
+    <section class="events-upcoming">
+      <div class="container">
+        <h2 class="section-title">Prochaines dates</h2>
+        
+        <div class="events-grid">
+          {upcomingEvents.map((event) => (
+            <article class="event-card">
+              <div class="event-date">
+                <span class="date-day">
+                  {event.data.date.toLocaleDateString('fr-FR', { day: '2-digit' })}
+                </span>
+                <span class="date-month">
+                  {event.data.date.toLocaleDateString('fr-FR', { month: 'short' })}
+                </span>
+                <span class="date-year">
+                  {event.data.date.getFullYear()}
+                </span>
+              </div>
+              
+              <div class="event-details">
+                <h3>{event.data.title}</h3>
+                <p class="event-venue">📍 {event.data.venue}, {event.data.city}</p>
+                <p class="event-time">🕐 {event.data.time}</p>
+                {event.data.price && (
+                  <p class="event-price">💳 {event.data.price}</p>
+                )}
+                {event.data.ticketUrl && (
+                  <a href={event.data.ticketUrl} target="_blank" rel="noopener" class="btn btn-primary btn-small">
+                    Réserver →
+                  </a>
+                )}
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  ) : (
+    <section class="no-events">
+      <div class="container">
+        <p>Aucune date programmée pour le moment. Revenez bientôt !</p>
+        <a href="/contact" class="btn btn-primary">Nous contacter pour une réservation</a>
+      </div>
+    </section>
+  )}
+
+  <!-- Événements passés (archives) -->
+  {pastEvents.length > 0 && (
+    <section class="events-past">
+      <div class="container">
+        <h2 class="section-title">Dates passées</h2>
+        
+        <div class="events-grid-compact">
+          {pastEvents.map((event) => (
+            <article class="event-card-compact">
+              <span class="event-date-compact">
+                {event.data.date.toLocaleDateString('fr-FR', { day: '2-digit', month: 'short', year: 'numeric' })}
+              </span>
+              <h4>{event.data.city}</h4>
+              <p>{event.data.venue}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- CTA Contact -->
+  <section class="cta-section">
+    <div class="container">
+      <h2>Envie de nous accueillir ?</h2>
+      <p>Contactez-nous pour organiser une représentation dans votre ville</p>
+      <a href="/contact" class="btn btn-primary btn-large">Demande de réservation</a>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .page-header {
+    background: linear-gradient(135deg, rgba(30, 58, 138, 0.95) 0%, rgba(0, 0, 0, 0.85) 100%);
+    color: white;
+    padding: 5rem 0 4rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .page-header::before {
+    content: '';
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(249, 115, 22, 0.15) 0%, transparent 70%);
+    border-radius: 50%;
+    top: -250px;
+    right: -100px;
+    animation: cosmic-float 20s ease-in-out infinite;
+  }
+
+  @keyframes cosmic-float {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(30px, -30px) scale(1.1); }
+  }
+
+  .page-header h1 {
+    color: white;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    margin-bottom: 1rem;
+    position: relative;
+  }
+
+  .page-subtitle {
+    font-size: 1.35rem;
+    opacity: 0.95;
+    position: relative;
+  }
+
+  .events-upcoming {
+    padding: var(--spacing-xl) 0;
+  }
+
+  .section-title {
+    text-align: center;
+    font-size: clamp(2rem, 4vw, 3rem);
+    margin-bottom: var(--spacing-lg);
+    color: var(--color-primary);
+    font-family: var(--font-heading);
+    font-style: italic;
+  }
+
+  .events-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 2.5rem;
+  }
+
+  .event-card {
+    background-color: white;
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    box-shadow: var(--shadow-md);
+    display: flex;
+    gap: 2rem;
+    transition: all 0.4s ease;
+    border: 1px solid rgba(30, 58, 138, 0.08);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .event-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, var(--color-secondary), var(--color-primary));
+  }
+
+  .event-card:hover {
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-5px);
+  }
+
+  .event-date {
+    flex-shrink: 0;
+    width: 90px;
+    height: 110px;
+    background: linear-gradient(135deg, var(--color-secondary) 0%, #ea580c 100%);
+    color: white;
+    border-radius: var(--radius-md);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .date-day {
+    font-size: 2.75rem;
+    font-weight: 700;
+    line-height: 1;
+    font-family: var(--font-heading);
+  }
+
+  .date-month {
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-top: 0.25rem;
+  }
+
+  .date-year {
+    font-size: 0.85rem;
+    opacity: 0.9;
+    margin-top: 0.25rem;
+  }
+
+  .event-details h3 {
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    color: var(--color-primary);
+    font-family: var(--font-heading);
+  }
+
+  .event-venue,
+  .event-time,
+  .event-price {
+    font-size: 0.95rem;
+    color: #6B7280;
+    margin-bottom: 0.5rem;
+  }
+
+  .btn-small {
+    padding: 0.75rem 1.5rem;
+    font-size: 0.95rem;
+    margin-top: 1rem;
+  }
+
+  .no-events {
+    padding: var(--spacing-xl) 0;
+    text-align: center;
+  }
+
+  .no-events p {
+    font-size: 1.25rem;
+    color: #6B7280;
+    margin-bottom: 2rem;
+  }
+
+  /* Événements passés */
+  .events-past {
+    padding: var(--spacing-lg) 0;
+    background: linear-gradient(135deg, var(--color-light-bg) 0%, white 100%);
+  }
+
+  .events-grid-compact {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .event-card-compact {
+    background: white;
+    padding: 1.5rem;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid rgba(30, 58, 138, 0.08);
+    transition: all 0.3s ease;
+  }
+
+  .event-card-compact:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-3px);
+  }
+
+  .event-date-compact {
+    display: block;
+    font-size: 0.85rem;
+    color: var(--color-secondary);
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .event-card-compact h4 {
+    color: var(--color-primary);
+    margin-bottom: 0.25rem;
+    font-size: 1.1rem;
+  }
+
+  .event-card-compact p {
+    font-size: 0.9rem;
+    color: #6B7280;
+  }
+
+  /* CTA Section */
+  .cta-section {
+    background: linear-gradient(135deg, var(--color-primary) 0%, #1e40af 100%);
+    color: white;
+    padding: var(--spacing-xl) 0;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-section::before {
+    content: '';
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(249, 115, 22, 0.2) 0%, transparent 70%);
+    border-radius: 50%;
+    top: -250px;
+    right: -100px;
+    animation: cosmic-float 20s ease-in-out infinite;
+  }
+
+  .cta-section h2 {
+    color: white;
+    font-size: clamp(2.5rem, 4vw, 3.5rem);
+    margin-bottom: 1.5rem;
+    position: relative;
+  }
+
+  .cta-section p {
+    font-size: 1.25rem;
+    margin-bottom: 2.5rem;
+    opacity: 0.95;
+    position: relative;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .page-header {
+      padding: 3rem 0 2rem;
+    }
+
+    .events-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .event-card {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .event-date {
+      width: 100px;
+      height: 100px;
+    }
+
+    .events-grid-compact {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

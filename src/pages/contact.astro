@@ -1,0 +1,482 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout 
+  title="Contact" 
+  description="Contactez l'association Allumeurs d'Étoiles pour toute demande de réservation, d'information ou de partenariat."
+>
+  <!-- En-tête de page -->
+  <section class="page-header">
+    <div class="container">
+      <h1>Contactez-nous</h1>
+      <p class="page-subtitle">
+        Une question ? Un projet ? Nous sommes à votre écoute
+      </p>
+    </div>
+  </section>
+
+  <!-- Section Contact -->
+  <section class="contact-section">
+    <div class="container">
+      <div class="contact-grid">
+        <!-- Formulaire -->
+        <div class="contact-form-wrapper">
+          <h2>Envoyez-nous un message</h2>
+          
+          <form 
+            name="contact" 
+            method="POST" 
+            data-netlify="true" 
+            netlify-honeypot="bot-field"
+            class="contact-form"
+          >
+            <!-- Honeypot anti-spam -->
+            <input type="hidden" name="form-name" value="contact" />
+            <p style="display: none;">
+              <label>Ne pas remplir : <input name="bot-field" /></label>
+            </p>
+
+            <div class="form-group">
+              <label for="name">Nom *</label>
+              <input 
+                type="text" 
+                id="name" 
+                name="name" 
+                required 
+                placeholder="Votre nom complet"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="email">Email *</label>
+              <input 
+                type="email" 
+                id="email" 
+                name="email" 
+                required 
+                placeholder="votre@email.com"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="phone">Téléphone</label>
+              <input 
+                type="tel" 
+                id="phone" 
+                name="phone" 
+                placeholder="06 12 34 56 78"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="subject">Sujet *</label>
+              <select id="subject" name="subject" required>
+                <option value="">Sélectionnez un sujet</option>
+                <option value="reservation">Demande de réservation spectacle</option>
+                <option value="partenariat">Proposition de partenariat</option>
+                <option value="info">Demande d'information</option>
+                <option value="presse">Demande presse</option>
+                <option value="autre">Autre</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="message">Message *</label>
+              <textarea 
+                id="message" 
+                name="message" 
+                rows="6" 
+                required 
+                placeholder="Décrivez votre projet ou votre demande..."
+              ></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-large">
+              Envoyer le message →
+            </button>
+          </form>
+        </div>
+
+        <!-- Coordonnées -->
+        <div class="contact-info">
+          <div class="info-card">
+            <h3>Coordonnées</h3>
+            
+            <div class="info-item">
+              <span class="info-icon">📧</span>
+              <div>
+                <strong>Email</strong>
+                <a href="mailto:contact@allumeursdetoiles.com">
+                  contact@allumeursdetoiles.com
+                </a>
+              </div>
+            </div>
+
+            <div class="info-item">
+              <span class="info-icon">📱</span>
+              <div>
+                <strong>Téléphone</strong>
+                <p>À venir</p>
+              </div>
+            </div>
+
+            <div class="info-item">
+              <span class="info-icon">📍</span>
+              <div>
+                <strong>Adresse</strong>
+                <p>Basés en région parisienne</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="info-card">
+            <h3>Réseaux sociaux</h3>
+            
+            <div class="social-links">
+              <a href="https://facebook.com/allumeursdetoiles" target="_blank" rel="noopener" class="social-link">
+                <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                </svg>
+                <span>Facebook</span>
+              </a>
+
+              <a href="https://youtube.com/@allumeursdetoiles" target="_blank" rel="noopener" class="social-link">
+                <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                </svg>
+                <span>YouTube</span>
+              </a>
+            </div>
+          </div>
+
+          <div class="info-card">
+            <h3>Horaires</h3>
+            <p class="info-note">
+              Nous répondons à vos messages sous 48h ouvrées.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section FAQ rapide -->
+  <section class="faq-section">
+    <div class="container">
+      <h2 class="section-title">Questions fréquentes</h2>
+      
+      <div class="faq-grid">
+        <article class="faq-item">
+          <h3>📅 Comment réserver un spectacle ?</h3>
+          <p>
+            Contactez-nous via le formulaire ci-dessus en précisant vos dates souhaitées, 
+            le lieu et le spectacle qui vous intéresse. Nous reviendrons vers vous rapidement 
+            avec un devis personnalisé.
+          </p>
+        </article>
+
+        <article class="faq-item">
+          <h3>🎭 Quels spectacles proposez-vous ?</h3>
+          <p>
+            Nous proposons plusieurs créations adaptables à différents publics : spectacles 
+            tout public, adultes, et jeune public. Consultez notre page 
+            <a href="/spectacles">Spectacles</a> pour découvrir notre répertoire.
+          </p>
+        </article>
+
+        <article class="faq-item">
+          <h3>💰 Quels sont vos tarifs ?</h3>
+          <p>
+            Nos tarifs varient selon le spectacle, la distance, la durée et vos spécificités. 
+            Contactez-nous pour un devis sur mesure adapté à votre budget et votre projet.
+          </p>
+        </article>
+
+        <article class="faq-item">
+          <h3>🎪 Quelles sont vos conditions techniques ?</h3>
+          <p>
+            Nos spectacles sont adaptables à différents espaces (théâtres, salles polyvalentes, 
+            plein air). Nous fournissons toutes les informations techniques détaillées sur demande.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .page-header {
+    background: linear-gradient(135deg, rgba(30, 58, 138, 0.95) 0%, rgba(0, 0, 0, 0.85) 100%);
+    color: white;
+    padding: 5rem 0 4rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .page-header::before {
+    content: '';
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(249, 115, 22, 0.15) 0%, transparent 70%);
+    border-radius: 50%;
+    top: -250px;
+    left: 50%;
+    transform: translateX(-50%);
+    animation: cosmic-float 20s ease-in-out infinite;
+  }
+
+  @keyframes cosmic-float {
+    0%, 100% { transform: translateX(-50%) translateY(0) scale(1); }
+    50% { transform: translateX(-50%) translateY(-30px) scale(1.1); }
+  }
+
+  .page-header h1 {
+    color: white;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    margin-bottom: 1rem;
+    position: relative;
+  }
+
+  .page-subtitle {
+    font-size: 1.35rem;
+    opacity: 0.95;
+    position: relative;
+  }
+
+  /* Section Contact */
+  .contact-section {
+    padding: var(--spacing-xl) 0;
+  }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 5rem;
+  }
+
+  .contact-form-wrapper h2 {
+    font-size: 2rem;
+    color: var(--color-primary);
+    font-family: var(--font-heading);
+    font-style: italic;
+    margin-bottom: 2rem;
+  }
+
+  /* Formulaire */
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .form-group label {
+    font-weight: 600;
+    color: var(--color-primary);
+    font-size: 1.05rem;
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    padding: 1rem 1.25rem;
+    border: 2px solid rgba(30, 58, 138, 0.15);
+    border-radius: var(--radius-md);
+    font-size: 1rem;
+    font-family: var(--font-body);
+    transition: all 0.3s ease;
+    background-color: white;
+  }
+
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    outline: none;
+    border-color: var(--color-secondary);
+    box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.1);
+  }
+
+  .form-group textarea {
+    resize: vertical;
+    min-height: 120px;
+  }
+
+  .btn-large {
+    padding: 1.25rem 2.5rem;
+    font-size: 1.1rem;
+    margin-top: 1rem;
+  }
+
+  /* Coordonnées */
+  .contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .info-card {
+    background: linear-gradient(135deg, var(--color-light-bg) 0%, white 100%);
+    padding: 2.5rem;
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-md);
+    border: 1px solid rgba(30, 58, 138, 0.08);
+  }
+
+  .info-card h3 {
+    font-size: 1.5rem;
+    color: var(--color-primary);
+    font-family: var(--font-heading);
+    margin-bottom: 1.5rem;
+  }
+
+  .info-item {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+    align-items: start;
+  }
+
+  .info-item:last-child {
+    margin-bottom: 0;
+  }
+
+  .info-icon {
+    font-size: 2rem;
+    flex-shrink: 0;
+  }
+
+  .info-item strong {
+    display: block;
+    color: var(--color-primary);
+    margin-bottom: 0.25rem;
+    font-size: 1.05rem;
+  }
+
+  .info-item a {
+    color: var(--color-secondary);
+    transition: color 0.3s ease;
+  }
+
+  .info-item a:hover {
+    color: var(--color-primary);
+  }
+
+  .info-item p {
+    color: #6B7280;
+    margin: 0;
+  }
+
+  .social-links {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .social-link {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: white;
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(30, 58, 138, 0.08);
+    transition: all 0.3s ease;
+    color: var(--color-primary);
+  }
+
+  .social-link:hover {
+    background-color: var(--color-secondary);
+    color: white;
+    transform: translateX(5px);
+  }
+
+  .social-link svg {
+    flex-shrink: 0;
+  }
+
+  .info-note {
+    color: #6B7280;
+    font-style: italic;
+    line-height: 1.6;
+  }
+
+  /* Section FAQ */
+  .faq-section {
+    padding: var(--spacing-xl) 0;
+    background: linear-gradient(135deg, var(--color-light-bg) 0%, white 100%);
+  }
+
+  .section-title {
+    text-align: center;
+    font-size: clamp(2rem, 4vw, 3rem);
+    margin-bottom: var(--spacing-lg);
+    color: var(--color-primary);
+    font-family: var(--font-heading);
+    font-style: italic;
+  }
+
+  .faq-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2.5rem;
+  }
+
+  .faq-item {
+    background: white;
+    padding: 2rem;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid rgba(30, 58, 138, 0.08);
+    transition: all 0.3s ease;
+  }
+
+  .faq-item:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-3px);
+  }
+
+  .faq-item h3 {
+    color: var(--color-primary);
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+    font-family: var(--font-heading);
+  }
+
+  .faq-item p {
+    color: #6B7280;
+    line-height: 1.7;
+  }
+
+  .faq-item a {
+    color: var(--color-secondary);
+    font-weight: 600;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .page-header {
+      padding: 3rem 0 2rem;
+    }
+
+    .contact-grid {
+      grid-template-columns: 1fr;
+      gap: 3rem;
+    }
+
+    .info-card {
+      padding: 2rem;
+    }
+
+    .faq-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

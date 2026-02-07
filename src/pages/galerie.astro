@@ -1,0 +1,408 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+// Récupérer les spectacles pour organiser la galerie
+const spectacles = (await getCollection('spectacles'))
+  .filter(s => s.data.active)
+  .sort((a, b) => a.data.order - b.data.order);
+
+// Vidéos YouTube exemple (à compléter)
+const videos = [
+  {
+    title: "Il était 2 foi(s) - Extrait",
+    url: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+    spectacle: "il-etait-2-fois"
+  },
+  {
+    title: "Vices & Versa - Bande annonce",
+    url: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+    spectacle: "vices-versa"
+  }
+];
+---
+
+<Layout 
+  title="Galerie" 
+  description="Découvrez en images nos spectacles musicaux et théâtraux. Photos et vidéos de nos représentations."
+>
+  <!-- En-tête de page -->
+  <section class="page-header">
+    <div class="container">
+      <h1>Galerie</h1>
+      <p class="page-subtitle">
+        Revivez en images nos spectacles et moments forts
+      </p>
+    </div>
+  </section>
+
+  <!-- Section Vidéos -->
+  <section class="videos-section">
+    <div class="container">
+      <h2 class="section-title">Nos vidéos</h2>
+      <p class="section-intro">Extraits et bandes-annonces de nos créations</p>
+      
+      <div class="videos-grid">
+        {videos.map((video) => (
+          <article class="video-card">
+            <div class="video-wrapper">
+              <iframe
+                src={video.url}
+                title={video.title}
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen
+              ></iframe>
+            </div>
+            <h3>{video.title}</h3>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Section Photos par spectacle -->
+  <section class="photos-section">
+    <div class="container">
+      <h2 class="section-title">Albums photos</h2>
+      
+      {spectacles.map((spectacle, index) => (
+        <article class="album" class:list={[{ 'album-reverse': index % 2 === 1 }]}>
+          <div class="album-preview">
+            <img 
+              src={spectacle.data.image} 
+              alt={spectacle.data.title}
+              loading="lazy"
+            />
+            <div class="album-overlay">
+              <span class="album-count">🖼️ 12 photos</span>
+            </div>
+          </div>
+          
+          <div class="album-info">
+            <h3>{spectacle.data.title}</h3>
+            <p>{spectacle.data.description}</p>
+            <a href={`/spectacles/${spectacle.slug}`} class="btn btn-secondary">
+              Voir le spectacle →
+            </a>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <!-- Section Coulisses -->
+  <section class="behind-section">
+    <div class="container">
+      <h2 class="section-title">Dans les coulisses</h2>
+      <p class="section-intro">Moments de préparation, répétitions et complicité</p>
+      
+      <div class="gallery-grid">
+        {/* Placeholders pour photos coulisses */}
+        {[1, 2, 3, 4, 5, 6].map((i) => (
+          <div class="gallery-item">
+            <div class="gallery-placeholder">
+              <span>📸</span>
+              <p>Coulisses #{i}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Contact -->
+  <section class="cta-section">
+    <div class="container">
+      <h2>Besoin de visuels ?</h2>
+      <p>Contactez-nous pour recevoir notre dossier de presse avec photos haute résolution</p>
+      <a href="/contact" class="btn btn-primary btn-large">Demander le dossier de presse</a>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .page-header {
+    background: linear-gradient(135deg, rgba(30, 58, 138, 0.95) 0%, rgba(0, 0, 0, 0.85) 100%);
+    color: white;
+    padding: 5rem 0 4rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .page-header::before {
+    content: '';
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(249, 115, 22, 0.15) 0%, transparent 70%);
+    border-radius: 50%;
+    top: -250px;
+    left: -100px;
+    animation: cosmic-float 20s ease-in-out infinite;
+  }
+
+  @keyframes cosmic-float {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(-30px, 30px) scale(1.1); }
+  }
+
+  .page-header h1 {
+    color: white;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    margin-bottom: 1rem;
+    position: relative;
+  }
+
+  .page-subtitle {
+    font-size: 1.35rem;
+    opacity: 0.95;
+    position: relative;
+  }
+
+  .section-title {
+    text-align: center;
+    font-size: clamp(2rem, 4vw, 3rem);
+    margin-bottom: 1rem;
+    color: var(--color-primary);
+    font-family: var(--font-heading);
+    font-style: italic;
+  }
+
+  .section-intro {
+    text-align: center;
+    font-size: 1.15rem;
+    color: #6B7280;
+    margin-bottom: var(--spacing-lg);
+  }
+
+  /* Section Vidéos */
+  .videos-section {
+    padding: var(--spacing-xl) 0;
+  }
+
+  .videos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 3rem;
+  }
+
+  .video-card {
+    background: white;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+    border: 1px solid rgba(30, 58, 138, 0.08);
+    transition: all 0.4s ease;
+  }
+
+  .video-card:hover {
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-5px);
+  }
+
+  .video-wrapper {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 */
+    height: 0;
+    overflow: hidden;
+    background: linear-gradient(135deg, var(--color-primary), #1e40af);
+  }
+
+  .video-wrapper iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .video-card h3 {
+    padding: 1.5rem;
+    color: var(--color-primary);
+    font-size: 1.25rem;
+    font-family: var(--font-heading);
+  }
+
+  /* Section Photos Albums */
+  .photos-section {
+    padding: var(--spacing-xl) 0;
+    background: linear-gradient(135deg, var(--color-light-bg) 0%, white 100%);
+  }
+
+  .album {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    margin-bottom: 5rem;
+    align-items: center;
+  }
+
+  .album-reverse {
+    direction: rtl;
+  }
+
+  .album-reverse > * {
+    direction: ltr;
+  }
+
+  .album-preview {
+    position: relative;
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+    aspect-ratio: 4 / 3;
+  }
+
+  .album-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+  }
+
+  .album-preview:hover img {
+    transform: scale(1.05);
+  }
+
+  .album-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+    padding: 2rem;
+    transform: translateY(100%);
+    transition: transform 0.4s ease;
+  }
+
+  .album-preview:hover .album-overlay {
+    transform: translateY(0);
+  }
+
+  .album-count {
+    color: white;
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+
+  .album-info h3 {
+    color: var(--color-primary);
+    font-size: 2rem;
+    font-family: var(--font-heading);
+    font-style: italic;
+    margin-bottom: 1rem;
+  }
+
+  .album-info p {
+    color: #6B7280;
+    line-height: 1.7;
+    margin-bottom: 2rem;
+  }
+
+  /* Section Coulisses */
+  .behind-section {
+    padding: var(--spacing-xl) 0;
+  }
+
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2rem;
+  }
+
+  .gallery-item {
+    aspect-ratio: 4 / 3;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+    transition: all 0.4s ease;
+    border: 1px solid rgba(30, 58, 138, 0.08);
+  }
+
+  .gallery-item:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .gallery-placeholder {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, var(--color-light-bg) 0%, white 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+  }
+
+  .gallery-placeholder span {
+    font-size: 3rem;
+  }
+
+  .gallery-placeholder p {
+    color: #6B7280;
+    font-weight: 500;
+  }
+
+  /* CTA Section */
+  .cta-section {
+    background: linear-gradient(135deg, var(--color-primary) 0%, #1e40af 100%);
+    color: white;
+    padding: var(--spacing-xl) 0;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-section::before {
+    content: '';
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(249, 115, 22, 0.2) 0%, transparent 70%);
+    border-radius: 50%;
+    bottom: -250px;
+    left: -100px;
+    animation: cosmic-float 20s ease-in-out infinite reverse;
+  }
+
+  .cta-section h2 {
+    color: white;
+    font-size: clamp(2.5rem, 4vw, 3.5rem);
+    margin-bottom: 1.5rem;
+    position: relative;
+  }
+
+  .cta-section p {
+    font-size: 1.25rem;
+    margin-bottom: 2.5rem;
+    opacity: 0.95;
+    position: relative;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .page-header {
+      padding: 3rem 0 2rem;
+    }
+
+    .videos-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .album {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    .album-reverse {
+      direction: ltr;
+    }
+
+    .gallery-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

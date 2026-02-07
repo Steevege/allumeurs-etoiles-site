@@ -62,56 +62,87 @@ const { Content } = await spectacle.render();
 
 <style>
   .spectacle-header {
-    background: linear-gradient(135deg, var(--color-primary) 0%, #1a2850 100%);
+    background: linear-gradient(135deg, rgba(30, 58, 138, 0.95) 0%, rgba(0, 0, 0, 0.85) 100%);
     color: white;
-    padding: 4rem 0 3rem;
+    padding: 5rem 0 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .spectacle-header::before {
+    content: '';
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(249, 115, 22, 0.15) 0%, transparent 70%);
+    border-radius: 50%;
+    top: -300px;
+    right: -100px;
+    animation: cosmic-float 20s ease-in-out infinite;
+  }
+
+  @keyframes cosmic-float {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(30px, -30px) scale(1.1); }
   }
 
   .header-content {
-    max-width: 800px;
+    max-width: 900px;
     margin: 0 auto;
     text-align: center;
+    position: relative;
   }
 
   .spectacle-header h1 {
     color: white;
-    font-size: 3.5rem;
-    margin-bottom: 1rem;
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    font-weight: 900;
+    font-style: italic;
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.03em;
   }
 
   .spectacle-subtitle {
-    font-size: 1.5rem;
+    font-size: clamp(1.25rem, 3vw, 1.75rem);
     font-style: italic;
-    opacity: 0.9;
-    margin-bottom: 1.5rem;
+    opacity: 0.95;
+    margin-bottom: 2rem;
+    font-weight: 300;
   }
 
   .spectacle-description {
     font-size: 1.25rem;
-    line-height: 1.7;
+    line-height: 1.8;
     opacity: 0.95;
-    margin-bottom: 2rem;
+    margin-bottom: 2.5rem;
   }
 
   .spectacle-meta {
     display: flex;
-    gap: 1rem;
+    gap: 1.5rem;
     justify-content: center;
-    margin-bottom: 2rem;
+    margin-bottom: 2.5rem;
     flex-wrap: wrap;
   }
 
   .meta-badge {
-    background-color: rgba(255, 255, 255, 0.2);
-    padding: 0.75rem 1.5rem;
-    border-radius: var(--radius-md);
+    background-color: rgba(255, 255, 255, 0.15);
+    padding: 1rem 2rem;
+    border-radius: 2rem;
     font-weight: 500;
     backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+  }
+
+  .meta-badge:hover {
+    background-color: rgba(249, 115, 22, 0.3);
+    transform: translateY(-2px);
   }
 
   .header-actions {
     display: flex;
-    gap: 1rem;
+    gap: 1.5rem;
     justify-content: center;
     flex-wrap: wrap;
   }
@@ -121,33 +152,113 @@ const { Content } = await spectacle.render();
   }
 
   .prose {
-    max-width: 800px;
+    max-width: 900px;
     margin: 0 auto;
-    line-height: 1.8;
+    line-height: 1.9;
+    font-size: 1.125rem;
   }
 
   .prose :global(h2) {
     color: var(--color-primary);
+    font-family: var(--font-heading);
+    font-style: italic;
+    font-size: clamp(1.75rem, 3vw, 2.5rem);
+    margin-top: 3rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .prose :global(h3) {
+    color: var(--color-primary);
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
     margin-top: 2rem;
     margin-bottom: 1rem;
   }
 
+  .prose :global(p) {
+    margin-bottom: 1.5rem;
+    color: #374151;
+  }
+
+  .prose :global(ul) {
+    list-style: none;
+    padding-left: 0;
+    margin-bottom: 2rem;
+  }
+
+  .prose :global(li) {
+    padding-left: 2rem;
+    margin-bottom: 0.75rem;
+    position: relative;
+    line-height: 1.7;
+  }
+
+  .prose :global(li::before) {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--color-secondary);
+    font-weight: bold;
+  }
+
+  .prose :global(strong) {
+    color: var(--color-primary);
+    font-weight: 600;
+  }
+
   .cta-section {
-    background: linear-gradient(135deg, var(--color-secondary) 0%, #e67838 100%);
+    background: linear-gradient(135deg, var(--color-primary) 0%, #1e40af 100%);
     color: white;
     padding: var(--spacing-xl) 0;
     text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-section::before {
+    content: '';
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(249, 115, 22, 0.2) 0%, transparent 70%);
+    border-radius: 50%;
+    bottom: -250px;
+    left: -100px;
+    animation: cosmic-float 20s ease-in-out infinite reverse;
   }
 
   .cta-section h2 {
     color: white;
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
+    font-size: clamp(2.5rem, 4vw, 3.5rem);
+    margin-bottom: 1.5rem;
+    position: relative;
+  }
+
+  .cta-section p {
+    font-size: 1.25rem;
+    margin-bottom: 2.5rem;
+    opacity: 0.95;
+    position: relative;
   }
 
   @media (max-width: 768px) {
-    .spectacle-header h1 {
-      font-size: 2.5rem;
+    .spectacle-header {
+      padding: 3rem 0 2rem;
+    }
+
+    .spectacle-meta {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .header-actions {
+      flex-direction: column;
+      width: 100%;
+      padding: 0 1rem;
+    }
+
+    .header-actions .btn {
+      width: 100%;
     }
   }
 </style>
