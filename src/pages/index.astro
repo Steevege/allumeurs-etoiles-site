@@ -1,17 +1,231 @@
 ---
+import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
 
+// Récupérer les spectacles actifs
+const spectacles = (await getCollection('spectacles'))
+  .filter(s => s.data.active)
+  .sort((a, b) => a.data.order - b.data.order)
+  .slice(0, 3);
+
+// Récupérer les 3 prochains événements
+const today = new Date();
+const upcomingEvents = (await getCollection('events'))
+  .filter(e => e.data.date >= today)
+  .sort((a, b) => a.data.date.getTime() - b.data.date.getTime())
+  .slice(0, 3);
+
+// Récupérer l'actualité mise en avant
+const featuredNews = (await getCollection('news'))
+  .filter(n => n.data.featured)
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())[0];
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Layout title="Accueil" description="Association culturelle proposant des spectacles musicaux et théâtraux pour émouvoir et faire réfléchir">
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <h1>Des spectacles plein le cœur !</h1>
+      <p class="hero-subtitle">
+        Association culturelle proposant des spectacles musicaux et théâtraux<br />
+        pour émouvoir et faire réfléchir
+      </p>
+      <div class="hero-cta">
+        <a href="/spectacles" class="btn btn-primary">Découvrir nos spectacles</a>
+        <a href="/contact" class="btn btn-secondary">Nous contacter</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Actualité mise en avant (éditable CMS) -->
+  {featuredNews && (
+    <section class="news-featured">
+      <div class="container">
+        <div class="news-card">
+          <div class="news-icon">⭐</div>
+          <div class="news-content">
+            <h2>{featuredNews.data.title}</h2>
+            <p class="news-date">
+              {featuredNews.data.date.toLocaleDateString('fr-FR', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+              })}
+            </p>
+            <p>{featuredNews.data.excerpt}</p>
+            <a href={`/blog/${featuredNews.slug}`} class="btn-link">Lire la suite →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- Spectacles phares -->
+  <section class="spectacles-section">
+    <div class="container">
+      <h2 class="section-title">Nos Spectacles</h2>
+      <p class="section-subtitle">Découvrez notre répertoire de spectacles musicaux et théâtraux</p>
+
+      <div class="spectacles-grid">
+        {spectacles.map((spectacle) => (
+          <article class="spectacle-card">
+            <div class="card-image">
+              <img
+                src={spectacle.data.image}
+                alt={spectacle.data.title}
+                loading="lazy"
+              />
+            </div>
+            <div class="card-content">
+              <h3>{spectacle.data.title}</h3>
+              {spectacle.data.subtitle && (
+                <p class="card-subtitle">{spectacle.data.subtitle}</p>
+              )}
+              <p class="card-description">{spectacle.data.description}</p>
+              <div class="card-meta">
+                <span>⏱️ {spectacle.data.duration}</span>
+                <span>👥 {spectacle.data.audience}</span>
+              </div>
+              <a href={`/spectacles/${spectacle.slug}`} class="btn btn-primary">En savoir plus</a>
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <div class="section-cta">
+        <a href="/spectacles" class="btn btn-secondary">Voir tous nos spectacles</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Prochains événements -->
+  {upcomingEvents.length > 0 && (
+    <section class="events-section">
+      <div class="container">
+        <h2 class="section-title">Prochaines Dates</h2>
+        <p class="section-subtitle">Venez nous voir en tournée !</p>
+
+        <div class="events-grid">
+          {upcomingEvents.map((event) => (
+            <article class="event-card">
+              <div class="event-date">
+                <span class="date-day">
+                  {event.data.date.toLocaleDateString('fr-FR', { day: '2-digit' })}
+                </span>
+                <span class="date-month">
+                  {event.data.date.toLocaleDateString('fr-FR', { month: 'short' })}
+                </span>
+              </div>
+              <div class="event-details">
+                <h3>{event.data.title}</h3>
+                <p class="event-venue">📍 {event.data.venue}, {event.data.city}</p>
+                <p class="event-time">🕐 {event.data.time}</p>
+                {event.data.ticketUrl && (
+                  <a href={event.data.ticketUrl} target="_blank" rel="noopener" class="btn-link">
+                    Réserver →
+                  </a>
+                )}
+              </div>
+            </article>
+          ))}
+        </div>
+
+        <div class="section-cta">
+          <a href="/tournee" class="btn btn-primary">Voir tout le calendrier</a>
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- Appel à l'action final -->
+  <section class="cta-section">
+    <div class="container">
+      <h2>Envie de découvrir nos spectacles ?</h2>
+      <p>Contactez-nous pour organiser une représentation dans votre ville !</p>
+      <a href="/contact" class="btn btn-primary btn-large">Nous contacter</a>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  /* Hero Section */
+  .hero {
+    position: relative;
+    height: 70vh;
+    min-height: 500px;
+    background: linear-gradient(135deg, var(--color-primary) 0%, #1a2850 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '✨';
+    position: absolute;
+    font-size: 200px;
+    opacity: 0.05;
+    animation: float 6s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 1;
+    max-width: 800px;
+    padding: 2rem;
+  }
+
+  .hero h1 {
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  }
+
+  .hero-subtitle {
+    font-size: 1.25rem;
+    margin-bottom: 2rem;
+    opacity: 0.95;
+  }
+
+  .hero-cta {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  /* Rest of styles... */
+  .news-featured {
+    background-color: var(--color-light-gray);
+    padding: var(--spacing-lg) 0;
+    margin-top: -50px;
+    position: relative;
+    z-index: 10;
+  }
+
+  .news-card {
+    background-color: white;
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    display: flex;
+    gap: 2rem;
+    align-items: start;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .hero h1 {
+      font-size: 2.5rem;
+    }
+  }
+</style>

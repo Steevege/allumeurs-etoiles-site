@@ -1,0 +1,235 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+// Récupérer tous les spectacles actifs
+const spectacles = (await getCollection('spectacles'))
+  .filter(s => s.data.active)
+  .sort((a, b) => a.data.order - b.data.order);
+---
+
+<Layout 
+  title="Nos Spectacles" 
+  description="Découvrez notre répertoire de spectacles musicaux et théâtraux : Il était 2 foi(s), Vices & Versa, Côte à côte et bien d'autres créations."
+>
+  <!-- En-tête de page -->
+  <section class="page-header">
+    <div class="container">
+      <h1>Nos Spectacles</h1>
+      <p class="page-subtitle">
+        Découvrez notre répertoire de spectacles musicaux et théâtraux pour émouvoir et faire réfléchir
+      </p>
+    </div>
+  </section>
+
+  <!-- Liste des spectacles -->
+  <section class="spectacles-list">
+    <div class="container">
+      <div class="spectacles-grid">
+        {spectacles.map((spectacle) => (
+          <article class="spectacle-card">
+            <div class="card-image">
+              <img
+                src={spectacle.data.image}
+                alt={spectacle.data.title}
+                loading="lazy"
+                width="600"
+                height="400"
+              />
+            </div>
+            <div class="card-content">
+              <h2>{spectacle.data.title}</h2>
+              {spectacle.data.subtitle && (
+                <p class="card-subtitle">{spectacle.data.subtitle}</p>
+              )}
+              <p class="card-description">{spectacle.data.description}</p>
+              
+              <div class="card-meta">
+                <span class="meta-item">
+                  <strong>⏱️ Durée :</strong> {spectacle.data.duration}
+                </span>
+                <span class="meta-item">
+                  <strong>👥 Public :</strong> {spectacle.data.audience}
+                </span>
+              </div>
+
+              <a href={`/spectacles/${spectacle.slug}`} class="btn btn-primary">
+                En savoir plus →
+              </a>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Réservation -->
+  <section class="cta-section">
+    <div class="container">
+      <h2>Envie d'accueillir un de nos spectacles ?</h2>
+      <p>Contactez-nous pour organiser une représentation dans votre ville, théâtre, école ou festival.</p>
+      <a href="/contact" class="btn btn-primary btn-large">Demande de réservation</a>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .page-header {
+    background: linear-gradient(135deg, var(--color-primary) 0%, #1a2850 100%);
+    color: white;
+    padding: 4rem 0 3rem;
+    text-align: center;
+  }
+
+  .page-header h1 {
+    color: white;
+    font-size: 3rem;
+    margin-bottom: 1rem;
+  }
+
+  .page-subtitle {
+    font-size: 1.25rem;
+    opacity: 0.95;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  .spectacles-list {
+    padding: var(--spacing-xl) 0;
+  }
+
+  .spectacles-grid {
+    display: grid;
+    gap: 3rem;
+  }
+
+  .spectacle-card {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 2rem;
+    background: white;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .spectacle-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  }
+
+  .spectacle-card:nth-child(even) {
+    grid-template-columns: 1.5fr 1fr;
+  }
+
+  .spectacle-card:nth-child(even) .card-image {
+    order: 2;
+  }
+
+  .card-image {
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background-color: var(--color-light-gray);
+  }
+
+  .card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+
+  .spectacle-card:hover .card-image img {
+    transform: scale(1.05);
+  }
+
+  .card-content {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .card-content h2 {
+    color: var(--color-primary);
+    margin-bottom: 0.5rem;
+    font-size: 2rem;
+  }
+
+  .card-subtitle {
+    font-style: italic;
+    color: #666;
+    margin-bottom: 1.5rem;
+    font-size: 1.1rem;
+  }
+
+  .card-description {
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+    color: var(--color-text);
+  }
+
+  .card-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+    padding: 1rem;
+    background-color: var(--color-light-gray);
+    border-radius: var(--radius-md);
+  }
+
+  .meta-item {
+    font-size: 0.95rem;
+    color: var(--color-text);
+  }
+
+  .cta-section {
+    background: linear-gradient(135deg, var(--color-secondary) 0%, #e67838 100%);
+    color: white;
+    padding: var(--spacing-xl) 0;
+    text-align: center;
+  }
+
+  .cta-section h2 {
+    color: white;
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .cta-section p {
+    font-size: 1.25rem;
+    margin-bottom: 2rem;
+    opacity: 0.95;
+  }
+
+  .btn-large {
+    padding: 1rem 2.5rem;
+    font-size: 1.1rem;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .page-header h1 {
+      font-size: 2rem;
+    }
+
+    .spectacle-card,
+    .spectacle-card:nth-child(even) {
+      grid-template-columns: 1fr;
+    }
+
+    .spectacle-card:nth-child(even) .card-image {
+      order: 0;
+    }
+
+    .card-content h2 {
+      font-size: 1.5rem;
+    }
+
+    .cta-section h2 {
+      font-size: 2rem;
+    }
+  }
+</style>

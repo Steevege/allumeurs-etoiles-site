@@ -1,0 +1,153 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const spectacles = await getCollection('spectacles');
+  return spectacles.map(spectacle => ({
+    params: { slug: spectacle.slug },
+    props: { spectacle },
+  }));
+}
+
+const { spectacle } = Astro.props;
+const { Content } = await spectacle.render();
+---
+
+<Layout
+  title={spectacle.data.title}
+  description={spectacle.data.description}
+>
+  <!-- En-tête spectacle -->
+  <section class="spectacle-header">
+    <div class="container">
+      <div class="header-content">
+        <h1>{spectacle.data.title}</h1>
+        {spectacle.data.subtitle && (
+          <p class="spectacle-subtitle">{spectacle.data.subtitle}</p>
+        )}
+        <p class="spectacle-description">{spectacle.data.description}</p>
+
+        <div class="spectacle-meta">
+          <span class="meta-badge">⏱️ {spectacle.data.duration}</span>
+          <span class="meta-badge">👥 {spectacle.data.audience}</span>
+        </div>
+
+        <div class="header-actions">
+          <a href="/contact" class="btn btn-primary">Demande de réservation</a>
+          <a href="/spectacles" class="btn btn-secondary">← Tous les spectacles</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contenu détaillé -->
+  <section class="content-section">
+    <div class="container">
+      <div class="prose">
+        <Content />
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Contact -->
+  <section class="cta-section">
+    <div class="container">
+      <h2>Intéressé par ce spectacle ?</h2>
+      <p>Contactez-nous pour organiser une représentation</p>
+      <a href="/contact" class="btn btn-primary btn-large">Nous contacter</a>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .spectacle-header {
+    background: linear-gradient(135deg, var(--color-primary) 0%, #1a2850 100%);
+    color: white;
+    padding: 4rem 0 3rem;
+  }
+
+  .header-content {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .spectacle-header h1 {
+    color: white;
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .spectacle-subtitle {
+    font-size: 1.5rem;
+    font-style: italic;
+    opacity: 0.9;
+    margin-bottom: 1.5rem;
+  }
+
+  .spectacle-description {
+    font-size: 1.25rem;
+    line-height: 1.7;
+    opacity: 0.95;
+    margin-bottom: 2rem;
+  }
+
+  .spectacle-meta {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .meta-badge {
+    background-color: rgba(255, 255, 255, 0.2);
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--radius-md);
+    font-weight: 500;
+    backdrop-filter: blur(10px);
+  }
+
+  .header-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .content-section {
+    padding: var(--spacing-xl) 0;
+  }
+
+  .prose {
+    max-width: 800px;
+    margin: 0 auto;
+    line-height: 1.8;
+  }
+
+  .prose :global(h2) {
+    color: var(--color-primary);
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .cta-section {
+    background: linear-gradient(135deg, var(--color-secondary) 0%, #e67838 100%);
+    color: white;
+    padding: var(--spacing-xl) 0;
+    text-align: center;
+  }
+
+  .cta-section h2 {
+    color: white;
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+
+  @media (max-width: 768px) {
+    .spectacle-header h1 {
+      font-size: 2.5rem;
+    }
+  }
+</style>

@@ -1,0 +1,44 @@
+# Configuration Netlify - Allumeurs d'Étoiles
+# https://docs.netlify.com/configure-builds/file-based-configuration/
+
+[build]
+  publish = "dist"
+  command = "npm run build"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+# Redirection www vers apex domain
+[[redirects]]
+  from = "https://www.allumeursdetoiles.com/*"
+  to = "https://allumeursdetoiles.com/:splat"
+  status = 301
+  force = true
+
+# Netlify Forms (formulaire contact)
+# Les formulaires seront détectés automatiquement dans le HTML
+
+# Headers de sécurité
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+# Cache images (1 an)
+[[headers]]
+  for = "/images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Cache assets (1 an)
+[[headers]]
+  for = "/_astro/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Git Gateway pour Sveltia CMS (authentification)
+[build.processing]
+  skip_processing = false

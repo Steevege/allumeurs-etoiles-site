@@ -1,0 +1,97 @@
+# Configuration Sveltia CMS - Allumeurs d'Étoiles
+# Interface admin accessible sur : /admin/
+
+backend:
+  name: git-gateway
+  branch: main
+
+# Paramètres locaux pour développement
+local_backend: true
+
+# Médias stockés dans /public/images/
+media_folder: "public/images/uploads"
+public_folder: "/images/uploads"
+
+# Langue française
+locale: 'fr'
+
+# Collections éditables par les bénévoles
+collections:
+  # ÉVÉNEMENTS TOURNÉE (Zone éditable #1)
+  - name: "events"
+    label: "Événements Tournée"
+    label_singular: "Événement"
+    folder: "src/content/events"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{city}}"
+    extension: "md"
+    format: "frontmatter"
+    fields:
+      - {label: "Titre événement", name: "title", widget: "string", hint: "Ex: Vices & Versa - Lille"}
+      - {label: "Date représentation", name: "date", widget: "datetime", format: "YYYY-MM-DD", time_format: false}
+      - {label: "Heure", name: "time", widget: "string", hint: "Ex: 20h00"}
+      - {label: "Lieu", name: "venue", widget: "string", hint: "Nom du théâtre/salle"}
+      - {label: "Ville", name: "city", widget: "string"}
+      - {label: "Adresse complète", name: "address", widget: "string", required: false}
+      - {label: "Spectacle", name: "spectacle", widget: "select", options: ["il-etait-2-fois", "vices-versa", "cote-a-cote"]}
+      - {label: "Tarif", name: "price", widget: "string", required: false, hint: "Ex: 12€ / 10€ réduit"}
+      - {label: "Lien billetterie", name: "ticketUrl", widget: "string", required: false}
+      - {label: "Description", name: "body", widget: "markdown", required: false}
+
+  # ACTUALITÉS HOMEPAGE (Zone éditable #2)
+  - name: "news"
+    label: "Actualités"
+    label_singular: "Actualité"
+    folder: "src/content/news"
+    create: true
+    slug: "{{year}}-{{month}}-{{slug}}"
+    extension: "md"
+    format: "frontmatter"
+    fields:
+      - {label: "Titre", name: "title", widget: "string"}
+      - {label: "Date publication", name: "date", widget: "datetime", format: "YYYY-MM-DD", time_format: false}
+      - {label: "Résumé court", name: "excerpt", widget: "text", hint: "Maximum 150 caractères pour affichage homepage"}
+      - {label: "Afficher sur homepage ?", name: "featured", widget: "boolean", default: false}
+      - {label: "Image", name: "image", widget: "image", required: false}
+      - {label: "Catégorie", name: "category", widget: "select", options: ["actualites", "coulisses", "temoignages"], default: "actualites"}
+      - {label: "Contenu complet", name: "body", widget: "markdown"}
+
+  # SPECTACLES (Administration uniquement - rarement modifié)
+  - name: "spectacles"
+    label: "Spectacles"
+    label_singular: "Spectacle"
+    folder: "src/content/spectacles"
+    create: true
+    slug: "{{slug}}"
+    extension: "md"
+    format: "frontmatter"
+    fields:
+      - {label: "Titre", name: "title", widget: "string"}
+      - {label: "Sous-titre", name: "subtitle", widget: "string", required: false}
+      - {label: "Description courte", name: "description", widget: "text"}
+      - {label: "Durée", name: "duration", widget: "string", hint: "Ex: 1h30"}
+      - {label: "Public", name: "audience", widget: "string", hint: "Ex: Tout public à partir de 8 ans"}
+      - {label: "Image principale", name: "image", widget: "image"}
+      - {label: "Vidéo YouTube/Vimeo", name: "videoUrl", widget: "string", required: false}
+      - {label: "Ordre affichage", name: "order", widget: "number", default: 0}
+      - {label: "Spectacle actif ?", name: "active", widget: "boolean", default: true}
+      - {label: "Présentation complète", name: "body", widget: "markdown"}
+
+  # BLOG (Articles archivés + futurs)
+  - name: "blog"
+    label: "Articles Blog"
+    label_singular: "Article"
+    folder: "src/content/blog"
+    create: true
+    slug: "{{year}}-{{month}}-{{slug}}"
+    extension: "md"
+    format: "frontmatter"
+    fields:
+      - {label: "Titre", name: "title", widget: "string"}
+      - {label: "Date publication", name: "date", widget: "datetime", format: "YYYY-MM-DD", time_format: false}
+      - {label: "Auteur", name: "author", widget: "string", default: "Allumeurs d'Étoiles"}
+      - {label: "Résumé", name: "excerpt", widget: "text"}
+      - {label: "Image mise en avant", name: "image", widget: "image", required: false}
+      - {label: "Catégorie", name: "category", widget: "select", options: ["actualites", "coulisses", "temoignages"], default: "actualites"}
+      - {label: "Tags", name: "tags", widget: "list", required: false}
+      - {label: "Contenu", name: "body", widget: "markdown"}
