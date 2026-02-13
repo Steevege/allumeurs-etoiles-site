@@ -5,7 +5,7 @@ description: "Un conte musical et théâtral pour les 6-12 ans sur le vivre ense
 duration: "50 min"
 audience: "Jeune public - 6 à 12 ans"
 image: "/images/spectacles/petite-histoire-voisinage.jpg"
-order: 5
+order: 6
 active: true
 ---
 

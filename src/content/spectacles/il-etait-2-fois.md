@@ -1,38 +1,39 @@
 ---
 title: "Il était 2 foi(s)"
-subtitle: "Spectacle musical et théâtral"
-description: "Un spectacle poétique et musical qui explore les thèmes de la dualité, de la rencontre et du partage à travers chant, théâtre et humour."
-duration: "1h15"
-audience: "Tout public à partir de 8 ans"
+subtitle: "Dialogue théâtral plein d'humour"
+description: "Un spectacle qui invite les jeunes et moins jeunes à dépasser leurs a priori en examinant la question de l'appartenance religieuse et du dialogue entre les religions."
+duration: "1h30"
+audience: "Tous publics"
 image: "/images/spectacles/il-etait-2-fois.jpg"
-videoUrl: "https://www.youtube.com/watch?v=EXAMPLE"
+videoUrl: "https://www.youtube.com/watch?v=43DRLpvClXE"
 order: 1
 active: true
 ---
 
-Un spectacle musical et théâtral qui raconte avec poésie et humour les rencontres improbables, les chemins qui se croisent et les destins qui s'entremêlent.
+Steeve Gernez est chrétien et Samir Arab est musulman. Tous les deux sont acteurs et chanteurs et nous proposent un dialogue théâtral plein d'humour.
 
 ## Le spectacle
 
-"Il était 2 foi(s)" est une création originale mêlant chant, théâtre et musique live. À travers une série de tableaux touchants et drôles, nous explorons la question de la dualité : deux personnages, deux chemins, deux histoires qui finissent par n'en faire qu'une.
+Un spectacle qui invite les jeunes et moins jeunes à dépasser leurs a priori en examinant la question de l'appartenance religieuse et du dialogue possible entre les religions.
+
+À travers chansons, sketches et échanges, Steeve et Samir partagent leurs parcours, leurs questionnements et surtout leur amitié. Un moment de rencontre authentique qui prouve que le dialogue est non seulement possible, mais nécessaire.
 
 ## Distribution
 
-- Comédiens-chanteurs : 2
-- Musiciens : 2
-- Durée : 1h15
-- Jauge : Adaptable (50 à 300 places)
+- Avec Steeve Gernez et Samir Arab
+- Durée : 1h30
+- Public : Tous publics
 
 ## Thématiques
 
-- La rencontre
-- Le partage
-- L'acceptation de la différence
-- L'humour au quotidien
+- Le dialogue interreligieux
+- Le dépassement des a priori
+- L'amitié au-delà des différences
+- L'humour comme vecteur de rencontre
 
 ## Conditions techniques
 
-Spectacle tout terrain, adaptable à différents espaces (salle de spectacle, théâtre, salle polyvalente).
+Spectacle adaptable à différents espaces : salles de spectacle, théâtres, salles polyvalentes, églises, centres culturels.
 
 **Besoins techniques :**
 - Plateau minimum : 6m x 4m

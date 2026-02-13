@@ -5,11 +5,11 @@ description: "Un conte poétique et musical pour les 2-7 ans, qui raconte l'aven
 duration: "50 min"
 audience: "Jeune public - 2 à 7 ans"
 image: "/images/spectacles/petit-berger.jpg"
-order: 4
+order: 5
 active: true
 ---
 
-Un conte tendre et musical qui emmène les tout-petits dans un voyage poétique au cœur de la nature et de l'imaginaire.
+Un conte tendre et musical qui emmène les tout-petits dans un voyage poétique au coeur de la nature et de l'imaginaire.
 
 ## Le spectacle
 

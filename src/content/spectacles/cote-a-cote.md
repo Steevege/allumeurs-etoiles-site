@@ -1,33 +1,42 @@
 ---
 title: "Côte à côte"
-subtitle: "Spectacle familial"
-description: "Une histoire touchante sur l'amitié, la solidarité et le vivre ensemble, racontée avec humour et musique."
+subtitle: "Pièce de théâtre sur le couple"
+description: "Pièce de théâtre sur le thème du couple et de l'amour. Sur une idée originale de Steeve Gernez, texte de Gaëlle Hausermann, mise en scène Jacques Montembault."
 duration: "1h00"
-audience: "Famille - À partir de 6 ans"
+audience: "À partir de la 3ème"
 image: "/images/spectacles/cote-a-cote.jpg"
 order: 3
 active: true
 ---
 
-"Côte à côte" est un spectacle familial chaleureux qui célèbre l'amitié et la solidarité.
+Sur une idée originale de Steeve Gernez, texte de Gaëlle Hausermann, mise en scène Jacques Montembault.
 
-## L'histoire
+## Le spectacle
 
-Deux personnages que tout oppose se retrouvent voisins. De la méfiance initiale naît progressivement une belle amitié, malgré leurs différences.
+Pièce de théâtre (1h00 plus temps d'échange) sur le thème du couple, de l'amour...
 
-Un spectacle drôle et émouvant sur le thème du vivre ensemble.
+Une histoire touchante et profonde qui explore les joies et les difficultés de la vie à deux, avec humour et sensibilité. Un spectacle suivi d'un temps d'échange avec le public.
 
-## Points forts
+## Distribution
 
-- **Spectacle tout public** : Accessible dès 6 ans
-- **Messages universels** : Tolérance, entraide, acceptation
-- **Interactivité** : Participation du jeune public
-- **Musique entraînante** : Chansons faciles à retenir
+- Comédiens : Marie Lussignol & Steeve Gernez
+- Texte : Gaëlle Hausermann
+- Mise en scène : Jacques Montembault
+- Durée : 1h00 + temps d'échange
+- Public : À partir de la 3ème
 
-## Informations pratiques
+## Thématiques
 
-**Durée** : 1h00  
-**Public** : Famille (à partir de 6 ans)  
-**Jauge** : 50 à 200 places  
-**Format** : Spectacle léger, facilement transportable  
-**Idéal pour** : Écoles, centres de loisirs, festivals famille
+- Le couple et l'amour
+- La vie à deux au quotidien
+- La communication dans le couple
+- Les compromis et l'acceptation
+
+## Conditions techniques
+
+Spectacle adaptable à différents espaces, suivi d'un temps d'échange avec le public.
+
+**Besoins techniques :**
+- Plateau minimum : 5m x 4m
+- Sonorisation adaptée à la jauge
+- Éclairage basique (possibilité d'apporter notre matériel)

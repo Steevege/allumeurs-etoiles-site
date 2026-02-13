@@ -1,32 +1,41 @@
 ---
 title: "Vices & Versa"
-subtitle: "Spectacle musical engagé"
-description: "Un spectacle musical qui aborde avec humour et sensibilité les travers de notre société moderne, entre rires et réflexions."
-duration: "1h30"
-audience: "Adultes et adolescents (à partir de 14 ans)"
+subtitle: "Pièce de théâtre musicale"
+description: "Une pièce de théâtre musicale pour nous faire réfléchir sur le thème des apparences, qui sont souvent trompeuses. Comment dans ce monde d'images devenir et être soi-même."
+duration: "1h05"
+audience: "Tous publics"
 image: "/images/spectacles/vices-versa.jpg"
+videoUrl: "https://www.youtube.com/watch?v=AN2KZPBCO_c"
 order: 2
 active: true
 ---
 
-"Vices & Versa" est un spectacle musical engagé qui nous fait rire de nos défauts tout en nous invitant à réfléchir sur notre société.
+Une nouvelle création avec Benoit Lebrun & Steeve Gernez. Une pièce de théâtre musicale pour nous faire réfléchir sur le thème des apparences.
 
-## Le concept
+## Le spectacle
 
-À travers des chansons originales et des textes percutants, nous explorons les vices et vertus de notre époque : consommation, réseaux sociaux, relations humaines, environnement...
+Pièce de théâtre musicale pour nous faire réfléchir sur le thème des apparences (qui sont souvent trompeuses). Ou comment dans ce monde d'images devenir et être soi-même.
 
-Mais toujours avec le sourire ! Car c'est en riant qu'on fait passer les meilleurs messages.
+À travers des scènes tantôt drôles, tantôt touchantes, Benoit et Steeve explorent nos masques quotidiens et nous invitent à nous interroger sur l'authenticité dans un monde où l'image prime.
 
-## Points forts
+## Distribution
 
-- **Musique originale** : Compositions inédites mêlant pop, folk et chanson française
-- **Textes ciselés** : Humour et poésie au service du propos
-- **Interprétation vivante** : Comédiens-chanteurs professionnels
-- **Message positif** : Critiquer pour mieux avancer ensemble
+- Avec Benoit Lebrun & Steeve Gernez
+- Durée : 1h05
+- Public : Tous publics
 
-## Informations pratiques
+## Thématiques
 
-**Durée** : 1h30  
-**Public** : Adultes et adolescents (14+)  
-**Jauge** : 100 à 500 places  
-**Technique** : Spectacle clé en main avec régisseur
+- Les apparences trompeuses
+- L'authenticité et l'image de soi
+- Devenir et être soi-même
+- Le regard des autres
+
+## Conditions techniques
+
+Spectacle adaptable à différents espaces : salles de spectacle, théâtres, salles polyvalentes.
+
+**Besoins techniques :**
+- Plateau minimum : 6m x 4m
+- Sonorisation adaptée à la jauge
+- Éclairage basique (possibilité d'apporter notre matériel)
