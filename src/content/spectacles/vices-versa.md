@@ -10,13 +10,13 @@ order: 2
 active: true
 ---
 
-Une nouvelle création avec Benoit Lebrun & Steeve Gernez. Une pièce de théâtre musicale pour nous faire réfléchir sur le thème des apparences.
+Créée juste avant le confinement, cette nouvelle création ne demande qu'à être (re)jouée ! Elle est prête ! Elle n'attend que vous !
 
 ## Le spectacle
 
-Pièce de théâtre musicale pour nous faire réfléchir sur le thème des apparences (qui sont souvent trompeuses). Ou comment dans ce monde d'images devenir et être soi-même.
+Une nouvelle création avec Benoit Lebrun & Steeve Gernez.
 
-À travers des scènes tantôt drôles, tantôt touchantes, Benoit et Steeve explorent nos masques quotidiens et nous invitent à nous interroger sur l'authenticité dans un monde où l'image prime.
+Pièce de théâtre musicale pour nous faire réfléchir sur le thème des apparences (qui sont souvent trompeuses). Ou comment dans ce monde d'images devenir et être soi-même.
 
 ## Distribution
 

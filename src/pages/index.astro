@@ -21,14 +21,14 @@ const featuredNews = (await getCollection('news'))
   .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())[0];
 ---
 
-<Layout title="Accueil" description="Association culturelle proposant des spectacles musicaux et théâtraux pour émouvoir et faire réfléchir">
+<Layout title="Accueil" description="Des spectacles musicaux et théâtraux qui ont pour but d'émouvoir et de faire réfléchir sur le sens du monde et de la vie. Des spectacles à écouter et regarder avec son coeur.">
   <!-- Hero Section -->
   <section class="hero cosmic-pattern">
     <div class="hero-content">
-      <h1>Des spectacles plein les yeux</h1>
+      <h1>Des spectacles plein le coeur !</h1>
       <p class="hero-subtitle">
-        Association culturelle proposant des spectacles musicaux et théâtraux<br />
-        pour émouvoir et faire réfléchir
+        Des spectacles musicaux et théâtraux qui ont pour but d'émouvoir<br />
+        et de faire réfléchir sur le sens du monde et de la vie
       </p>
       <div class="hero-cta">
         <a href="/spectacles" class="btn btn-primary">Découvrir nos spectacles</a>
@@ -64,7 +64,7 @@ const featuredNews = (await getCollection('news'))
   <section class="spectacles-section">
     <div class="container">
       <h2 class="section-title">Nos Spectacles</h2>
-      <p class="section-subtitle">Découvrez notre répertoire de spectacles musicaux et théâtraux</p>
+      <p class="section-subtitle">Des spectacles à écouter et regarder avec son coeur, pour tous les âges</p>
 
       <div class="spectacles-grid">
         {spectacles.map((spectacle) => (

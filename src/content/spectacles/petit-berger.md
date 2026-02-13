@@ -13,9 +13,11 @@ Un conte tendre et musical qui emmène les tout-petits dans un voyage poétique 
 
 ## Le spectacle
 
-"Il était une fois un petit berger" raconte l'histoire d'un jeune berger curieux qui décide un beau matin de quitter sa colline pour découvrir ce qui se cache derrière l'horizon. Accompagné de ses fidèles moutons, il va traverser des paysages enchanteurs et faire des rencontres surprenantes.
+Ce spectacle plonge les tout-petits dans le quotidien d'un petit berger vivant dans un monde "tout noir". Animé par une envie de colorer son univers, il ajoute de belles couleurs autour de lui : le ciel bleu, le soleil doré, la nuit étoilée...
 
-À travers chansons, musique et théâtre, ce spectacle éveille l'imaginaire des tout-petits tout en douceur.
+Cependant, certains moutons critiquent ces changements ! Grâce à l'aide des enfants dans la salle, le berger trouvera la voie vers l'harmonie, pour une grande fête finale célébrant la diversité et la joie.
+
+Un conte interactif où les enfants participent activement à l'histoire !
 
 ## Distribution
 

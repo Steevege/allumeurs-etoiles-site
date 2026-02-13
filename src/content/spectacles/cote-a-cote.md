@@ -15,7 +15,9 @@ Sur une idée originale de Steeve Gernez, texte de Gaëlle Hausermann, mise en s
 
 Pièce de théâtre (1h00 plus temps d'échange) sur le thème du couple, de l'amour...
 
-Une histoire touchante et profonde qui explore les joies et les difficultés de la vie à deux, avec humour et sensibilité. Un spectacle suivi d'un temps d'échange avec le public.
+Il était une fois une femme. Il était une fois un homme. Comment faire pour vivre ensemble ? Quand on est une femme ? Quand on est un homme ? C'est une longue... longue histoire d'amour qui dure, existe, s'écrit, s'invente depuis Adam et Eve.
+
+Nouvelle pièce sur les relations homme-femme à travers les âges, la bible, la littérature, les clichés...
 
 ## Distribution
 

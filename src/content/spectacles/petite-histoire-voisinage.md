@@ -13,9 +13,11 @@ Un spectacle joyeux et entraînant qui parle aux enfants de ce qui fait la riche
 
 ## Le spectacle
 
-"Petite Histoire de Voisinage" plonge les enfants dans un immeuble pas comme les autres, où chaque étage abrite un personnage haut en couleur. Du musicien du premier au jardinier du dernier étage, en passant par la cuisinière du troisième, chacun a sa personnalité, ses habitudes... et ses petits travers.
+Dans ce conte, la famille Martin, installée en bord de mer, voit arriver de nouveaux voisins qui ne leur ressemblent pas. Différentes cultures, langues et habitudes s'entrechoquent, créant des tensions entre les parents.
 
-Quand un problème survient dans l'immeuble, il faudra bien que tout ce petit monde apprenne à se parler, à s'écouter et à s'entraider.
+Mais grâce aux enfants, un pont de compréhension et d'amitié se construit, ouvrant la porte à une nouvelle vie remplie de découvertes et de respect.
+
+Les enfants participent activement, aidant à construire, peindre et créer avec leurs gestes et leur voix pour rendre le spectacle vivant et immersif !
 
 ## Distribution
 
