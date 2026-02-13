@@ -5,7 +5,7 @@ description: "Spectacle concert interactif clé en main ou à construire ensembl
 duration: "2h00"
 audience: "Tous publics"
 image: "/images/spectacles/en-concert.jpg"
-order: 7
+order: 0
 active: true
 ---
 
