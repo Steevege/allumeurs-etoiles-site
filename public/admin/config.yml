@@ -15,28 +15,9 @@ locale: 'fr'
 
 # Collections éditables par les bénévoles
 collections:
-  # ÉVÉNEMENTS TOURNÉE (Zone éditable #1)
-  - name: "events"
-    label: "Événements Tournée"
-    label_singular: "Événement"
-    folder: "src/content/events"
-    create: true
-    slug: "{{year}}-{{month}}-{{day}}-{{city}}"
-    extension: "md"
-    format: "frontmatter"
-    fields:
-      - {label: "Titre événement", name: "title", widget: "string", hint: "Ex: Vices & Versa - Lille"}
-      - {label: "Date représentation", name: "date", widget: "datetime", format: "YYYY-MM-DD", time_format: false}
-      - {label: "Heure", name: "time", widget: "string", hint: "Ex: 20h00"}
-      - {label: "Lieu", name: "venue", widget: "string", hint: "Nom du théâtre/salle"}
-      - {label: "Ville", name: "city", widget: "string"}
-      - {label: "Adresse complète", name: "address", widget: "string", required: false}
-      - {label: "Spectacle", name: "spectacle", widget: "select", options: ["il-etait-2-fois", "vices-versa", "cote-a-cote"]}
-      - {label: "Tarif", name: "price", widget: "string", required: false, hint: "Ex: 12€ / 10€ réduit"}
-      - {label: "Lien billetterie", name: "ticketUrl", widget: "string", required: false}
-      - {label: "Description", name: "body", widget: "markdown", required: false}
+  # Note: Les événements de tournée sont gérés via Google Sheets (pas dans le CMS)
 
-  # ACTUALITÉS HOMEPAGE (Zone éditable #2)
+  # ACTUALITÉS HOMEPAGE
   - name: "news"
     label: "Actualités"
     label_singular: "Actualité"

@@ -17,22 +17,7 @@ const spectaclesCollection = defineCollection({
   }),
 });
 
-// Collection Événements Tournée (éditable CMS par bénévoles)
-const eventsCollection = defineCollection({
-  type: 'content',
-  schema: z.object({
-    title: z.string(),
-    date: z.date(), // Date représentation
-    time: z.string(), // Ex: "20h00"
-    venue: z.string(), // Lieu (ex: "Théâtre Municipal")
-    city: z.string(), // Ville
-    address: z.string().optional(), // Adresse complète (optionnel)
-    spectacle: z.string(), // Référence au spectacle (slug)
-    ticketUrl: z.string().url().optional(), // Lien billetterie externe
-    price: z.string().optional(), // Ex: "10€ / 8€ réduit"
-    description: z.string().optional(), // Description événement spécifique
-  }),
-});
+// Note: Les événements de tournée sont gérés via Google Sheets (pas de collection Astro)
 
 // Collection Actualités (éditable CMS, affichage homepage)
 const newsCollection = defineCollection({
@@ -63,7 +48,6 @@ const blogCollection = defineCollection({
 
 export const collections = {
   spectacles: spectaclesCollection,
-  events: eventsCollection,
   news: newsCollection,
   blog: blogCollection,
 };

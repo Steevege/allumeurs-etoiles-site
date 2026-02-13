@@ -1,25 +1,12 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { getCollection } from 'astro:content';
 
-// Récupérer tous les événements
-const today = new Date();
-const allEvents = await getCollection('events');
-
-// Événements à venir
-const upcomingEvents = allEvents
-  .filter(e => e.data.date >= today)
-  .sort((a, b) => a.data.date.getTime() - b.data.date.getTime());
-
-// Événements passés (pour archive)
-const pastEvents = allEvents
-  .filter(e => e.data.date < today)
-  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
-  .slice(0, 6);
+// URL CSV du Google Sheets publié (Fichier → Publier sur le Web → CSV)
+const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS3-HCSDkdEewDoHs6gbNh2Nvml9XWR4K_D615oT8HhDii3O6vVn_978i8K9PZWY-Wr1hD1yr8YqlNq/pub?output=csv';
 ---
 
-<Layout 
-  title="Calendrier Tournée" 
+<Layout
+  title="Calendrier Tournée"
   description="Découvrez toutes nos dates de spectacles à venir. Réservez votre place pour nos prochaines représentations."
 >
   <!-- En-tête de page -->
@@ -33,73 +20,30 @@ const pastEvents = allEvents
   </section>
 
   <!-- Prochains événements -->
-  {upcomingEvents.length > 0 ? (
-    <section class="events-upcoming">
-      <div class="container">
-        <h2 class="section-title">Prochaines dates</h2>
-        
-        <div class="events-grid">
-          {upcomingEvents.map((event) => (
-            <article class="event-card">
-              <div class="event-date">
-                <span class="date-day">
-                  {event.data.date.toLocaleDateString('fr-FR', { day: '2-digit' })}
-                </span>
-                <span class="date-month">
-                  {event.data.date.toLocaleDateString('fr-FR', { month: 'short' })}
-                </span>
-                <span class="date-year">
-                  {event.data.date.getFullYear()}
-                </span>
-              </div>
-              
-              <div class="event-details">
-                <h3>{event.data.title}</h3>
-                <p class="event-venue">📍 {event.data.venue}, {event.data.city}</p>
-                <p class="event-time">🕐 {event.data.time}</p>
-                {event.data.price && (
-                  <p class="event-price">💳 {event.data.price}</p>
-                )}
-                {event.data.ticketUrl && (
-                  <a href={event.data.ticketUrl} target="_blank" rel="noopener" class="btn btn-primary btn-small">
-                    Réserver →
-                  </a>
-                )}
-              </div>
-            </article>
-          ))}
-        </div>
+  <section class="events-upcoming" id="section-upcoming">
+    <div class="container">
+      <h2 class="section-title">Prochaines dates</h2>
+      <div id="upcoming-events" class="events-grid">
+        <p class="loading-text">Chargement des dates...</p>
       </div>
-    </section>
-  ) : (
-    <section class="no-events">
-      <div class="container">
-        <p>Aucune date programmée pour le moment. Revenez bientôt !</p>
-        <a href="/contact" class="btn btn-primary">Nous contacter pour une réservation</a>
-      </div>
-    </section>
-  )}
+    </div>
+  </section>
 
-  <!-- Événements passés (archives) -->
-  {pastEvents.length > 0 && (
-    <section class="events-past">
-      <div class="container">
-        <h2 class="section-title">Dates passées</h2>
-        
-        <div class="events-grid-compact">
-          {pastEvents.map((event) => (
-            <article class="event-card-compact">
-              <span class="event-date-compact">
-                {event.data.date.toLocaleDateString('fr-FR', { day: '2-digit', month: 'short', year: 'numeric' })}
-              </span>
-              <h4>{event.data.city}</h4>
-              <p>{event.data.venue}</p>
-            </article>
-          ))}
-        </div>
-      </div>
-    </section>
-  )}
+  <!-- Aucun événement (caché par défaut) -->
+  <section class="no-events" id="section-no-events" style="display:none">
+    <div class="container">
+      <p>Aucune date programmée pour le moment. Revenez bientôt !</p>
+      <a href="/contact" class="btn btn-primary">Nous contacter pour une réservation</a>
+    </div>
+  </section>
+
+  <!-- Événements passés (caché par défaut) -->
+  <section class="events-past" id="section-past" style="display:none">
+    <div class="container">
+      <h2 class="section-title">Dates passées</h2>
+      <div id="past-events" class="events-grid-compact"></div>
+    </div>
+  </section>
 
   <!-- CTA Contact -->
   <section class="cta-section">
@@ -110,6 +54,156 @@ const pastEvents = allEvents
     </div>
   </section>
 </Layout>
+
+<script define:vars={{ SHEET_CSV_URL }}>
+  const SHEET_URL = SHEET_CSV_URL;
+
+  // Échappement HTML pour éviter les injections XSS
+  function escapeHTML(str) {
+    if (!str) return '';
+    return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  // Parse une ligne CSV (gère les guillemets et virgules dans les champs)
+  function parseLine(line) {
+    const result = [];
+    let current = '';
+    let inQuotes = false;
+    for (const char of line) {
+      if (char === '"') {
+        inQuotes = !inQuotes;
+      } else if (char === ',' && !inQuotes) {
+        result.push(current);
+        current = '';
+      } else {
+        current += char;
+      }
+    }
+    result.push(current);
+    return result;
+  }
+
+  // Parse le CSV complet en objets
+  function parseCSV(text) {
+    const lines = text.trim().split('\n');
+    const headers = parseLine(lines[0]).map(h => h.trim());
+    return lines.slice(1)
+      .map(line => {
+        const values = parseLine(line);
+        const obj = {};
+        headers.forEach((h, i) => obj[h] = (values[i] || '').trim());
+        return obj;
+      })
+      .filter(row => row['Date']);
+  }
+
+  // Parse une date DD/MM/YYYY ou YYYY-MM-DD
+  function parseDate(dateStr) {
+    if (!dateStr) return new Date(0);
+    if (dateStr.includes('/')) {
+      const parts = dateStr.split('/');
+      return new Date(parts[2], parts[1] - 1, parts[0]);
+    }
+    return new Date(dateStr);
+  }
+
+  // Formatage date
+  function formatDay(date) {
+    return date.toLocaleDateString('fr-FR', { day: '2-digit' });
+  }
+
+  function formatMonth(date) {
+    return date.toLocaleDateString('fr-FR', { month: 'short' });
+  }
+
+  function formatDateCompact(date) {
+    return date.toLocaleDateString('fr-FR', { day: '2-digit', month: 'short', year: 'numeric' });
+  }
+
+  // Rendu d'une carte événement à venir
+  function renderUpcomingEvent(event) {
+    const date = parseDate(event['Date']);
+    let html = `
+      <article class="event-card">
+        <div class="event-date">
+          <span class="date-day">${formatDay(date)}</span>
+          <span class="date-month">${formatMonth(date)}</span>
+          <span class="date-year">${date.getFullYear()}</span>
+        </div>
+        <div class="event-details">
+          <h3>${escapeHTML(event['Spectacle'])}</h3>
+          <p class="event-venue">\u{1F4CD} ${escapeHTML(event['Lieu'])}, ${escapeHTML(event['Ville'])}</p>
+          <p class="event-time">\u{1F550} ${escapeHTML(event['Heure'])}</p>`;
+
+    if (event['Tarif']) {
+      html += `<p class="event-price">\u{1F4B3} ${escapeHTML(event['Tarif'])}</p>`;
+    }
+    if (event['Lien billetterie']) {
+      const url = escapeHTML(event['Lien billetterie']);
+      html += `<a href="${url}" target="_blank" rel="noopener" class="btn btn-primary btn-small">Réserver \u2192</a>`;
+    }
+
+    html += `</div></article>`;
+    return html;
+  }
+
+  // Rendu d'une carte événement passé
+  function renderPastEvent(event) {
+    const date = parseDate(event['Date']);
+    return `
+      <article class="event-card-compact">
+        <span class="event-date-compact">${formatDateCompact(date)}</span>
+        <h4>${escapeHTML(event['Ville'])}</h4>
+        <p>${escapeHTML(event['Lieu'])}</p>
+      </article>`;
+  }
+
+  // Chargement et affichage des événements
+  async function loadEvents() {
+    try {
+      const response = await fetch(SHEET_URL);
+      if (!response.ok) throw new Error('Erreur réseau');
+      const csv = await response.text();
+      const events = parseCSV(csv);
+
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      const upcoming = events
+        .filter(e => parseDate(e['Date']) >= today)
+        .sort((a, b) => parseDate(a['Date']) - parseDate(b['Date']));
+
+      const past = events
+        .filter(e => parseDate(e['Date']) < today)
+        .sort((a, b) => parseDate(b['Date']) - parseDate(a['Date']))
+        .slice(0, 6);
+
+      const upcomingContainer = document.getElementById('upcoming-events');
+      const sectionUpcoming = document.getElementById('section-upcoming');
+      const sectionPast = document.getElementById('section-past');
+      const sectionNoEvents = document.getElementById('section-no-events');
+      const pastContainer = document.getElementById('past-events');
+
+      if (upcoming.length > 0) {
+        upcomingContainer.innerHTML = upcoming.map(renderUpcomingEvent).join('');
+      } else {
+        sectionUpcoming.style.display = 'none';
+        sectionNoEvents.style.display = '';
+      }
+
+      if (past.length > 0) {
+        pastContainer.innerHTML = past.map(renderPastEvent).join('');
+        sectionPast.style.display = '';
+      }
+    } catch (error) {
+      console.error('Erreur chargement événements:', error);
+      document.getElementById('upcoming-events').innerHTML =
+        '<p class="loading-text">Impossible de charger les dates. Réessayez plus tard.</p>';
+    }
+  }
+
+  loadEvents();
+</script>
 
 <style>
   .page-header {
@@ -252,6 +346,13 @@ const pastEvents = allEvents
     padding: 0.75rem 1.5rem;
     font-size: 0.95rem;
     margin-top: 1rem;
+  }
+
+  .loading-text {
+    text-align: center;
+    color: #6B7280;
+    font-size: 1.1rem;
+    padding: 2rem 0;
   }
 
   .no-events {

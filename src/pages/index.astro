@@ -8,12 +8,8 @@ const spectacles = (await getCollection('spectacles'))
   .sort((a, b) => a.data.order - b.data.order)
   .slice(0, 3);
 
-// Récupérer les 3 prochains événements
-const today = new Date();
-const upcomingEvents = (await getCollection('events'))
-  .filter(e => e.data.date >= today)
-  .sort((a, b) => a.data.date.getTime() - b.data.date.getTime())
-  .slice(0, 3);
+// URL Google Sheets pour les événements (chargés côté client)
+const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS3-HCSDkdEewDoHs6gbNh2Nvml9XWR4K_D615oT8HhDii3O6vVn_978i8K9PZWY-Wr1hD1yr8YqlNq/pub?output=csv';
 
 // Récupérer l'actualité mise en avant
 const featuredNews = (await getCollection('news'))
@@ -98,44 +94,19 @@ const featuredNews = (await getCollection('news'))
     </div>
   </section>
 
-  <!-- Prochains événements -->
-  {upcomingEvents.length > 0 && (
-    <section class="events-section">
-      <div class="container">
-        <h2 class="section-title">Prochaines Dates</h2>
-        <p class="section-subtitle">Venez nous voir en tournée !</p>
+  <!-- Prochains événements (chargés depuis Google Sheets) -->
+  <section class="events-section" id="events-section" style="display:none">
+    <div class="container">
+      <h2 class="section-title">Prochaines Dates</h2>
+      <p class="section-subtitle">Venez nous voir en tournée !</p>
 
-        <div class="events-grid">
-          {upcomingEvents.map((event) => (
-            <article class="event-card">
-              <div class="event-date">
-                <span class="date-day">
-                  {event.data.date.toLocaleDateString('fr-FR', { day: '2-digit' })}
-                </span>
-                <span class="date-month">
-                  {event.data.date.toLocaleDateString('fr-FR', { month: 'short' })}
-                </span>
-              </div>
-              <div class="event-details">
-                <h3>{event.data.title}</h3>
-                <p class="event-venue">📍 {event.data.venue}, {event.data.city}</p>
-                <p class="event-time">🕐 {event.data.time}</p>
-                {event.data.ticketUrl && (
-                  <a href={event.data.ticketUrl} target="_blank" rel="noopener" class="btn-link">
-                    Réserver →
-                  </a>
-                )}
-              </div>
-            </article>
-          ))}
-        </div>
+      <div id="home-events" class="events-grid"></div>
 
-        <div class="section-cta">
-          <a href="/tournee" class="btn btn-primary">Voir tout le calendrier</a>
-        </div>
+      <div class="section-cta">
+        <a href="/tournee" class="btn btn-primary">Voir tout le calendrier</a>
       </div>
-    </section>
-  )}
+    </div>
+  </section>
 
   <!-- Appel à l'action final -->
   <section class="cta-section">
@@ -146,6 +117,97 @@ const featuredNews = (await getCollection('news'))
     </div>
   </section>
 </Layout>
+
+<script define:vars={{ SHEET_CSV_URL }}>
+  // Échappement HTML pour éviter les injections XSS
+  function escapeHTML(str) {
+    if (!str) return '';
+    return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  function parseLine(line) {
+    const result = [];
+    let current = '';
+    let inQuotes = false;
+    for (const char of line) {
+      if (char === '"') { inQuotes = !inQuotes; }
+      else if (char === ',' && !inQuotes) { result.push(current); current = ''; }
+      else { current += char; }
+    }
+    result.push(current);
+    return result;
+  }
+
+  function parseCSV(text) {
+    const lines = text.trim().split('\n');
+    const headers = parseLine(lines[0]).map(h => h.trim());
+    return lines.slice(1)
+      .map(line => {
+        const values = parseLine(line);
+        const obj = {};
+        headers.forEach((h, i) => obj[h] = (values[i] || '').trim());
+        return obj;
+      })
+      .filter(row => row['Date'] && row['Spectacle']);
+  }
+
+  function parseDate(dateStr) {
+    if (!dateStr) return new Date(0);
+    if (dateStr.includes('/')) {
+      const parts = dateStr.split('/');
+      return new Date(parts[2], parts[1] - 1, parts[0]);
+    }
+    return new Date(dateStr);
+  }
+
+  async function loadHomeEvents() {
+    try {
+      const response = await fetch(SHEET_CSV_URL);
+      if (!response.ok) return;
+      const csv = await response.text();
+      const events = parseCSV(csv);
+
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      const upcoming = events
+        .filter(e => parseDate(e['Date']) >= today)
+        .sort((a, b) => parseDate(a['Date']) - parseDate(b['Date']))
+        .slice(0, 3);
+
+      if (upcoming.length === 0) return;
+
+      const container = document.getElementById('home-events');
+      container.innerHTML = upcoming.map(event => {
+        const date = parseDate(event['Date']);
+        const day = date.toLocaleDateString('fr-FR', { day: '2-digit' });
+        const month = date.toLocaleDateString('fr-FR', { month: 'short' });
+        let html = `
+          <article class="event-card">
+            <div class="event-date">
+              <span class="date-day">${day}</span>
+              <span class="date-month">${month}</span>
+            </div>
+            <div class="event-details">
+              <h3>${escapeHTML(event['Spectacle'])}</h3>
+              <p class="event-venue">\u{1F4CD} ${escapeHTML(event['Lieu'])}, ${escapeHTML(event['Ville'])}</p>
+              <p class="event-time">\u{1F550} ${escapeHTML(event['Heure'])}</p>`;
+        if (event['Lien billetterie']) {
+          const url = escapeHTML(event['Lien billetterie']);
+          html += `<a href="${url}" target="_blank" rel="noopener" class="btn-link">Réserver \u2192</a>`;
+        }
+        html += `</div></article>`;
+        return html;
+      }).join('');
+
+      document.getElementById('events-section').style.display = '';
+    } catch (error) {
+      console.error('Erreur chargement événements:', error);
+    }
+  }
+
+  loadHomeEvents();
+</script>
 
 <style>
   /* Hero Section - Design théâtral avec overlay dégradé */
