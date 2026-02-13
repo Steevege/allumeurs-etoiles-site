@@ -1,5 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import Icon from '../../components/Icon.astro';
 import { getCollection } from 'astro:content';
 
 export async function getStaticPaths() {
@@ -29,8 +30,8 @@ const { Content } = await spectacle.render();
         <p class="spectacle-description">{spectacle.data.description}</p>
 
         <div class="spectacle-meta">
-          <span class="meta-badge">⏱️ {spectacle.data.duration}</span>
-          <span class="meta-badge">👥 {spectacle.data.audience}</span>
+          <span class="meta-badge"><Icon name="clock" size={18} /> {spectacle.data.duration}</span>
+          <span class="meta-badge"><Icon name="users" size={18} /> {spectacle.data.audience}</span>
         </div>
 
         <div class="header-actions">

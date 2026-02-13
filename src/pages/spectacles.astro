@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Icon from '../components/Icon.astro';
 import { getCollection } from 'astro:content';
 
 // Récupérer tous les spectacles actifs
@@ -46,10 +47,10 @@ const spectacles = (await getCollection('spectacles'))
               
               <div class="card-meta">
                 <span class="meta-item">
-                  <strong>⏱️ Durée :</strong> {spectacle.data.duration}
+                  <strong><Icon name="clock" size={16} /> Durée :</strong> {spectacle.data.duration}
                 </span>
                 <span class="meta-item">
-                  <strong>👥 Public :</strong> {spectacle.data.audience}
+                  <strong><Icon name="users" size={16} /> Public :</strong> {spectacle.data.audience}
                 </span>
               </div>
 

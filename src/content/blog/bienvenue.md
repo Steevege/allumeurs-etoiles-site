@@ -22,4 +22,4 @@ Retrouvez facilement :
 
 À très bientôt pour de nouvelles aventures !
 
-**L'équipe des Allumeurs d'Étoiles** 🎭
+**L'équipe des Allumeurs d'Étoiles**

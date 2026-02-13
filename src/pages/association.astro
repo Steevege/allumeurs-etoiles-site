@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Icon from '../components/Icon.astro';
 ---
 
 <Layout 
@@ -42,28 +43,28 @@ import Layout from '../layouts/Layout.astro';
           <h3>Nos valeurs</h3>
           <ul class="values-list">
             <li>
-              <span class="value-icon">🎭</span>
+              <span class="value-icon"><Icon name="theater" size={28} /></span>
               <div>
                 <strong>Exigence artistique</strong>
                 <p>Des créations originales de qualité professionnelle</p>
               </div>
             </li>
             <li>
-              <span class="value-icon">❤️</span>
+              <span class="value-icon"><Icon name="heart" size={28} /></span>
               <div>
                 <strong>Accessibilité</strong>
                 <p>Rendre le spectacle vivant accessible à tous les publics</p>
               </div>
             </li>
             <li>
-              <span class="value-icon">🌱</span>
+              <span class="value-icon"><Icon name="growth" size={28} /></span>
               <div>
                 <strong>Engagement</strong>
                 <p>Des spectacles porteurs de sens et de valeurs humanistes</p>
               </div>
             </li>
             <li>
-              <span class="value-icon">🤝</span>
+              <span class="value-icon"><Icon name="handshake" size={28} /></span>
               <div>
                 <strong>Partage</strong>
                 <p>Créer du lien entre les artistes et le public</p>
@@ -84,7 +85,7 @@ import Layout from '../layouts/Layout.astro';
       <div class="team-grid">
         <article class="team-member">
           <div class="member-photo">
-            <div class="photo-placeholder">🎭</div>
+            <div class="photo-placeholder"><Icon name="theater" size={48} /></div>
           </div>
           <h3>Steeve Gernez</h3>
           <p class="member-role">Comédien & Chanteur</p>
@@ -95,7 +96,7 @@ import Layout from '../layouts/Layout.astro';
 
         <article class="team-member">
           <div class="member-photo">
-            <div class="photo-placeholder">🎭</div>
+            <div class="photo-placeholder"><Icon name="theater" size={48} /></div>
           </div>
           <h3>Samir Arab</h3>
           <p class="member-role">Comédien & Chanteur</p>
@@ -106,7 +107,7 @@ import Layout from '../layouts/Layout.astro';
 
         <article class="team-member">
           <div class="member-photo">
-            <div class="photo-placeholder">🎭</div>
+            <div class="photo-placeholder"><Icon name="theater" size={48} /></div>
           </div>
           <h3>Jacques Montembault</h3>
           <p class="member-role">Comédien & Metteur en scène</p>
@@ -117,7 +118,7 @@ import Layout from '../layouts/Layout.astro';
 
         <article class="team-member">
           <div class="member-photo">
-            <div class="photo-placeholder">🎭</div>
+            <div class="photo-placeholder"><Icon name="theater" size={48} /></div>
           </div>
           <h3>Benoit Lebrun</h3>
           <p class="member-role">Comédien</p>
@@ -128,7 +129,7 @@ import Layout from '../layouts/Layout.astro';
 
         <article class="team-member">
           <div class="member-photo">
-            <div class="photo-placeholder">🎭</div>
+            <div class="photo-placeholder"><Icon name="theater" size={48} /></div>
           </div>
           <h3>Marie Lussignol</h3>
           <p class="member-role">Comédienne</p>
@@ -139,7 +140,7 @@ import Layout from '../layouts/Layout.astro';
 
         <article class="team-member">
           <div class="member-photo">
-            <div class="photo-placeholder">🤝</div>
+            <div class="photo-placeholder"><Icon name="handshake" size={48} /></div>
           </div>
           <h3>Les bénévoles</h3>
           <p class="member-role">Production & Administration</p>
@@ -161,7 +162,7 @@ import Layout from '../layouts/Layout.astro';
         {[1, 2, 3, 4, 5, 6].map((i) => (
           <div class="partner-card">
             <div class="partner-logo">
-              <span>🏛️</span>
+              <span><Icon name="star" size={32} /></span>
               <p>Partenaire #{i}</p>
             </div>
           </div>

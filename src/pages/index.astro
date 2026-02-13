@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Icon from '../components/Icon.astro';
 import { getCollection } from 'astro:content';
 
 // Récupérer les spectacles actifs
@@ -38,7 +39,7 @@ const featuredNews = (await getCollection('news'))
     <section class="news-featured">
       <div class="container">
         <div class="news-card">
-          <div class="news-icon">⭐</div>
+          <div class="news-icon"><Icon name="sparkle" size={32} /></div>
           <div class="news-content">
             <h2>{featuredNews.data.title}</h2>
             <p class="news-date">
@@ -79,8 +80,8 @@ const featuredNews = (await getCollection('news'))
               )}
               <p class="card-description">{spectacle.data.description}</p>
               <div class="card-meta">
-                <span>⏱️ {spectacle.data.duration}</span>
-                <span>👥 {spectacle.data.audience}</span>
+                <span><Icon name="clock" size={16} /> {spectacle.data.duration}</span>
+                <span><Icon name="users" size={16} /> {spectacle.data.audience}</span>
               </div>
               <a href={`/spectacles/${spectacle.slug}`} class="btn btn-primary">En savoir plus</a>
             </div>
@@ -160,6 +161,11 @@ const featuredNews = (await getCollection('news'))
     return new Date(dateStr);
   }
 
+  // Icônes SVG inline
+  const svgAttrs = 'xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"';
+  const iconPin = `<svg ${svgAttrs}><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>`;
+  const iconClock = `<svg ${svgAttrs}><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`;
+
   async function loadHomeEvents() {
     try {
       const response = await fetch(SHEET_CSV_URL);
@@ -190,8 +196,8 @@ const featuredNews = (await getCollection('news'))
             </div>
             <div class="event-details">
               <h3>${escapeHTML(event['Spectacle'])}</h3>
-              <p class="event-venue">\u{1F4CD} ${escapeHTML(event['Lieu'])}, ${escapeHTML(event['Ville'])}</p>
-              <p class="event-time">\u{1F550} ${escapeHTML(event['Heure'])}</p>`;
+              <p class="event-venue">${iconPin} ${escapeHTML(event['Lieu'])}, ${escapeHTML(event['Ville'])}</p>
+              <p class="event-time">${iconClock} ${escapeHTML(event['Heure'])}</p>`;
         if (event['Lien billetterie']) {
           const url = escapeHTML(event['Lien billetterie']);
           html += `<a href="${url}" target="_blank" rel="noopener" class="btn-link">Réserver \u2192</a>`;

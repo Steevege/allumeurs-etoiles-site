@@ -120,6 +120,12 @@ const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS3-HCSDk
     return date.toLocaleDateString('fr-FR', { day: '2-digit', month: 'short', year: 'numeric' });
   }
 
+  // Icônes SVG inline (style cohérent avec le reste du site)
+  const svgAttrs = 'xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"';
+  const iconPin = `<svg ${svgAttrs}><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>`;
+  const iconClock = `<svg ${svgAttrs}><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`;
+  const iconTicket = `<svg ${svgAttrs}><path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><path d="M13 5v2"/><path d="M13 17v2"/><path d="M13 11v2"/></svg>`;
+
   // Rendu d'une carte événement à venir
   function renderUpcomingEvent(event) {
     const date = parseDate(event['Date']);
@@ -132,11 +138,11 @@ const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS3-HCSDk
         </div>
         <div class="event-details">
           <h3>${escapeHTML(event['Spectacle'])}</h3>
-          <p class="event-venue">\u{1F4CD} ${escapeHTML(event['Lieu'])}, ${escapeHTML(event['Ville'])}</p>
-          <p class="event-time">\u{1F550} ${escapeHTML(event['Heure'])}</p>`;
+          <p class="event-venue">${iconPin} ${escapeHTML(event['Lieu'])}, ${escapeHTML(event['Ville'])}</p>
+          <p class="event-time">${iconClock} ${escapeHTML(event['Heure'])}</p>`;
 
     if (event['Tarif']) {
-      html += `<p class="event-price">\u{1F4B3} ${escapeHTML(event['Tarif'])}</p>`;
+      html += `<p class="event-price">${iconTicket} ${escapeHTML(event['Tarif'])}</p>`;
     }
     if (event['Lien billetterie']) {
       const url = escapeHTML(event['Lien billetterie']);

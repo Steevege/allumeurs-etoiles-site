@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Icon from '../components/Icon.astro';
 ---
 
 <Layout 
@@ -104,7 +105,7 @@ import Layout from '../layouts/Layout.astro';
             <h3>Coordonnées</h3>
             
             <div class="info-item">
-              <span class="info-icon">📧</span>
+              <span class="info-icon"><Icon name="mail" size={22} /></span>
               <div>
                 <strong>Email</strong>
                 <a href="mailto:contact@allumeursdetoiles.com">
@@ -114,7 +115,7 @@ import Layout from '../layouts/Layout.astro';
             </div>
 
             <div class="info-item">
-              <span class="info-icon">📱</span>
+              <span class="info-icon"><Icon name="phone" size={22} /></span>
               <div>
                 <strong>Téléphone</strong>
                 <a href="tel:0327921104">03 27 92 11 04</a>
@@ -122,7 +123,7 @@ import Layout from '../layouts/Layout.astro';
             </div>
 
             <div class="info-item">
-              <span class="info-icon">📍</span>
+              <span class="info-icon"><Icon name="pin" size={22} /></span>
               <div>
                 <strong>Adresse</strong>
                 <p>371 rue de la Lombarderie<br />59870 BOUVIGNIES</p>
@@ -178,7 +179,7 @@ import Layout from '../layouts/Layout.astro';
       
       <div class="faq-grid">
         <article class="faq-item">
-          <h3>📅 Comment réserver un spectacle ?</h3>
+          <h3>Comment réserver un spectacle ?</h3>
           <p>
             Contactez-nous via le formulaire ci-dessus en précisant vos dates souhaitées, 
             le lieu et le spectacle qui vous intéresse. Nous reviendrons vers vous rapidement 
@@ -187,7 +188,7 @@ import Layout from '../layouts/Layout.astro';
         </article>
 
         <article class="faq-item">
-          <h3>🎭 Quels spectacles proposez-vous ?</h3>
+          <h3>Quels spectacles proposez-vous ?</h3>
           <p>
             Nous proposons plusieurs créations adaptables à différents publics : spectacles 
             tout public, adultes, et jeune public. Consultez notre page 
@@ -196,7 +197,7 @@ import Layout from '../layouts/Layout.astro';
         </article>
 
         <article class="faq-item">
-          <h3>💰 Quels sont vos tarifs ?</h3>
+          <h3>Quels sont vos tarifs ?</h3>
           <p>
             Nos tarifs varient selon le spectacle, la distance, la durée et vos spécificités. 
             Contactez-nous pour un devis sur mesure adapté à votre budget et votre projet.
@@ -204,7 +205,7 @@ import Layout from '../layouts/Layout.astro';
         </article>
 
         <article class="faq-item">
-          <h3>🎪 Quelles sont vos conditions techniques ?</h3>
+          <h3>Quelles sont vos conditions techniques ?</h3>
           <p>
             Nos spectacles sont adaptables à différents espaces (théâtres, salles polyvalentes, 
             plein air). Nous fournissons toutes les informations techniques détaillées sur demande.
