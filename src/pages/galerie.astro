@@ -7,19 +7,17 @@ const spectacles = (await getCollection('spectacles'))
   .filter(s => s.data.active)
   .sort((a, b) => a.data.order - b.data.order);
 
-// Vidéos YouTube exemple (à compléter)
-const videos = [
-  {
-    title: "Il était 2 foi(s) - Extrait",
-    url: "https://www.youtube.com/embed/dQw4w9WgXcQ",
-    spectacle: "il-etait-2-fois"
-  },
-  {
-    title: "Vices & Versa - Bande annonce",
-    url: "https://www.youtube.com/embed/dQw4w9WgXcQ",
-    spectacle: "vices-versa"
-  }
-];
+// Générer les vidéos depuis les spectacles qui ont une videoUrl
+const videos = spectacles
+  .filter(s => s.data.videoUrl)
+  .map(s => {
+    const videoId = s.data.videoUrl!.split('v=')[1]?.split('&')[0];
+    return {
+      title: s.data.title,
+      url: `https://www.youtube.com/embed/${videoId}`,
+      spectacle: s.slug,
+    };
+  });
 ---
 
 <Layout 
