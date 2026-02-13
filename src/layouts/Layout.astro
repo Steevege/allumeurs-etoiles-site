@@ -8,6 +8,9 @@ interface Props {
 
 const { title, description = "Association culturelle proposant des spectacles musicaux et théâtraux pour émouvoir et faire réfléchir" } = Astro.props;
 const currentPath = Astro.url.pathname;
+const siteUrl = 'https://www.allumeursdetoiles.com';
+const fullTitle = `${title} | Allumeurs d'Étoiles`;
+const canonicalUrl = new URL(currentPath, siteUrl).href;
 ---
 
 <!doctype html>
@@ -18,15 +21,29 @@ const currentPath = Astro.url.pathname;
     <meta name="description" content={description} />
     <meta name="generator" content={Astro.generator} />
 
+    <!-- SEO -->
+    <link rel="canonical" href={canonicalUrl} />
+
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
-    <meta property="og:title" content={title} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
+    <meta property="og:image" content={`${siteUrl}/images/logo-transparent.png`} />
+    <meta property="og:locale" content="fr_FR" />
+    <meta property="og:site_name" content="Allumeurs d'Étoiles" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
 
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/images/favicon-192.png" />
 
-    <title>{title} | Allumeurs d'Étoiles</title>
+    <title>{fullTitle}</title>
   </head>
   <body>
     <!-- Header -->
@@ -385,6 +402,14 @@ const currentPath = Astro.url.pathname;
         display: flex;
         gap: 1.5rem;
         align-items: center;
+      }
+
+      .footer-legal a {
+        color: rgba(255, 255, 255, 0.75);
+      }
+
+      .footer-legal a:hover {
+        color: white;
       }
 
       .footer-legal span {

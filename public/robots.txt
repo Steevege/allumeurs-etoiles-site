@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://www.allumeursdetoiles.com/sitemap-index.xml
