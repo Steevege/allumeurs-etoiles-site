@@ -14,7 +14,7 @@ Steeve Gernez est chrétien et Samir Arab est musulman. Tous les deux sont acteu
 
 ## Le spectacle
 
-Cette pièce a été jouée plus de 400 fois à travers la France et les pays francophones. Cette belle aventure qui traite du sujet des a priori que tout un chacun peut avoir sur les religions et la culture de celui qu'il ne connait pas, est en reconstruction dans une version 2.0 !
+Cette pièce a été jouée **plus de 600 fois** à travers la France et les pays francophones. Cette belle aventure qui traite du sujet des a priori que tout un chacun peut avoir sur les religions et la culture de celui qu'il ne connait pas, est en reconstruction dans une version 2.0 !
 
 Un spectacle qui invite les jeunes et moins jeunes à dépasser leurs a priori en examinant la question de l'appartenance religieuse et du dialogue possible entre les religions.
 
