@@ -41,11 +41,11 @@ const currentPath = Astro.url.pathname;
         <!-- Menu principal -->
         <ul class="nav-menu">
           <li><a href="/" class={currentPath === '/' ? 'active' : ''}>Accueil</a></li>
+          <li><a href="/blog" class={currentPath.startsWith('/blog') ? 'active' : ''}>Actualités</a></li>
           <li><a href="/association" class={currentPath === '/association' ? 'active' : ''}>À propos</a></li>
           <li><a href="/spectacles" class={currentPath.startsWith('/spectacles') ? 'active' : ''}>Spectacles</a></li>
           <li><a href="/tournee" class={currentPath === '/tournee' ? 'active' : ''}>Tournée</a></li>
           <li><a href="/galerie" class={currentPath === '/galerie' ? 'active' : ''}>Galerie</a></li>
-          <li><a href="/blog" class={currentPath.startsWith('/blog') ? 'active' : ''}>Actualités</a></li>
           <li><a href="/contact" class={currentPath === '/contact' ? 'active' : ''}>Contact</a></li>
         </ul>
 
