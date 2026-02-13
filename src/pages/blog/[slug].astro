@@ -1,0 +1,215 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const blogPosts = await getCollection('blog');
+  const newsPosts = await getCollection('news');
+
+  return [
+    ...blogPosts.map(post => ({
+      params: { slug: post.slug },
+      props: { post, collection: 'blog' },
+    })),
+    ...newsPosts.map(post => ({
+      params: { slug: post.slug },
+      props: { post, collection: 'news' },
+    })),
+  ];
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+
+const categoryLabels: Record<string, string> = {
+  actualites: 'Actualités',
+  coulisses: 'Coulisses',
+  temoignages: 'Témoignages',
+};
+---
+
+<Layout
+  title={post.data.title}
+  description={post.data.excerpt}
+>
+  <!-- En-tête article -->
+  <section class="article-header">
+    <div class="container">
+      <div class="header-content">
+        <div class="article-meta">
+          <span class="article-category">{categoryLabels[post.data.category] || post.data.category}</span>
+          <time datetime={new Date(post.data.date).toISOString()}>
+            {new Date(post.data.date).toLocaleDateString('fr-FR', {
+              day: 'numeric',
+              month: 'long',
+              year: 'numeric'
+            })}
+          </time>
+        </div>
+        <h1>{post.data.title}</h1>
+        <p class="article-excerpt">{post.data.excerpt}</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contenu article -->
+  <section class="content-section">
+    <div class="container">
+      <div class="prose">
+        <Content />
+      </div>
+
+      <div class="article-footer">
+        <a href="/blog" class="btn btn-secondary">← Retour aux actualités</a>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .article-header {
+    background: linear-gradient(135deg, rgba(30, 58, 138, 0.95) 0%, rgba(0, 0, 0, 0.85) 100%);
+    color: white;
+    padding: 5rem 0 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .article-header::before {
+    content: '';
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(249, 115, 22, 0.15) 0%, transparent 70%);
+    border-radius: 50%;
+    top: -300px;
+    right: -100px;
+    animation: cosmic-float 20s ease-in-out infinite;
+  }
+
+  @keyframes cosmic-float {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(30px, -30px) scale(1.1); }
+  }
+
+  .header-content {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+    position: relative;
+  }
+
+  .article-meta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .article-category {
+    background: linear-gradient(135deg, var(--color-secondary) 0%, #ea580c 100%);
+    color: white;
+    padding: 0.35rem 1rem;
+    border-radius: 2rem;
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .article-meta time {
+    opacity: 0.85;
+  }
+
+  .article-header h1 {
+    color: white;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    margin-bottom: 1.5rem;
+  }
+
+  .article-excerpt {
+    font-size: 1.25rem;
+    line-height: 1.7;
+    opacity: 0.95;
+  }
+
+  /* Contenu */
+  .content-section {
+    padding: var(--spacing-xl) 0;
+  }
+
+  .prose {
+    max-width: 750px;
+    margin: 0 auto;
+    line-height: 1.9;
+    font-size: 1.125rem;
+  }
+
+  .prose :global(h2) {
+    color: var(--color-primary);
+    font-family: var(--font-heading);
+    font-style: italic;
+    font-size: clamp(1.75rem, 3vw, 2.5rem);
+    margin-top: 3rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .prose :global(h3) {
+    color: var(--color-primary);
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .prose :global(p) {
+    margin-bottom: 1.5rem;
+    color: #374151;
+  }
+
+  .prose :global(ul) {
+    list-style: none;
+    padding-left: 0;
+    margin-bottom: 2rem;
+  }
+
+  .prose :global(li) {
+    padding-left: 2rem;
+    margin-bottom: 0.75rem;
+    position: relative;
+    line-height: 1.7;
+  }
+
+  .prose :global(li::before) {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--color-secondary);
+    font-weight: bold;
+  }
+
+  .prose :global(strong) {
+    color: var(--color-primary);
+    font-weight: 600;
+  }
+
+  .article-footer {
+    max-width: 750px;
+    margin: var(--spacing-lg) auto 0;
+    padding-top: var(--spacing-md);
+    border-top: 1px solid rgba(30, 58, 138, 0.1);
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .article-header {
+      padding: 3rem 0 2rem;
+    }
+
+    .article-meta {
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+  }
+</style>

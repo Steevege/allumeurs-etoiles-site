@@ -1,0 +1,299 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+const allPosts = await getCollection('blog');
+const allNews = await getCollection('news');
+
+// Fusionner blog + news, trier par date décroissante
+const allArticles = [
+  ...allPosts.map(post => ({
+    slug: post.slug,
+    title: post.data.title,
+    date: post.data.date,
+    excerpt: post.data.excerpt,
+    category: post.data.category,
+    image: post.data.image,
+    type: 'blog' as const,
+  })),
+  ...allNews.map(news => ({
+    slug: news.slug,
+    title: news.data.title,
+    date: news.data.date,
+    excerpt: news.data.excerpt,
+    category: news.data.category,
+    image: news.data.image,
+    type: 'news' as const,
+  })),
+].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
+const categoryLabels: Record<string, string> = {
+  actualites: 'Actualités',
+  coulisses: 'Coulisses',
+  temoignages: 'Témoignages',
+};
+---
+
+<Layout
+  title="Actualités"
+  description="Suivez les dernières actualités de l'association Allumeurs d'Étoiles : spectacles, coulisses, témoignages et événements."
+>
+  <!-- En-tête de page -->
+  <section class="page-header">
+    <div class="container">
+      <h1>Actualités</h1>
+      <p class="page-subtitle">
+        Suivez nos dernières nouvelles, coulisses et témoignages
+      </p>
+    </div>
+  </section>
+
+  <!-- Liste des articles -->
+  <section class="blog-section">
+    <div class="container">
+      {allArticles.length > 0 ? (
+        <div class="articles-grid">
+          {allArticles.map((article) => (
+            <article class="article-card">
+              <div class="article-content">
+                <div class="article-meta">
+                  <span class="article-category">{categoryLabels[article.category] || article.category}</span>
+                  <time datetime={new Date(article.date).toISOString()}>
+                    {new Date(article.date).toLocaleDateString('fr-FR', {
+                      day: 'numeric',
+                      month: 'long',
+                      year: 'numeric'
+                    })}
+                  </time>
+                </div>
+                <h2>
+                  <a href={`/blog/${article.slug}`}>{article.title}</a>
+                </h2>
+                <p class="article-excerpt">{article.excerpt}</p>
+                <a href={`/blog/${article.slug}`} class="read-more">Lire la suite →</a>
+              </div>
+            </article>
+          ))}
+        </div>
+      ) : (
+        <div class="empty-state">
+          <p>Aucun article pour le moment. Revenez bientôt !</p>
+        </div>
+      )}
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <div class="container">
+      <h2>Restez informés</h2>
+      <p>Suivez-nous sur les réseaux sociaux pour ne rien manquer</p>
+      <div class="cta-links">
+        <a href="https://facebook.com/allumeursdetoiles" target="_blank" rel="noopener" class="btn btn-primary">
+          Facebook
+        </a>
+        <a href="https://youtube.com/@allumeursdetoiles" target="_blank" rel="noopener" class="btn btn-secondary" style="color: white; border-color: white;">
+          YouTube
+        </a>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .page-header {
+    background: linear-gradient(135deg, rgba(30, 58, 138, 0.95) 0%, rgba(0, 0, 0, 0.85) 100%);
+    color: white;
+    padding: 5rem 0 4rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .page-header::before {
+    content: '';
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(249, 115, 22, 0.15) 0%, transparent 70%);
+    border-radius: 50%;
+    top: -250px;
+    left: 50%;
+    transform: translateX(-50%);
+    animation: cosmic-float 20s ease-in-out infinite;
+  }
+
+  @keyframes cosmic-float {
+    0%, 100% { transform: translateX(-50%) translateY(0) scale(1); }
+    50% { transform: translateX(-50%) translateY(-30px) scale(1.1); }
+  }
+
+  .page-header h1 {
+    color: white;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    margin-bottom: 1rem;
+    position: relative;
+  }
+
+  .page-subtitle {
+    font-size: 1.35rem;
+    opacity: 0.95;
+    position: relative;
+  }
+
+  /* Section Blog */
+  .blog-section {
+    padding: var(--spacing-xl) 0;
+  }
+
+  .articles-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .article-card {
+    background: white;
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-md);
+    border: 1px solid rgba(30, 58, 138, 0.08);
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+
+  .article-card:hover {
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-3px);
+  }
+
+  .article-content {
+    padding: 2.5rem;
+  }
+
+  .article-meta {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+  }
+
+  .article-category {
+    background: linear-gradient(135deg, var(--color-secondary) 0%, #ea580c 100%);
+    color: white;
+    padding: 0.35rem 1rem;
+    border-radius: 2rem;
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .article-meta time {
+    color: #6B7280;
+  }
+
+  .article-content h2 {
+    font-size: 1.75rem;
+    margin-bottom: 1rem;
+    font-family: var(--font-heading);
+    font-style: italic;
+  }
+
+  .article-content h2 a {
+    color: var(--color-primary);
+    transition: color 0.3s ease;
+  }
+
+  .article-content h2 a:hover {
+    color: var(--color-secondary);
+  }
+
+  .article-excerpt {
+    color: #6B7280;
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+  }
+
+  .read-more {
+    color: var(--color-secondary);
+    font-weight: 600;
+    transition: all 0.3s ease;
+    display: inline-block;
+  }
+
+  .read-more:hover {
+    color: var(--color-primary);
+    transform: translateX(5px);
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: var(--spacing-lg) 0;
+    color: #6B7280;
+    font-size: 1.25rem;
+  }
+
+  /* CTA */
+  .cta-section {
+    background: linear-gradient(135deg, var(--color-primary) 0%, #1e40af 100%);
+    color: white;
+    padding: var(--spacing-xl) 0;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-section::before {
+    content: '';
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(249, 115, 22, 0.2) 0%, transparent 70%);
+    border-radius: 50%;
+    bottom: -250px;
+    left: -100px;
+    animation: cosmic-float 20s ease-in-out infinite reverse;
+  }
+
+  .cta-section h2 {
+    color: white;
+    font-size: clamp(2rem, 4vw, 3rem);
+    margin-bottom: 1rem;
+    position: relative;
+  }
+
+  .cta-section p {
+    font-size: 1.25rem;
+    margin-bottom: 2.5rem;
+    opacity: 0.95;
+    position: relative;
+  }
+
+  .cta-links {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    position: relative;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .page-header {
+      padding: 3rem 0 2rem;
+    }
+
+    .article-content {
+      padding: 1.75rem;
+    }
+
+    .article-meta {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+  }
+</style>

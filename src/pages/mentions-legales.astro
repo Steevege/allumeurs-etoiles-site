@@ -1,0 +1,156 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+  title="Mentions légales"
+  description="Mentions légales du site de l'association Allumeurs d'Étoiles."
+>
+  <!-- En-tête de page -->
+  <section class="page-header">
+    <div class="container">
+      <h1>Mentions légales</h1>
+    </div>
+  </section>
+
+  <!-- Contenu -->
+  <section class="legal-section">
+    <div class="container">
+      <div class="legal-content">
+
+        <h2>Éditeur du site</h2>
+        <p>
+          <strong>Association Allumeurs d'Étoiles</strong><br />
+          Association loi 1901<br />
+          371 rue de la Lombarderie<br />
+          59870 BOUVIGNIES<br />
+          France
+        </p>
+        <p>
+          Email : <a href="mailto:contact@allumeursdetoiles.com">contact@allumeursdetoiles.com</a><br />
+          Téléphone : 03 27 92 11 04
+        </p>
+
+        <h2>Directeur de la publication</h2>
+        <p>Le président de l'association Allumeurs d'Étoiles.</p>
+
+        <h2>Hébergement</h2>
+        <p>
+          <strong>IONOS SARL</strong><br />
+          7, place de la Gare<br />
+          57200 Sarreguemines<br />
+          France<br />
+          Téléphone : 01 77 62 30 03<br />
+          Site web : <a href="https://www.ionos.fr" target="_blank" rel="noopener">www.ionos.fr</a>
+        </p>
+
+        <h2>Propriété intellectuelle</h2>
+        <p>
+          L'ensemble du contenu de ce site (textes, images, photos, vidéos, logos) est la propriété
+          de l'association Allumeurs d'Étoiles ou de ses partenaires, et est protégé par les lois
+          françaises et internationales relatives à la propriété intellectuelle.
+        </p>
+        <p>
+          Toute reproduction, représentation, modification ou adaptation de tout ou partie du site
+          sans l'autorisation écrite préalable de l'association est strictement interdite.
+        </p>
+
+        <h2>Crédits photos</h2>
+        <p>
+          Les photographies présentes sur ce site sont la propriété de l'association Allumeurs d'Étoiles
+          ou utilisées avec l'autorisation de leurs auteurs respectifs.
+        </p>
+
+        <h2>Responsabilité</h2>
+        <p>
+          L'association Allumeurs d'Étoiles s'efforce de fournir des informations aussi précises
+          que possible. Toutefois, elle ne pourra être tenue responsable des omissions, des inexactitudes
+          et des carences dans la mise à jour, qu'elles soient de son fait ou du fait de tiers.
+        </p>
+        <p>
+          Les liens hypertextes mis en place dans le cadre du présent site en direction d'autres
+          ressources sur Internet ne sauraient engager la responsabilité de l'association.
+        </p>
+
+        <h2>Droit applicable</h2>
+        <p>
+          Le présent site et les mentions légales sont régis par le droit français. En cas de litige,
+          les tribunaux compétents seront ceux du ressort du siège social de l'association.
+        </p>
+
+        <p class="last-update">Dernière mise à jour : février 2026</p>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .page-header {
+    background: linear-gradient(135deg, rgba(30, 58, 138, 0.95) 0%, rgba(0, 0, 0, 0.85) 100%);
+    color: white;
+    padding: 4rem 0 3rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .page-header h1 {
+    color: white;
+    font-size: clamp(2rem, 4vw, 3rem);
+    position: relative;
+  }
+
+  .legal-section {
+    padding: var(--spacing-lg) 0;
+  }
+
+  .legal-content {
+    max-width: 800px;
+    margin: 0 auto;
+    line-height: 1.8;
+  }
+
+  .legal-content h2 {
+    font-size: 1.5rem;
+    color: var(--color-primary);
+    font-family: var(--font-heading);
+    font-style: italic;
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid rgba(30, 58, 138, 0.1);
+  }
+
+  .legal-content h2:first-of-type {
+    margin-top: 0;
+  }
+
+  .legal-content p {
+    color: #374151;
+    margin-bottom: 1rem;
+  }
+
+  .legal-content a {
+    color: var(--color-secondary);
+    font-weight: 500;
+  }
+
+  .legal-content a:hover {
+    color: var(--color-primary);
+  }
+
+  .last-update {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(30, 58, 138, 0.1);
+    color: #9CA3AF;
+    font-style: italic;
+    font-size: 0.95rem;
+  }
+
+  @media (max-width: 768px) {
+    .page-header {
+      padding: 3rem 0 2rem;
+    }
+  }
+</style>
