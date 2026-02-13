@@ -41,6 +41,32 @@ const { Content } = await spectacle.render();
     </div>
   </section>
 
+  <!-- Image + Vidéo -->
+  <section class="media-section">
+    <div class="container">
+      <div class="media-grid" data-has-video={spectacle.data.videoUrl ? "true" : "false"}>
+        <div class="media-image">
+          <img src={spectacle.data.image} alt={spectacle.data.title} loading="lazy" />
+        </div>
+        {spectacle.data.videoUrl && (() => {
+          const videoId = spectacle.data.videoUrl!.split('v=')[1]?.split('&')[0];
+          return (
+            <div class="media-video">
+              <div class="video-wrapper">
+                <iframe
+                  src={`https://www.youtube.com/embed/${videoId}`}
+                  title={`Vidéo - ${spectacle.data.title}`}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowfullscreen
+                />
+              </div>
+            </div>
+          );
+        })()}
+      </div>
+    </div>
+  </section>
+
   <!-- Contenu détaillé -->
   <section class="content-section">
     <div class="container">
@@ -145,6 +171,66 @@ const { Content } = await spectacle.render();
     gap: 1.5rem;
     justify-content: center;
     flex-wrap: wrap;
+  }
+
+  .media-section {
+    padding: 3rem 0 0;
+  }
+
+  .media-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .media-grid[data-has-video="false"] {
+    grid-template-columns: 1fr;
+    max-width: 600px;
+  }
+
+  .media-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 1rem;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+    min-height: 300px;
+    max-height: 400px;
+  }
+
+  .media-video {
+    display: flex;
+    align-items: center;
+  }
+
+  .video-wrapper {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%;
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+  }
+
+  .video-wrapper iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+
+  @media (max-width: 768px) {
+    .media-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .media-image img {
+      max-height: 300px;
+    }
   }
 
   .content-section {
