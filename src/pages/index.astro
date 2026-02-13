@@ -31,21 +31,18 @@ const featuredNews = (await getCollection('news'))
         <a href="/spectacles" class="btn btn-primary">Découvrir nos spectacles</a>
         <a href="/contact" class="btn btn-secondary">Nous contacter</a>
       </div>
-    </div>
-  </section>
 
-  <!-- Chiffres clés -->
-  <section class="stats-bar">
-    <div class="container">
-      <div class="stats-grid">
+      <div class="hero-stats">
         <div class="stat-item">
           <span class="stat-number">+600</span>
           <span class="stat-label">représentations</span>
         </div>
+        <div class="stat-divider"></div>
         <div class="stat-item">
           <span class="stat-number">7</span>
-          <span class="stat-label">spectacles au répertoire</span>
+          <span class="stat-label">spectacles</span>
         </div>
+        <div class="stat-divider"></div>
         <div class="stat-item">
           <span class="stat-number">+20 ans</span>
           <span class="stat-label">de création</span>
@@ -320,30 +317,25 @@ const featuredNews = (await getCollection('news'))
     flex-wrap: wrap;
   }
 
-  /* Bandeau chiffres clés */
-  .stats-bar {
-    background: linear-gradient(135deg, var(--color-primary) 0%, #1a3340 100%);
-    padding: 2.5rem 0;
-    position: relative;
-    z-index: 10;
-  }
-
-  .stats-grid {
+  /* Chiffres clés dans le hero */
+  .hero-stats {
     display: flex;
     justify-content: center;
-    gap: 4rem;
-    flex-wrap: wrap;
+    align-items: center;
+    gap: 2.5rem;
+    margin-top: 3.5rem;
+    padding-top: 2.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
   }
 
   .stat-item {
     text-align: center;
-    color: white;
   }
 
   .stat-number {
     display: block;
-    font-size: clamp(2.5rem, 4vw, 3.5rem);
-    font-weight: 900;
+    font-size: clamp(1.75rem, 3vw, 2.25rem);
+    font-weight: 700;
     font-family: var(--font-heading);
     color: var(--color-secondary);
     line-height: 1;
@@ -351,10 +343,17 @@ const featuredNews = (await getCollection('news'))
 
   .stat-label {
     display: block;
-    font-size: 1rem;
-    opacity: 0.9;
-    margin-top: 0.5rem;
-    letter-spacing: 0.02em;
+    font-size: 0.85rem;
+    opacity: 0.7;
+    margin-top: 0.35rem;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+  }
+
+  .stat-divider {
+    width: 1px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.2);
   }
 
   /* Actualité mise en avant - Design organique élégant */
