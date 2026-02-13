@@ -18,11 +18,11 @@ const featuredNews = (await getCollection('news'))
   .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())[0];
 ---
 
-<Layout title="Accueil" description="Des spectacles musicaux et théâtraux qui ont pour but d'émouvoir et de faire réfléchir sur le sens du monde et de la vie. Des spectacles à écouter et regarder avec son coeur.">
+<Layout title="Accueil" description="Des spectacles musicaux et théâtraux qui ont pour but d'émouvoir et de faire réfléchir sur le sens du monde et de la vie. Des spectacles à écouter et regarder avec son cœur.">
   <!-- Hero Section -->
   <section class="hero cosmic-pattern">
     <div class="hero-content">
-      <h1>Des spectacles plein le coeur !</h1>
+      <h1>Des spectacles plein le cœur !</h1>
       <p class="hero-subtitle">
         Des spectacles musicaux et théâtraux qui ont pour but d'émouvoir<br />
         et de faire réfléchir sur le sens du monde et de la vie
@@ -30,6 +30,26 @@ const featuredNews = (await getCollection('news'))
       <div class="hero-cta">
         <a href="/spectacles" class="btn btn-primary">Découvrir nos spectacles</a>
         <a href="/contact" class="btn btn-secondary">Nous contacter</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Chiffres clés -->
+  <section class="stats-bar">
+    <div class="container">
+      <div class="stats-grid">
+        <div class="stat-item">
+          <span class="stat-number">+600</span>
+          <span class="stat-label">représentations</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">7</span>
+          <span class="stat-label">spectacles au répertoire</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">+20 ans</span>
+          <span class="stat-label">de création</span>
+        </div>
       </div>
     </div>
   </section>
@@ -61,7 +81,7 @@ const featuredNews = (await getCollection('news'))
   <section class="spectacles-section">
     <div class="container">
       <h2 class="section-title">Nos Spectacles</h2>
-      <p class="section-subtitle">Des spectacles à écouter et regarder avec son coeur, pour tous les âges</p>
+      <p class="section-subtitle">Des spectacles à écouter et regarder avec son cœur, pour tous les âges</p>
 
       <div class="spectacles-grid">
         {spectacles.map((spectacle) => (
@@ -298,6 +318,43 @@ const featuredNews = (await getCollection('news'))
     gap: 1.5rem;
     justify-content: center;
     flex-wrap: wrap;
+  }
+
+  /* Bandeau chiffres clés */
+  .stats-bar {
+    background: linear-gradient(135deg, var(--color-primary) 0%, #1a3340 100%);
+    padding: 2.5rem 0;
+    position: relative;
+    z-index: 10;
+  }
+
+  .stats-grid {
+    display: flex;
+    justify-content: center;
+    gap: 4rem;
+    flex-wrap: wrap;
+  }
+
+  .stat-item {
+    text-align: center;
+    color: white;
+  }
+
+  .stat-number {
+    display: block;
+    font-size: clamp(2.5rem, 4vw, 3.5rem);
+    font-weight: 900;
+    font-family: var(--font-heading);
+    color: var(--color-secondary);
+    line-height: 1;
+  }
+
+  .stat-label {
+    display: block;
+    font-size: 1rem;
+    opacity: 0.9;
+    margin-top: 0.5rem;
+    letter-spacing: 0.02em;
   }
 
   /* Actualité mise en avant - Design organique élégant */

@@ -29,13 +29,13 @@ import Icon from '../components/Icon.astro';
             sens du monde et de la vie.
           </p>
           <p>
-            Des spectacles à écouter et regarder avec son coeur. Les artistes que l'association
+            Des spectacles à écouter et regarder avec son cœur. Les artistes que l'association
             a découverts et rencontrés depuis plus de 20 ans ont bien compris la démarche de la
             compagnie et ainsi nous proposent régulièrement de nouveaux spectacles, pour tous les âges.
           </p>
           <p>
             Que ce soit pour un public familial, adulte ou jeune public, nous adaptons nos
-            propositions artistiques pour toucher les coeurs et les esprits de tous.
+            propositions artistiques pour toucher les cœurs et les esprits de tous.
           </p>
         </div>
         
@@ -90,7 +90,7 @@ import Icon from '../components/Icon.astro';
           <h3>Steeve Gernez</h3>
           <p class="member-role">Comédien & Chanteur</p>
           <p class="member-bio">
-            Acteur et chanteur, Steeve est au coeur de toutes les créations. Il porte les spectacles avec passion et conviction.
+            Acteur et chanteur, Steeve est au cœur de toutes les créations. Il porte les spectacles avec passion et conviction.
           </p>
         </article>
 
@@ -148,33 +148,6 @@ import Icon from '../components/Icon.astro';
             Une équipe de bénévoles dévoués qui gère la production, l'administration et l'organisation des tournées depuis plus de 20 ans.
           </p>
         </article>
-      </div>
-    </div>
-  </section>
-
-  <!-- Section Partenaires -->
-  <section id="partenaires" class="partners-section">
-    <div class="container">
-      <h2 class="section-title">Nos partenaires</h2>
-      <p class="section-intro">Ils nous soutiennent et nous font confiance</p>
-      
-      <div class="partners-grid">
-        {[1, 2, 3, 4, 5, 6].map((i) => (
-          <div class="partner-card">
-            <div class="partner-logo">
-              <span><Icon name="star" size={32} /></span>
-              <p>Partenaire #{i}</p>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      <div class="become-partner">
-        <h3>Devenir partenaire</h3>
-        <p>
-          Vous souhaitez soutenir nos actions culturelles et être associé à nos créations ?
-        </p>
-        <a href="/contact" class="btn btn-primary">Nous contacter</a>
       </div>
     </div>
   </section>
@@ -391,69 +364,6 @@ import Icon from '../components/Icon.astro';
   .member-bio {
     color: #6B7280;
     line-height: 1.6;
-  }
-
-  /* Section Partenaires */
-  .partners-section {
-    padding: var(--spacing-xl) 0;
-  }
-
-  .partners-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 2rem;
-    margin-bottom: 4rem;
-  }
-
-  .partner-card {
-    background: white;
-    padding: 2rem;
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-sm);
-    transition: all 0.3s ease;
-    border: 1px solid rgba(35, 61, 76, 0.08);
-  }
-
-  .partner-card:hover {
-    box-shadow: var(--shadow-md);
-    transform: translateY(-3px);
-  }
-
-  .partner-logo {
-    text-align: center;
-  }
-
-  .partner-logo span {
-    font-size: 3rem;
-    display: block;
-    margin-bottom: 1rem;
-  }
-
-  .partner-logo p {
-    color: #6B7280;
-    font-weight: 500;
-  }
-
-  .become-partner {
-    text-align: center;
-    background: linear-gradient(135deg, var(--color-light-bg) 0%, white 100%);
-    padding: 3rem;
-    border-radius: var(--radius-xl);
-    border: 2px dashed rgba(35, 61, 76, 0.2);
-  }
-
-  .become-partner h3 {
-    color: var(--color-primary);
-    font-size: 2rem;
-    margin-bottom: 1rem;
-    font-family: var(--font-heading);
-    font-style: italic;
-  }
-
-  .become-partner p {
-    font-size: 1.15rem;
-    color: #6B7280;
-    margin-bottom: 2rem;
   }
 
   /* CTA Section */

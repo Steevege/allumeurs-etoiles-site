@@ -9,7 +9,7 @@ order: 5
 active: true
 ---
 
-Un conte tendre et musical qui emmène les tout-petits dans un voyage poétique au coeur de la nature et de l'imaginaire.
+Un conte tendre et musical qui emmène les tout-petits dans un voyage poétique au cœur de la nature et de l'imaginaire.
 
 ## Le spectacle
 
