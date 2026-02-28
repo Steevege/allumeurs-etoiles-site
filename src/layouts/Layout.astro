@@ -63,7 +63,7 @@ const canonicalUrl = new URL(currentPath, siteUrl).href;
           <li><a href="/spectacles" class={currentPath.startsWith('/spectacles') ? 'active' : ''}>Spectacles</a></li>
           <li><a href="/tournee" class={currentPath === '/tournee' ? 'active' : ''}>Tournée</a></li>
           <li><a href="/galerie" class={currentPath === '/galerie' ? 'active' : ''}>Galerie</a></li>
-          <li><a href="/contact" class={currentPath === '/contact' ? 'active' : ''}>Contact</a></li>
+          <li class="nav-cta"><a href="/contact" class="btn-nav-cta">Nous contacter</a></li>
         </ul>
 
         <!-- Menu mobile (hamburger) -->
@@ -205,6 +205,34 @@ const canonicalUrl = new URL(currentPath, siteUrl).href;
         color: var(--color-primary);
       }
 
+      /* Bouton CTA navigation */
+      .nav-cta {
+        margin-left: 0.5rem;
+      }
+
+      .btn-nav-cta {
+        background-color: var(--color-secondary) !important;
+        color: white !important;
+        padding: 0.6rem 1.5rem !important;
+        border-radius: 50px;
+        font-weight: 600 !important;
+        font-size: 0.95rem !important;
+        letter-spacing: 0.01em;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        box-shadow: 0 2px 8px rgba(253, 128, 46, 0.3);
+      }
+
+      .btn-nav-cta::after {
+        display: none !important;
+      }
+
+      .btn-nav-cta:hover {
+        background-color: #e5711f !important;
+        color: white !important;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(253, 128, 46, 0.4);
+      }
+
       /* Menu hamburger - Animation fluide organique */
       .mobile-menu-toggle {
         display: none;
@@ -279,6 +307,20 @@ const canonicalUrl = new URL(currentPath, siteUrl).href;
 
         .nav-menu a::after {
           background: white;
+        }
+
+        .nav-cta {
+          margin-left: 0 !important;
+          margin-top: 1rem;
+        }
+
+        .btn-nav-cta {
+          display: inline-block;
+          text-align: center;
+          background-color: var(--color-secondary) !important;
+          padding: 0.85rem 2rem !important;
+          font-size: 1.1rem !important;
+          box-shadow: 0 2px 12px rgba(253, 128, 46, 0.4);
         }
 
         .mobile-menu-toggle {
