@@ -1,0 +1,83 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+  title="Message envoyé"
+  description="Votre message a bien été envoyé. Nous vous répondrons dans les plus brefs délais."
+>
+  <section class="confirmation">
+    <div class="container">
+      <div class="confirmation-card">
+        <div class="confirmation-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        </div>
+        <h1>Message envoyé !</h1>
+        <p class="confirmation-text">
+          Merci de nous avoir contactés. Nous avons bien reçu votre message
+          et nous vous répondrons dans les plus brefs délais.
+        </p>
+        <p class="confirmation-delay">
+          Délai de réponse habituel : <strong>48h ouvrées</strong>
+        </p>
+        <a href="/" class="btn btn-primary">Retour à l'accueil</a>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .confirmation {
+    padding: 8rem 0 6rem;
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+  }
+
+  .confirmation-card {
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+    background: white;
+    padding: 4rem 3rem;
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-lg);
+    border: 1px solid rgba(35, 61, 76, 0.08);
+  }
+
+  .confirmation-icon {
+    color: #22c55e;
+    margin-bottom: 2rem;
+  }
+
+  .confirmation-card h1 {
+    font-size: clamp(2rem, 4vw, 2.5rem);
+    color: var(--color-primary);
+    margin-bottom: 1.5rem;
+    font-family: var(--font-heading);
+    font-style: italic;
+  }
+
+  .confirmation-text {
+    font-size: 1.15rem;
+    color: #6B7280;
+    line-height: 1.7;
+    margin-bottom: 1rem;
+  }
+
+  .confirmation-delay {
+    font-size: 1rem;
+    color: #6B7280;
+    margin-bottom: 2.5rem;
+  }
+
+  @media (max-width: 768px) {
+    .confirmation {
+      padding: 5rem 0 3rem;
+    }
+
+    .confirmation-card {
+      padding: 3rem 2rem;
+    }
+  }
+</style>

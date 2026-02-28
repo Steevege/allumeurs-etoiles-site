@@ -25,10 +25,11 @@ import Icon from '../components/Icon.astro';
         <div class="contact-form-wrapper">
           <h2>Envoyez-nous un message</h2>
           
-          <form 
-            name="contact" 
-            method="POST" 
-            data-netlify="true" 
+          <form
+            name="contact"
+            method="POST"
+            action="/contact-confirme"
+            data-netlify="true"
             netlify-honeypot="bot-field"
             class="contact-form"
           >
