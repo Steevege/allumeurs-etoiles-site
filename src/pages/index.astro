@@ -9,8 +9,34 @@ const spectacles = (await getCollection('spectacles'))
   .sort((a, b) => a.data.order - b.data.order)
   .slice(0, 3);
 
-// URL Google Sheets pour les événements (chargés côté client)
-const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS3-HCSDkdEewDoHs6gbNh2Nvml9XWR4K_D615oT8HhDii3O6vVn_978i8K9PZWY-Wr1hD1yr8YqlNq/pub?output=csv';
+// Dates de tournée (les 3 prochaines affichées sur la homepage)
+const allEvents = [
+  { spectacle: "Spectacle scolaire", date: "2026-03-26", ville: "Aire-sur-la-Lys (62)" },
+  { spectacle: "Festychant", date: "2026-04-01", ville: "Landerneau (29)" },
+  { spectacle: "Il était 2 foi(s)", date: "2026-04-08", ville: "Angers (49)" },
+  { spectacle: "J'ai ouvert le livre", date: "2026-04-18", ville: "Pas-en-Artois (62)" },
+  { spectacle: "Spectacle congrès", date: "2026-05-08", ville: "Clermont-Ferrand (63)" },
+  { spectacle: "Spectacle congrès", date: "2026-05-09", ville: "Clermont-Ferrand (63)" },
+  { spectacle: "Spectacle congrès", date: "2026-05-10", ville: "Clermont-Ferrand (63)" },
+  { spectacle: "Festychant", date: "2026-05-20", ville: "Lisieux (14)" },
+  { spectacle: "J'ai ouvert le livre", date: "2026-05-23", ville: "Dijon (21)" },
+  { spectacle: "Festychant", date: "2026-05-30", ville: "Lisieux (14)" },
+  { spectacle: "Festychant", date: "2026-06-03", ville: "Lisieux (14)" },
+  { spectacle: "Festychant", date: "2026-06-06", ville: "Lisieux (14)" },
+  { spectacle: "Festychant MCR", date: "2026-09-24", ville: "Saint-Omer (62)" },
+  { spectacle: "Festival Biblique", date: "2026-10-12", ville: "Clermont-Ferrand (63)" },
+  { spectacle: "Festival Biblique", date: "2026-10-13", ville: "Clermont-Ferrand (63)" },
+  { spectacle: "Festival Biblique", date: "2026-10-14", ville: "Clermont-Ferrand (63)" },
+  { spectacle: "Festival Biblique", date: "2026-10-15", ville: "Clermont-Ferrand (63)" },
+  { spectacle: "Festival Biblique", date: "2026-10-16", ville: "Clermont-Ferrand (63)" },
+];
+
+const today = new Date();
+today.setHours(0, 0, 0, 0);
+const upcomingEvents = allEvents
+  .filter(e => new Date(e.date) >= today)
+  .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+  .slice(0, 3);
 
 // Récupérer l'actualité mise en avant
 const featuredNews = (await getCollection('news'))
@@ -112,19 +138,42 @@ const featuredNews = (await getCollection('news'))
     </div>
   </section>
 
-  <!-- Prochains événements (chargés depuis Google Sheets) -->
-  <section class="events-section" id="events-section" style="display:none">
-    <div class="container">
-      <h2 class="section-title">Prochaines Dates</h2>
-      <p class="section-subtitle">Venez nous voir en tournée !</p>
+  <!-- Prochains événements -->
+  {upcomingEvents.length > 0 && (
+    <section class="events-section">
+      <div class="container">
+        <h2 class="section-title">Prochaines Dates</h2>
+        <p class="section-subtitle">Venez nous voir en tournée !</p>
 
-      <div id="home-events" class="events-grid"></div>
+        <div class="events-grid">
+          {upcomingEvents.map(event => {
+            const d = new Date(event.date);
+            const day = d.toLocaleDateString('fr-FR', { day: '2-digit' });
+            const month = d.toLocaleDateString('fr-FR', { month: 'short' });
+            return (
+              <article class="event-card">
+                <div class="event-date">
+                  <span class="date-day">{day}</span>
+                  <span class="date-month">{month}</span>
+                </div>
+                <div class="event-details">
+                  <h3>{event.spectacle}</h3>
+                  <p class="event-venue">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                    {event.ville}
+                  </p>
+                </div>
+              </article>
+            );
+          })}
+        </div>
 
-      <div class="section-cta">
-        <a href="/tournee" class="btn btn-primary">Voir tout le calendrier</a>
+        <div class="section-cta">
+          <a href="/tournee" class="btn btn-primary">Voir tout le calendrier</a>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
+  )}
 
   <!-- Appel à l'action final -->
   <section class="cta-section">
@@ -135,102 +184,6 @@ const featuredNews = (await getCollection('news'))
     </div>
   </section>
 </Layout>
-
-<script define:vars={{ SHEET_CSV_URL }}>
-  // Échappement HTML pour éviter les injections XSS
-  function escapeHTML(str) {
-    if (!str) return '';
-    return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-  }
-
-  function parseLine(line) {
-    const result = [];
-    let current = '';
-    let inQuotes = false;
-    for (const char of line) {
-      if (char === '"') { inQuotes = !inQuotes; }
-      else if (char === ',' && !inQuotes) { result.push(current); current = ''; }
-      else { current += char; }
-    }
-    result.push(current);
-    return result;
-  }
-
-  function parseCSV(text) {
-    const lines = text.trim().split('\n');
-    const headers = parseLine(lines[0]).map(h => h.trim());
-    return lines.slice(1)
-      .map(line => {
-        const values = parseLine(line);
-        const obj = {};
-        headers.forEach((h, i) => obj[h] = (values[i] || '').trim());
-        return obj;
-      })
-      .filter(row => row['Date'] && row['Spectacle']);
-  }
-
-  function parseDate(dateStr) {
-    if (!dateStr) return new Date(0);
-    if (dateStr.includes('/')) {
-      const parts = dateStr.split('/');
-      return new Date(parts[2], parts[1] - 1, parts[0]);
-    }
-    return new Date(dateStr);
-  }
-
-  // Icônes SVG inline
-  const svgAttrs = 'xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"';
-  const iconPin = `<svg ${svgAttrs}><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>`;
-  const iconClock = `<svg ${svgAttrs}><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`;
-
-  async function loadHomeEvents() {
-    try {
-      const response = await fetch(SHEET_CSV_URL);
-      if (!response.ok) return;
-      const csv = await response.text();
-      const events = parseCSV(csv);
-
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
-
-      const upcoming = events
-        .filter(e => parseDate(e['Date']) >= today)
-        .sort((a, b) => parseDate(a['Date']) - parseDate(b['Date']))
-        .slice(0, 3);
-
-      if (upcoming.length === 0) return;
-
-      const container = document.getElementById('home-events');
-      container.innerHTML = upcoming.map(event => {
-        const date = parseDate(event['Date']);
-        const day = date.toLocaleDateString('fr-FR', { day: '2-digit' });
-        const month = date.toLocaleDateString('fr-FR', { month: 'short' });
-        let html = `
-          <article class="event-card">
-            <div class="event-date">
-              <span class="date-day">${day}</span>
-              <span class="date-month">${month}</span>
-            </div>
-            <div class="event-details">
-              <h3>${escapeHTML(event['Spectacle'])}</h3>
-              <p class="event-venue">${iconPin} ${escapeHTML(event['Lieu'])}, ${escapeHTML(event['Ville'])}</p>
-              <p class="event-time">${iconClock} ${escapeHTML(event['Heure'])}</p>`;
-        if (event['Lien billetterie']) {
-          const url = escapeHTML(event['Lien billetterie']);
-          html += `<a href="${url}" target="_blank" rel="noopener" class="btn-link">Réserver \u2192</a>`;
-        }
-        html += `</div></article>`;
-        return html;
-      }).join('');
-
-      document.getElementById('events-section').style.display = '';
-    } catch (error) {
-      console.error('Erreur chargement événements:', error);
-    }
-  }
-
-  loadHomeEvents();
-</script>
 
 <style>
   /* Hero Section - Design théâtral avec overlay dégradé */
