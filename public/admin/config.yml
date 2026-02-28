@@ -15,7 +15,22 @@ locale: 'fr'
 
 # Collections éditables par les bénévoles
 collections:
-  # Note: Les événements de tournée sont gérés via Google Sheets (pas dans le CMS)
+  # DATES DE TOURNÉE
+  - name: "events"
+    label: "Dates de tournée"
+    label_singular: "Date"
+    folder: "src/content/events"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    extension: "md"
+    format: "frontmatter"
+    sortable_fields: ["date", "spectacle", "ville"]
+    fields:
+      - {label: "Spectacle", name: "spectacle", widget: "string", hint: "Nom du spectacle ou de l'événement"}
+      - {label: "Date", name: "date", widget: "datetime", format: "YYYY-MM-DD", time_format: false}
+      - {label: "Ville", name: "ville", widget: "string", hint: "Ex: Angers (49)"}
+      - {label: "Lieu", name: "lieu", widget: "string", required: false, hint: "Ex: Théâtre Municipal (optionnel)"}
+      - {label: "Heure", name: "heure", widget: "string", required: false, hint: "Ex: 20h30 (optionnel)"}
 
   # ACTUALITÉS HOMEPAGE
   - name: "news"

@@ -1,50 +1,38 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
 
-// Dates de tournée (mises à jour manuellement)
-const events = [
-  { spectacle: "Spectacle scolaire", date: "2026-03-26", ville: "Aire-sur-la-Lys (62)" },
-  { spectacle: "Festychant", date: "2026-04-01", ville: "Landerneau (29)" },
-  { spectacle: "Il était 2 foi(s)", date: "2026-04-08", ville: "Angers (49)" },
-  { spectacle: "J'ai ouvert le livre", date: "2026-04-18", ville: "Pas-en-Artois (62)" },
-  { spectacle: "Spectacle congrès", date: "2026-05-08", ville: "Clermont-Ferrand (63)" },
-  { spectacle: "Spectacle congrès", date: "2026-05-09", ville: "Clermont-Ferrand (63)" },
-  { spectacle: "Spectacle congrès", date: "2026-05-10", ville: "Clermont-Ferrand (63)" },
-  { spectacle: "Festychant", date: "2026-05-20", ville: "Lisieux (14)" },
-  { spectacle: "J'ai ouvert le livre", date: "2026-05-23", ville: "Dijon (21)" },
-  { spectacle: "Festychant", date: "2026-05-30", ville: "Lisieux (14)" },
-  { spectacle: "Festychant", date: "2026-06-03", ville: "Lisieux (14)" },
-  { spectacle: "Festychant", date: "2026-06-06", ville: "Lisieux (14)" },
-  { spectacle: "Festychant MCR", date: "2026-09-24", ville: "Saint-Omer (62)" },
-  { spectacle: "Festival Biblique", date: "2026-10-12", ville: "Clermont-Ferrand (63)" },
-  { spectacle: "Festival Biblique", date: "2026-10-13", ville: "Clermont-Ferrand (63)" },
-  { spectacle: "Festival Biblique", date: "2026-10-14", ville: "Clermont-Ferrand (63)" },
-  { spectacle: "Festival Biblique", date: "2026-10-15", ville: "Clermont-Ferrand (63)" },
-  { spectacle: "Festival Biblique", date: "2026-10-16", ville: "Clermont-Ferrand (63)" },
-];
+// Dates de tournée depuis le CMS
+const allEvents = (await getCollection('events')).map(e => ({
+  spectacle: e.data.spectacle,
+  date: e.data.date,
+  ville: e.data.ville,
+  lieu: e.data.lieu,
+  heure: e.data.heure,
+}));
 
 const today = new Date();
 today.setHours(0, 0, 0, 0);
 
-const upcoming = events
-  .filter(e => new Date(e.date) >= today)
-  .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+const upcoming = allEvents
+  .filter(e => e.date >= today)
+  .sort((a, b) => a.date.getTime() - b.date.getTime());
 
-const past = events
-  .filter(e => new Date(e.date) < today)
-  .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+const past = allEvents
+  .filter(e => e.date < today)
+  .sort((a, b) => b.date.getTime() - a.date.getTime());
 
-function formatDay(dateStr: string) {
-  return new Date(dateStr).toLocaleDateString('fr-FR', { day: '2-digit' });
+function formatDay(date: Date) {
+  return date.toLocaleDateString('fr-FR', { day: '2-digit' });
 }
-function formatMonth(dateStr: string) {
-  return new Date(dateStr).toLocaleDateString('fr-FR', { month: 'short' });
+function formatMonth(date: Date) {
+  return date.toLocaleDateString('fr-FR', { month: 'short' });
 }
-function formatYear(dateStr: string) {
-  return new Date(dateStr).getFullYear().toString();
+function formatYear(date: Date) {
+  return date.getFullYear().toString();
 }
-function formatDateCompact(dateStr: string) {
-  return new Date(dateStr).toLocaleDateString('fr-FR', { day: '2-digit', month: 'short', year: 'numeric' });
+function formatDateCompact(date: Date) {
+  return date.toLocaleDateString('fr-FR', { day: '2-digit', month: 'short', year: 'numeric' });
 }
 ---
 
@@ -79,8 +67,14 @@ function formatDateCompact(dateStr: string) {
                 <h3>{event.spectacle}</h3>
                 <p class="event-venue">
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                  {event.ville}
+                  {event.ville}{event.lieu && ` — ${event.lieu}`}
                 </p>
+                {event.heure && (
+                  <p class="event-time">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    {event.heure}
+                  </p>
+                )}
               </div>
             </article>
           ))}

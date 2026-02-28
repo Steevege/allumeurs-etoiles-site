@@ -17,7 +17,17 @@ const spectaclesCollection = defineCollection({
   }),
 });
 
-// Note: Les événements de tournée sont gérés via Google Sheets (pas de collection Astro)
+// Collection Événements de tournée (éditable via CMS)
+const eventsCollection = defineCollection({
+  type: 'content',
+  schema: z.object({
+    spectacle: z.string(),
+    date: z.date(),
+    ville: z.string(),
+    lieu: z.string().optional(),
+    heure: z.string().optional(),
+  }),
+});
 
 // Collection Actualités (éditable CMS, affichage homepage)
 const newsCollection = defineCollection({
@@ -48,6 +58,7 @@ const blogCollection = defineCollection({
 
 export const collections = {
   spectacles: spectaclesCollection,
+  events: eventsCollection,
   news: newsCollection,
   blog: blogCollection,
 };
