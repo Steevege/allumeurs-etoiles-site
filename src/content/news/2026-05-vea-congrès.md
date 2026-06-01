@@ -3,7 +3,7 @@ title: VEA congrès
 date: 2026-05-12
 excerpt: VEA, c’est d’abord une équipe d’hommes et de femmes, qui se rencontrent pour réfléchir à ce qu’ils vivent…
 featured: false
-image: ''
+image: /images/uploads/congrès Clermont 177.jpg
 category: actualites
 ---
 
