@@ -4,7 +4,7 @@ subtitle: "Spectacle concert interactif"
 description: "Spectacle concert interactif clé en main ou à construire ensemble ! 2h00 de musique et de partage pour tous les publics."
 duration: "2h00"
 audience: "Tous publics"
-image: "/images/spectacles/en-concert.jpg"
+image: "/images/spectacles/en-concert-2026.jpg"
 order: 0
 active: true
 ---
