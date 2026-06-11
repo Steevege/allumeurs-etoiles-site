@@ -4,7 +4,7 @@ subtitle: "Stand-up chanté par Steeve Gernez"
 description: "Un stand-up chanté pour les classes de 6ème et 5ème : entre chansons, dialogue et témoignage, Steeve invite les jeunes à réfléchir ensemble sur le monde et sur ce qui nous rassemble."
 duration: "45 min à 1h"
 audience: "Scolaires — classes de 6ème / 5ème"
-image: "/images/spectacles/en-concert.jpg"
+image: "/images/spectacles/bien-ou-bien.jpg"
 order: 7
 active: true
 ---
