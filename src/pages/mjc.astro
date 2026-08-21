@@ -53,9 +53,9 @@ const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Play',
   name: 'Monsieur Jésus-Christ',
-  alternativeHeadline: 'Le livre monte sur scène',
+  alternativeHeadline: "Je voudrais vous parler d'un ami",
   description:
-    "Seul-en-scène de Steeve Gernez, mis en scène par Jacques Montembault, d'après le livre de Patrick Richard. Spectacle actuellement en création.",
+    "Un seul en scène dans lequel Steeve Gernez vient parler de Jésus comme d'un ami, avec du pain, de l'humour et des questions. D'après le livre de Patrick Richard. Spectacle en création.",
   url: 'https://allumeursdetoiles.com/mjc/',
   image: 'https://allumeursdetoiles.com/images/mjc/partage-mjc.jpg',
   inLanguage: 'fr',
@@ -75,11 +75,11 @@ const jsonLd = {
 
 <Layout
   title="Monsieur Jésus-Christ — Seul en scène"
-  description="Découvrez Monsieur Jésus-Christ, le nouveau seul-en-scène de Steeve Gernez, mis en scène par Jacques Montembault et inspiré du livre de Patrick Richard."
-  ogTitle="Monsieur Jésus-Christ — Le livre monte sur scène"
-  ogDescription="Découvrez la création du nouveau seul-en-scène de Steeve Gernez, d'après le livre de Patrick Richard."
+  description="Steeve Gernez vient parler de Jésus comme d'un ami, avec du pain, de l'humour et des questions. Un seul en scène d'après le livre de Patrick Richard."
+  ogTitle="Monsieur Jésus-Christ — Je voudrais vous parler d'un ami"
+  ogDescription="Un seul en scène de Steeve Gernez qui ne demande pas au public ce qu'il croit, mais ce qu'il cherche. D'après le livre de Patrick Richard."
   ogImage="/images/mjc/partage-mjc.jpg"
-  ogImageAlt="Monsieur Jésus-Christ — Le livre monte sur scène"
+  ogImageAlt="Monsieur Jésus-Christ — Je voudrais vous parler d'un ami"
 >
   <Fragment slot="head">
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
@@ -99,7 +99,7 @@ const jsonLd = {
 
           <div class="mjc-rule reveal" style="--d: 180ms" aria-hidden="true"></div>
 
-          <p class="mjc-signature reveal" style="--d: 240ms">Le livre monte sur scène</p>
+          <p class="mjc-signature reveal" style="--d: 240ms">Je voudrais vous parler d'un ami.</p>
 
           <p class="mjc-status reveal" style="--d: 300ms">
             <span class="mjc-status-dot" aria-hidden="true"></span>
@@ -107,7 +107,7 @@ const jsonLd = {
           </p>
 
           <p class="mjc-lead reveal" style="--d: 380ms">
-            « Qui est Jésus lorsqu'on le regarde d'abord comme un homme ? »
+            Un spectacle qui ne demande pas au public ce qu'il croit, mais ce qu'il cherche.
           </p>
 
           <div class="mjc-hero-cta reveal" style="--d: 460ms">
@@ -149,20 +149,23 @@ const jsonLd = {
     <!-- ================= 2. PRÉSENTATION ================= -->
     <section class="mjc-section" id="le-projet">
       <div class="mjc-wrap">
-        <h2 class="mjc-h2">Un homme avant une figure</h2>
+        <h2 class="mjc-h2">Un ami avant une figure</h2>
 
         <div class="mjc-columns">
           <div class="mjc-prose">
             <p class="mjc-prose-lead">
-              Qui est Jésus lorsqu'on le regarde d'abord comme un homme ?
+              Jésus. Cinq lettres, et déjà tout le monde a un avis.
             </p>
             <p>
-              Dans ce seul-en-scène, Steeve Gernez donne corps et voix à un Jésus proche, vivant et
-              profondément humain. Un homme qui doute, qui questionne, qui partage et qui nous invite
-              à regarder autrement ce qui nous relie.
+              Dans ce seul en scène, Steeve Gernez ne cherche ni à convaincre, ni à convertir, ni à
+              avoir raison. Il vient parler d'un ami. Avec du pain, de l'humour et quelques
+              questions, il cherche l'homme derrière la figure : celui qui marche, qui mange avec
+              ceux qu'on n'invite pas, qui touche ceux que plus personne ne touche et qui reste
+              présent dans la nuit.
             </p>
             <p>
-              Un spectacle à la croisée du théâtre, de la parole et de la rencontre.
+              Une parole personnelle, drôle et profondément humaine, adressée à ceux qui croient, à
+              ceux qui doutent et à ceux qui se demandent simplement où va cet homme avec son pain.
             </p>
           </div>
 
@@ -1138,8 +1141,8 @@ const jsonLd = {
     // Lien partagé toujours propre : sans les paramètres de campagne du QR code
     const shareUrl = window.location.origin + window.location.pathname;
     const shareData = {
-      title: 'Monsieur Jésus-Christ — Le livre monte sur scène',
-      text: "Découvrez la création du nouveau seul-en-scène de Steeve Gernez, d'après le livre de Patrick Richard.",
+      title: "Monsieur Jésus-Christ — Je voudrais vous parler d'un ami",
+      text: "Un seul en scène de Steeve Gernez qui ne demande pas au public ce qu'il croit, mais ce qu'il cherche.",
       url: shareUrl,
     };
 
