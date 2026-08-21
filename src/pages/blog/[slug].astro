@@ -228,6 +228,26 @@ const categoryLabels: Record<string, string> = {
     font-weight: 600;
   }
 
+  /* Liens dans le corps de l'article : doivent se distinguer du texte courant */
+  .prose :global(a) {
+    color: #9e4e32;
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
+    transition: color 0.3s ease;
+  }
+
+  .prose :global(a:hover) {
+    color: var(--color-primary);
+    text-decoration-thickness: 2px;
+  }
+
+  .prose :global(a:focus-visible) {
+    outline: 3px solid #9e4e32;
+    outline-offset: 2px;
+  }
+
   .article-footer {
     max-width: 750px;
     margin: var(--spacing-lg) auto 0;
