@@ -48,6 +48,7 @@ collections:
       - {label: "Afficher sur homepage ?", name: "featured", widget: "boolean", default: false}
       - {label: "Image", name: "image", widget: "image", required: false}
       - {label: "Catégorie", name: "category", widget: "select", options: ["actualites", "coulisses", "temoignages"], default: "actualites"}
+      - {label: "Projet associé", name: "project", widget: "select", required: false, options: [{label: "Monsieur Jésus-Christ", value: "mjc"}], hint: "Laisser vide sauf si l'actualité concerne la création de Monsieur Jésus-Christ (elle remontera alors sur la page /mjc)"}
       - {label: "Contenu complet", name: "body", widget: "markdown"}
 
   # SPECTACLES (Administration uniquement - rarement modifié)
@@ -88,4 +89,5 @@ collections:
       - {label: "Image mise en avant", name: "image", widget: "image", required: false}
       - {label: "Catégorie", name: "category", widget: "select", options: ["actualites", "coulisses", "temoignages"], default: "actualites"}
       - {label: "Tags", name: "tags", widget: "list", required: false}
+      - {label: "Projet associé", name: "project", widget: "select", required: false, options: [{label: "Monsieur Jésus-Christ", value: "mjc"}], hint: "Laisser vide sauf si l'actualité concerne la création de Monsieur Jésus-Christ (elle remontera alors sur la page /mjc)"}
       - {label: "Contenu", name: "body", widget: "markdown"}

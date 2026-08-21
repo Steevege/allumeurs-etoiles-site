@@ -2,11 +2,22 @@
 import Layout from '../layouts/Layout.astro';
 import Icon from '../components/Icon.astro';
 import { getCollection } from 'astro:content';
+import { getImage } from 'astro:assets';
+import mjcScene from '../assets/mjc/scene-paysage.jpg';
 
 // Récupérer tous les spectacles actifs
 const spectacles = (await getCollection('spectacles'))
   .filter(s => s.data.active)
   .sort((a, b) => a.data.order - b.data.order);
+
+// Visuel de la création en cours (cadrage paysage, sans la typographie de l'affiche)
+const mjcImage = await getImage({
+  src: mjcScene,
+  format: 'webp',
+  widths: [420, 640, 900],
+  sizes: '(min-width: 900px) 40vw, 100vw',
+  quality: 80,
+});
 ---
 
 <Layout 
@@ -26,6 +37,38 @@ const spectacles = (await getCollection('spectacles'))
   <!-- Liste des spectacles -->
   <section class="spectacles-list">
     <div class="container">
+      <!-- Création en cours : renvoie vers la page dédiée /mjc -->
+      <article class="mjc-card">
+        <a href="/mjc" class="mjc-card-media" tabindex="-1" aria-hidden="true">
+          <img
+            src={mjcImage.src}
+            srcset={mjcImage.srcSet.attribute}
+            sizes="(min-width: 900px) 40vw, 100vw"
+            alt=""
+            width="1600"
+            height="1066"
+            loading="lazy"
+            decoding="async"
+          />
+        </a>
+        <div class="mjc-card-body">
+          <p class="mjc-card-status">
+            <span class="mjc-card-dot" aria-hidden="true"></span>
+            En création
+          </p>
+          <h2 class="mjc-card-title">
+            <span>Monsieur</span>
+            Jésus-Christ
+          </h2>
+          <p class="mjc-card-baseline">Le livre monte sur scène</p>
+          <p class="mjc-card-text">
+            Un seul-en-scène de Steeve Gernez, mis en scène par Jacques Montembault, d'après le livre
+            de Patrick Richard. Les répétitions ont commencé : suivez les étapes de la création.
+          </p>
+          <a href="/mjc" class="mjc-card-btn">Découvrir le projet →</a>
+        </div>
+      </article>
+
       <div class="spectacles-grid">
         {spectacles.map((spectacle) => (
           <article class="spectacle-card">
@@ -286,6 +329,141 @@ const spectacles = (await getCollection('spectacles'))
 
     .card-content {
       padding: 2rem;
+    }
+  }
+
+  /* ============================================================
+     Carte « En création » (Monsieur Jésus-Christ)
+     Placée hors de la grille pour ne pas décaler l'alternance
+     gauche/droite des fiches existantes. Palette de l'affiche.
+     ============================================================ */
+  .mjc-card {
+    display: grid;
+    gap: 0;
+    margin-bottom: 4rem;
+    background-color: #f7f0e2;
+    border: 1px solid rgba(36, 49, 58, 0.12);
+    border-top: 4px solid #9e4e32;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+  }
+
+  .mjc-card-media {
+    display: block;
+    min-height: 220px;
+  }
+
+  .mjc-card-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    aspect-ratio: 3 / 2;
+  }
+
+  .mjc-card-body {
+    padding: clamp(1.75rem, 4vw, 3rem);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+  }
+
+  .mjc-card-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    margin: 0 0 1.25rem;
+    padding: 0.4rem 1rem;
+    border: 1px solid rgba(158, 78, 50, 0.4);
+    border-radius: 999px;
+    background-color: rgba(158, 78, 50, 0.07);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #9e4e32;
+  }
+
+  .mjc-card-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background-color: #9e4e32;
+  }
+
+  .mjc-card-title {
+    margin: 0 0 0.75rem;
+    color: #24313a;
+    font-family: var(--font-heading);
+    font-style: normal;
+    font-weight: 900;
+    font-size: clamp(1.9rem, 4vw, 3rem);
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+  }
+
+  .mjc-card-title span {
+    display: block;
+    font-size: 0.45em;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    margin-bottom: 0.15em;
+  }
+
+  .mjc-card-baseline {
+    margin: 0 0 1.25rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #9e4e32;
+  }
+
+  .mjc-card-text {
+    margin: 0 0 2rem;
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: #4e5b63;
+  }
+
+  .mjc-card-btn {
+    display: inline-block;
+    padding: 0.9rem 2rem;
+    background-color: #9e4e32;
+    color: #fff;
+    border-radius: 2px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: background-color 0.25s ease, transform 0.25s ease;
+  }
+
+  .mjc-card-btn:hover {
+    background-color: #b85c39;
+    color: #fff;
+    transform: translateY(-2px);
+  }
+
+  .mjc-card-btn:focus-visible {
+    outline: 3px solid #24313a;
+    outline-offset: 3px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .mjc-card-btn:hover {
+      transform: none;
+    }
+  }
+
+  @media (min-width: 900px) {
+    .mjc-card {
+      grid-template-columns: 1fr 1.3fr;
+    }
+
+    .mjc-card-media img {
+      aspect-ratio: auto;
     }
   }
 </style>

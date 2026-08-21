@@ -2,6 +2,17 @@
 import Layout from '../layouts/Layout.astro';
 import Icon from '../components/Icon.astro';
 import { getCollection } from 'astro:content';
+import { getImage } from 'astro:assets';
+import mjcScene from '../assets/mjc/scene-paysage.jpg';
+
+// Visuel de la nouvelle création (cadrage paysage, sans la typographie de l'affiche)
+const mjcImage = await getImage({
+  src: mjcScene,
+  format: 'webp',
+  widths: [480, 720, 960, 1280],
+  sizes: '(min-width: 900px) 46vw, 100vw',
+  quality: 80,
+});
 
 // Récupérer les spectacles actifs
 const spectacles = (await getCollection('spectacles'))
@@ -53,6 +64,34 @@ const featuredNews = (await getCollection('news'))
           <span class="stat-number">Des milliers</span>
           <span class="stat-label">de représentations</span>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Nouvelle création mise en avant : Monsieur Jésus-Christ -->
+  <section class="mjc-feature">
+    <div class="mjc-feature-inner">
+      <div class="mjc-feature-media">
+        <img
+          src={mjcImage.src}
+          srcset={mjcImage.srcSet.attribute}
+          sizes="(min-width: 900px) 46vw, 100vw"
+          alt="Une chaise de théâtre en bois, vide, derrière une table où repose un pain rompu"
+          width="1600"
+          height="1066"
+          loading="lazy"
+          decoding="async"
+        />
+      </div>
+      <div class="mjc-feature-text">
+        <p class="mjc-feature-tag">Nouvelle création</p>
+        <h2 class="mjc-feature-title">
+          <span>Monsieur</span>
+          Jésus-Christ
+        </h2>
+        <div class="mjc-feature-rule" aria-hidden="true"></div>
+        <p class="mjc-feature-baseline">Le livre monte sur scène.</p>
+        <a href="/mjc" class="mjc-feature-btn">Découvrir le projet</a>
       </div>
     </div>
   </section>
@@ -611,6 +650,132 @@ const featuredNews = (await getCollection('news'))
 
     .section-title {
       font-size: 2rem;
+    }
+  }
+
+  /* ============================================================
+     Nouvelle création « Monsieur Jésus-Christ »
+     Bandeau éditorial : palette crème / anthracite / terre cuite
+     reprise de l'affiche, volontairement plus forte que les cartes
+     spectacles habituelles.
+     ============================================================ */
+  .mjc-feature {
+    background-color: #f7f0e2;
+    border-top: 1px solid rgba(36, 49, 58, 0.1);
+    border-bottom: 1px solid rgba(36, 49, 58, 0.1);
+  }
+
+  .mjc-feature-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: grid;
+    align-items: stretch;
+  }
+
+  .mjc-feature-media {
+    position: relative;
+    min-height: 260px;
+  }
+
+  .mjc-feature-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    aspect-ratio: 1600 / 1066;
+  }
+
+  .mjc-feature-text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    padding: clamp(2.5rem, 6vw, 4.5rem) clamp(1.5rem, 5vw, 4rem);
+  }
+
+  .mjc-feature-tag {
+    margin: 0 0 1.25rem;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: #9e4e32;
+  }
+
+  .mjc-feature-title {
+    margin: 0;
+    color: #24313a;
+    font-family: var(--font-heading);
+    font-style: normal;
+    font-weight: 900;
+    font-size: clamp(2.1rem, 5vw, 3.6rem);
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+  }
+
+  .mjc-feature-title span {
+    display: block;
+    font-size: 0.46em;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    margin-bottom: 0.15em;
+  }
+
+  .mjc-feature-rule {
+    width: 68px;
+    height: 4px;
+    margin: 1.5rem 0 1.25rem;
+    background-color: #9e4e32;
+    border-radius: 2px;
+  }
+
+  .mjc-feature-baseline {
+    margin: 0 0 2rem;
+    font-size: clamp(1.05rem, 2.2vw, 1.3rem);
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    color: #4e5b63;
+  }
+
+  .mjc-feature-btn {
+    display: inline-block;
+    padding: 0.95rem 2.1rem;
+    background-color: #9e4e32;
+    color: #fff;
+    border-radius: 2px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: background-color 0.25s ease, transform 0.25s ease;
+  }
+
+  .mjc-feature-btn:hover {
+    background-color: #b85c39;
+    color: #fff;
+    transform: translateY(-2px);
+  }
+
+  .mjc-feature-btn:focus-visible {
+    outline: 3px solid #24313a;
+    outline-offset: 3px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .mjc-feature-btn:hover {
+      transform: none;
+    }
+  }
+
+  @media (min-width: 900px) {
+    .mjc-feature-inner {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .mjc-feature-media img {
+      aspect-ratio: auto;
+      position: absolute;
+      inset: 0;
     }
   }
 </style>

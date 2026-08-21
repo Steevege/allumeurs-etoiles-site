@@ -76,6 +76,8 @@ import Icon from '../components/Icon.astro';
               <select id="subject" name="subject" required>
                 <option value="">Sélectionnez un sujet</option>
                 <option value="reservation">Demande de réservation spectacle</option>
+                <option value="programmation-mjc">Programmation — Monsieur Jésus-Christ</option>
+                <option value="suivi-mjc">Suivre la création — Monsieur Jésus-Christ</option>
                 <option value="partenariat">Proposition de partenariat</option>
                 <option value="info">Demande d'information</option>
                 <option value="presse">Demande presse</option>
@@ -265,8 +267,14 @@ import Icon from '../components/Icon.astro';
 
   .contact-grid {
     display: grid;
-    grid-template-columns: 1.5fr 1fr;
+    grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
     gap: 5rem;
+  }
+
+  /* Autorise les colonnes à se réduire réellement sous la largeur de leur contenu */
+  .contact-form-wrapper,
+  .contact-info {
+    min-width: 0;
   }
 
   .contact-form-wrapper h2 {
@@ -354,6 +362,14 @@ import Icon from '../components/Icon.astro';
     gap: 1.5rem;
     margin-bottom: 1.5rem;
     align-items: start;
+  }
+
+  .info-item > div {
+    min-width: 0;
+  }
+
+  .info-item a {
+    overflow-wrap: anywhere;
   }
 
   .info-item:last-child {
@@ -479,7 +495,7 @@ import Icon from '../components/Icon.astro';
     }
 
     .contact-grid {
-      grid-template-columns: 1fr;
+      grid-template-columns: minmax(0, 1fr);
       gap: 3rem;
     }
 
@@ -492,3 +508,18 @@ import Icon from '../components/Icon.astro';
     }
   }
 </style>
+
+<script>
+  // Présélection du sujet depuis l'URL : /contact?sujet=programmation-mjc
+  // La page reste parfaitement fonctionnelle sans ce paramètre.
+  document.addEventListener('DOMContentLoaded', () => {
+    const demande = new URLSearchParams(window.location.search).get('sujet');
+    if (!demande) return;
+
+    const select = document.getElementById('subject');
+    if (!(select instanceof HTMLSelectElement)) return;
+
+    const existe = Array.from(select.options).some((option) => option.value === demande);
+    if (existe) select.value = demande;
+  });
+</script>

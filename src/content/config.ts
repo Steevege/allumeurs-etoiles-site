@@ -39,6 +39,8 @@ const newsCollection = defineCollection({
     featured: z.boolean().default(false), // Afficher sur homepage ?
     image: z.string().optional(), // Image mise en avant
     category: z.enum(['actualites', 'coulisses', 'temoignages']).default('actualites'),
+    // Rattachement à un projet éditorial (remontée automatique sur la page dédiée)
+    project: z.enum(['mjc']).optional(),
   }),
 });
 
@@ -53,6 +55,8 @@ const blogCollection = defineCollection({
     image: z.string().optional(),
     category: z.enum(['actualites', 'coulisses', 'temoignages']).default('actualites'),
     tags: z.array(z.string()).optional(),
+    // Rattachement à un projet éditorial (remontée automatique sur la page dédiée)
+    project: z.enum(['mjc']).optional(),
   }),
 });
 

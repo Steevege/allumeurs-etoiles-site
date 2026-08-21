@@ -4,13 +4,36 @@ import '../styles/global.css';
 interface Props {
   title: string;
   description?: string;
+  /** Image de partage réseaux sociaux (chemin absolu depuis la racine du site) */
+  ogImage?: string;
+  /** Texte alternatif de l'image de partage */
+  ogImageAlt?: string;
+  /** Type Open Graph : "website" par défaut, "article" pour un contenu daté */
+  ogType?: string;
+  /** Titre de partage complet, quand il doit différer du titre de l'onglet */
+  ogTitle?: string;
+  /** Texte de partage, quand il doit différer de la meta description SEO */
+  ogDescription?: string;
 }
 
-const { title, description = "Association culturelle proposant des spectacles musicaux et théâtraux pour émouvoir et faire réfléchir" } = Astro.props;
+const {
+  title,
+  description = "Association culturelle proposant des spectacles musicaux et théâtraux pour émouvoir et faire réfléchir",
+  ogImage,
+  ogImageAlt,
+  ogType = 'website',
+  ogTitle,
+  ogDescription,
+} = Astro.props;
+
 const currentPath = Astro.url.pathname;
-const siteUrl = 'https://www.allumeursdetoiles.com';
+// Domaine canonique réel (sans www) : Netlify redirige www -> apex en 301
+const siteUrl = Astro.site?.origin ?? 'https://allumeursdetoiles.com';
 const fullTitle = `${title} | Allumeurs d'Étoiles`;
 const canonicalUrl = new URL(currentPath, siteUrl).href;
+const shareTitle = ogTitle ?? fullTitle;
+const shareDescription = ogDescription ?? description;
+const shareImage = new URL(ogImage ?? '/images/logo-transparent.png', siteUrl).href;
 ---
 
 <!doctype html>
@@ -25,18 +48,26 @@ const canonicalUrl = new URL(currentPath, siteUrl).href;
     <link rel="canonical" href={canonicalUrl} />
 
     <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={ogType} />
     <meta property="og:url" content={canonicalUrl} />
-    <meta property="og:title" content={fullTitle} />
-    <meta property="og:description" content={description} />
-    <meta property="og:image" content={`${siteUrl}/images/logo-transparent.png`} />
+    <meta property="og:title" content={shareTitle} />
+    <meta property="og:description" content={shareDescription} />
+    <meta property="og:image" content={shareImage} />
+    {ogImage && <meta property="og:image:width" content="1200" />}
+    {ogImage && <meta property="og:image:height" content="630" />}
+    {ogImageAlt && <meta property="og:image:alt" content={ogImageAlt} />}
     <meta property="og:locale" content="fr_FR" />
     <meta property="og:site_name" content="Allumeurs d'Étoiles" />
 
     <!-- Twitter -->
-    <meta name="twitter:card" content="summary" />
-    <meta name="twitter:title" content={fullTitle} />
-    <meta name="twitter:description" content={description} />
+    <meta name="twitter:card" content={ogImage ? 'summary_large_image' : 'summary'} />
+    <meta name="twitter:title" content={shareTitle} />
+    <meta name="twitter:description" content={shareDescription} />
+    <meta name="twitter:image" content={shareImage} />
+    {ogImageAlt && <meta name="twitter:image:alt" content={ogImageAlt} />}
+
+    <!-- Métadonnées additionnelles propres à la page (données structurées, etc.) -->
+    <slot name="head" />
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png" />
@@ -56,7 +87,7 @@ const canonicalUrl = new URL(currentPath, siteUrl).href;
         </div>
 
         <!-- Menu principal -->
-        <ul class="nav-menu">
+        <ul class="nav-menu" id="nav-menu">
           <li><a href="/" class={currentPath === '/' ? 'active' : ''}>Accueil</a></li>
           <li><a href="/association" class={currentPath === '/association' ? 'active' : ''}>À propos</a></li>
           <li><a href="/blog" class={currentPath.startsWith('/blog') ? 'active' : ''}>Actualités</a></li>
@@ -67,7 +98,12 @@ const canonicalUrl = new URL(currentPath, siteUrl).href;
         </ul>
 
         <!-- Menu mobile (hamburger) -->
-        <button class="mobile-menu-toggle" aria-label="Menu">
+        <button
+          class="mobile-menu-toggle"
+          aria-label="Menu"
+          aria-expanded="false"
+          aria-controls="nav-menu"
+        >
           <span></span>
           <span></span>
           <span></span>
@@ -98,6 +134,12 @@ const canonicalUrl = new URL(currentPath, siteUrl).href;
           <div class="footer-col">
             <h3>Spectacles</h3>
             <ul>
+              <li>
+                <a href="/mjc" class="footer-highlight">
+                  Monsieur Jésus-Christ
+                  <span class="footer-tag">Nouvelle création</span>
+                </a>
+              </li>
               <li><a href="/spectacles">Tous nos spectacles</a></li>
               <li><a href="/tournee">Calendrier tournée</a></li>
               <li><a href="/contact">Demande de réservation</a></li>
@@ -274,16 +316,26 @@ const canonicalUrl = new URL(currentPath, siteUrl).href;
         background-color: white;
       }
 
-      /* Menu mobile - Slide organique */
-      @media (max-width: 768px) {
+      /*
+        Menu mobile conservé jusqu'à 900 px : en disposition horizontale, la barre
+        de navigation mesure environ 782 px et débordait sur les tablettes
+        (entre 769 et 855 px de large).
+      */
+      @media (max-width: 900px) {
         .nav-container {
           padding: 1rem 1.5rem;
         }
 
+        /*
+          Le panneau reste à right: 0, donc toujours dans le viewport : un élément
+          en position fixed placé hors écran (right: -100%) élargit le document et
+          fait apparaître une barre de défilement horizontale. Il est ici masqué par
+          visibility/opacity plutôt que déplacé.
+        */
         .nav-menu {
           position: fixed;
           top: 0;
-          right: -100%;
+          right: 0;
           width: 75%;
           max-width: 300px;
           height: 100vh;
@@ -292,11 +344,46 @@ const canonicalUrl = new URL(currentPath, siteUrl).href;
           padding: 6rem 2rem 2rem;
           gap: 2rem;
           box-shadow: -5px 0 30px rgba(0, 0, 0, 0.3);
-          transition: right 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+          visibility: hidden;
+          opacity: 0;
+          pointer-events: none;
+          transition:
+            opacity 0.35s ease,
+            visibility 0s linear 0.35s;
         }
 
         .nav-menu.active {
-          right: 0;
+          visibility: visible;
+          opacity: 1;
+          pointer-events: auto;
+          transition:
+            opacity 0.35s ease,
+            visibility 0s;
+        }
+
+        /* Les entrées arrivent avec un léger décalage, sans jamais sortir du panneau */
+        .nav-menu li {
+          opacity: 0;
+          transform: translateX(-14px);
+          transition:
+            opacity 0.35s ease 0.08s,
+            transform 0.4s cubic-bezier(0.4, 0, 0.2, 1) 0.08s;
+        }
+
+        .nav-menu.active li {
+          opacity: 1;
+          transform: none;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .nav-menu,
+          .nav-menu li {
+            transition: none;
+          }
+
+          .nav-menu li {
+            transform: none;
+          }
         }
 
         .nav-menu a {
@@ -404,6 +491,26 @@ const canonicalUrl = new URL(currentPath, siteUrl).href;
         width: 100%;
       }
 
+      /* Lien mis en avant dans le footer (nouvelle création) */
+      .footer-highlight {
+        font-weight: 600;
+      }
+
+      .footer-tag {
+        display: inline-block;
+        margin-left: 0.5rem;
+        padding: 0.1rem 0.5rem;
+        border-radius: 999px;
+        background-color: rgba(253, 128, 46, 0.18);
+        border: 1px solid rgba(253, 128, 46, 0.5);
+        color: var(--color-secondary);
+        font-size: 0.7rem;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        white-space: nowrap;
+      }
+
       .social-links {
         display: flex;
         gap: 1.5rem;
@@ -487,9 +594,20 @@ const canonicalUrl = new URL(currentPath, siteUrl).href;
         const body = document.body;
 
         if (mobileMenuToggle && navMenu) {
+          // Ferme le menu et remet, si demandé, le focus sur le bouton
+          const fermerMenu = (rendreLeFocus) => {
+            if (!navMenu.classList.contains('active')) return;
+            navMenu.classList.remove('active');
+            mobileMenuToggle.classList.remove('active');
+            mobileMenuToggle.setAttribute('aria-expanded', 'false');
+            body.style.overflow = '';
+            if (rendreLeFocus) mobileMenuToggle.focus();
+          };
+
           mobileMenuToggle.addEventListener('click', () => {
             const isActive = navMenu.classList.toggle('active');
             mobileMenuToggle.classList.toggle('active');
+            mobileMenuToggle.setAttribute('aria-expanded', isActive ? 'true' : 'false');
 
             // Empêcher scroll quand menu ouvert
             if (isActive) {
@@ -502,20 +620,19 @@ const canonicalUrl = new URL(currentPath, siteUrl).href;
           // Fermer menu au clic sur un lien
           const navLinks = navMenu.querySelectorAll('a');
           navLinks.forEach(link => {
-            link.addEventListener('click', () => {
-              navMenu.classList.remove('active');
-              mobileMenuToggle.classList.remove('active');
-              body.style.overflow = '';
-            });
+            link.addEventListener('click', () => fermerMenu(false));
           });
 
           // Fermer menu au clic en dehors
           document.addEventListener('click', (e) => {
             if (!navMenu.contains(e.target) && !mobileMenuToggle.contains(e.target)) {
-              navMenu.classList.remove('active');
-              mobileMenuToggle.classList.remove('active');
-              body.style.overflow = '';
+              fermerMenu(false);
             }
+          });
+
+          // Fermer menu avec la touche Échap, en rendant le focus au bouton
+          document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') fermerMenu(true);
           });
         }
       });
