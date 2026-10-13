@@ -24,6 +24,6 @@ Nous partagerons ici les étapes de la création, les premières images et, lors
 
 [Découvrir le projet « Monsieur Jésus-Christ »](/mjc)
 
-Et pour nous aider [https://www.helloasso.com/associations/allumeurs-d-etoiles/collectes/soutenez-la-creation-de-monsieur-jesus-christ](https://www.helloasso.com/associations/allumeurs-d-etoiles/collectes/soutenez-la-creation-de-monsieur-jesus-christ)
+Et pour nous aider <iframe id="haWidgetVignette" allowtransparency="true" src="https://www.helloasso.com/associations/allumeurs-d-etoiles/collectes/soutenez-la-creation-de-monsieur-jesus-christ/widget-vignette" style="width: 100%; height: 513px; border: none;"></iframe>
 
 — Steeve Gernez
