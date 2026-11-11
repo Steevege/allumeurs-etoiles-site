@@ -2,11 +2,13 @@
 import Layout from '../layouts/Layout.astro';
 import { getImage } from 'astro:assets';
 import { getCollection } from 'astro:content';
-import scenePortrait from '../assets/mjc/scene-portrait.jpg';
-import scenePaysage from '../assets/mjc/scene-paysage.jpg';
+import scenePortrait from '../assets/mjc/clermont-appui-table-20261020.png';
+import scenePain from '../assets/mjc/clermont-pain-20261020.png';
+import sceneBrasOuverts from '../assets/mjc/clermont-bras-ouverts-20261020.png';
 
-// --- Actualités rattachées au projet (champ "project: mjc" dans le CMS) ---
-// Tant qu'aucune actualité n'est rattachée, la section affiche un état "À suivre".
+const fundraiserUrl = 'https://www.helloasso.com/associations/allumeurs-d-etoiles/collectes/soutenez-la-creation-de-monsieur-jesus-christ';
+
+// Actualités du projet : conserver les étapes dans l'ordre du récit.
 const newsMjc = (await getCollection('news'))
   .filter((n) => n.data.project === 'mjc')
   .map((n) => ({ slug: n.slug, title: n.data.title, date: n.data.date, excerpt: n.data.excerpt }));
@@ -16,29 +18,28 @@ const blogMjc = (await getCollection('blog'))
   .map((b) => ({ slug: b.slug, title: b.data.title, date: b.data.date, excerpt: b.data.excerpt }));
 
 const actualites = [...newsMjc, ...blogMjc]
-  .sort((a, b) => b.date.getTime() - a.date.getTime())
-  .slice(0, 3);
+  .sort((a, b) => a.date.getTime() - b.date.getTime());
 
-// --- Cadrages dérivés de l'affiche (sans la typographie de l'affiche) ---
-// Portrait 4:5 pour les grands écrans, paysage 3:2 pour mobile et tablette.
+// Les dates annoncées sont partagées avec le calendrier général du site.
+const today = new Date();
+today.setHours(0, 0, 0, 0);
+const prochainesDates = (await getCollection('events'))
+  .filter((event) => event.data.spectacle.startsWith('Monsieur Jésus-Christ') && event.data.date >= today)
+  .sort((a, b) => a.data.date.getTime() - b.data.date.getTime());
+
+// Photos des premières : formats adaptés au web, sans agrandissement de la source.
 const heroPortrait = await getImage({
   src: scenePortrait,
   format: 'webp',
-  widths: [420, 640, 900, 1200],
-  sizes: '(min-width: 1200px) 30vw, 40vw',
+  widths: [420, 640, 900, 1086],
+  sizes: '(min-width: 900px) 40vw, 100vw',
   quality: 82,
 });
 
-const heroPaysage = await getImage({
-  src: scenePaysage,
-  format: 'webp',
-  widths: [640, 960, 1280, 1600],
-  sizes: '100vw',
-  quality: 80,
-});
-
 // Repli JPEG pour les navigateurs sans WebP
-const heroFallback = await getImage({ src: scenePaysage, format: 'jpeg', width: 1100, quality: 82 });
+const heroFallback = await getImage({ src: scenePortrait, format: 'jpeg', width: 1086, quality: 82 });
+const photoPain = await getImage({ src: scenePain, format: 'webp', widths: [420, 640, 900, 1086], sizes: '(min-width: 700px) 45vw, 100vw', quality: 82 });
+const photoBrasOuverts = await getImage({ src: sceneBrasOuverts, format: 'webp', widths: [420, 640, 941], sizes: '(min-width: 700px) 45vw, 100vw', quality: 82 });
 
 // --- Le mot de Patrick Richard ---
 // Pour publier cette partie : remplacer null par { texte: "…", signature: "Patrick Richard" }.
@@ -46,20 +47,20 @@ const heroFallback = await getImage({ src: scenePaysage, format: 'jpeg', width: 
 const motDePatrick: { texte: string; signature: string } | null = null;
 
 const imageAlt =
-  "Une chaise de théâtre en bois, vide, derrière une table où repose un pain rompu, dans une lumière rasante";
+  "Steeve Gernez sur scène à Clermont-Ferrand, appuyé à la table auprès du pain, dans Monsieur Jésus-Christ";
 
-// --- Données structurées : œuvre théâtrale, sans aucune date (le spectacle est en création) ---
+// Œuvre théâtrale : les dates à venir seront annoncées une fois confirmées.
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Play',
   name: 'Monsieur Jésus-Christ',
   alternativeHeadline: "Je voudrais vous parler d'un ami",
   description:
-    "Un seul en scène dans lequel Steeve Gernez vient parler de Jésus comme d'un ami, avec du pain, de l'humour et des questions. D'après le livre de Patrick Richard. Spectacle en création.",
+    "Du rire à la confidence, Steeve Gernez raconte Jésus comme un ami. Un seul en scène d'après le livre de Patrick Richard, mis en scène par Jacques Montembault. Découvrez le spectacle, invitez-le ou soutenez sa création.",
   url: 'https://allumeursdetoiles.com/mjc/',
-  image: 'https://allumeursdetoiles.com/images/mjc/partage-mjc.jpg',
+  image: 'https://allumeursdetoiles.com/images/mjc/partage-clermont-20261020.jpg',
   inLanguage: 'fr',
-  creativeWorkStatus: 'En création',
+  creativeWorkStatus: 'Spectacle créé, premières représentations en octobre 2026',
   genre: 'Théâtre',
   author: { '@type': 'Person', name: 'Steeve Gernez' },
   actor: { '@type': 'Person', name: 'Steeve Gernez' },
@@ -75,11 +76,11 @@ const jsonLd = {
 
 <Layout
   title="Monsieur Jésus-Christ — Seul en scène"
-  description="Steeve Gernez vient parler de Jésus comme d'un ami, avec du pain, de l'humour et des questions. Un seul en scène d'après le livre de Patrick Richard."
+  description="Du rire à la confidence, Steeve Gernez raconte Jésus comme un ami. Découvrez les premières images, invitez le spectacle ou soutenez sa création."
   ogTitle="Monsieur Jésus-Christ — Je voudrais vous parler d'un ami"
-  ogDescription="Un seul en scène de Steeve Gernez qui ne demande pas au public ce qu'il croit, mais ce qu'il cherche. D'après le livre de Patrick Richard."
-  ogImage="/images/mjc/partage-mjc.jpg"
-  ogImageAlt="Monsieur Jésus-Christ — Je voudrais vous parler d'un ami"
+  ogDescription="Deux premières chaleureusement accueillies à Clermont-Ferrand. Une histoire d'amitié, d'humour et de rencontres à faire vivre près de chez vous."
+  ogImage="/images/mjc/partage-clermont-20261020.jpg"
+  ogImageAlt="Steeve Gernez dans Monsieur Jésus-Christ, à Clermont-Ferrand"
 >
   <Fragment slot="head">
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
@@ -90,7 +91,7 @@ const jsonLd = {
     <section class="mjc-hero">
       <div class="mjc-hero-inner">
         <div class="mjc-hero-text">
-          <p class="mjc-eyebrow reveal" style="--d: 0ms">Seul en scène</p>
+          <p class="mjc-eyebrow reveal" style="--d: 0ms">Seul en scène avec Steeve Gernez</p>
 
           <h1 class="mjc-title reveal" style="--d: 90ms">
             <span class="mjc-title-top">Monsieur</span>
@@ -103,41 +104,34 @@ const jsonLd = {
 
           <p class="mjc-status reveal" style="--d: 300ms">
             <span class="mjc-status-dot" aria-hidden="true"></span>
-            Spectacle en création
+            L'aventure a rencontré son public
           </p>
 
           <p class="mjc-lead reveal" style="--d: 380ms">
-            Un spectacle qui ne demande pas au public ce qu'il croit, mais ce qu'il cherche.
+            Du rire à la confidence, une histoire d'amitié à hauteur d'homme.
           </p>
 
+          <p class="mjc-hero-intro">Un pain, une table, et Jésus raconté comme un ami. Un spectacle à partager, quelles que soient vos convictions.</p>
+
           <div class="mjc-hero-cta reveal" style="--d: 460ms">
-            <a href="#le-projet" class="mjc-btn mjc-btn-primary">Découvrir le projet</a>
-            <a href="#suivre-la-creation" class="mjc-btn mjc-btn-ghost">Suivre la création</a>
+            <a href="#accueillir" class="mjc-btn mjc-btn-primary">Inviter le spectacle</a>
+            <a href="#soutenir" class="mjc-btn mjc-btn-ghost">Soutenir l'aventure</a>
           </div>
+          <a href="#le-projet" class="mjc-hero-discover">Entrer dans l'histoire</a>
         </div>
 
         <div class="mjc-hero-media reveal" style="--d: 160ms">
           <picture>
             <source
-              media="(min-width: 900px)"
               type="image/webp"
               srcset={heroPortrait.srcSet.attribute}
-              sizes="(min-width: 1200px) 30vw, 40vw"
-              width="1200"
-              height="1484"
-            />
-            <source
-              type="image/webp"
-              srcset={heroPaysage.srcSet.attribute}
-              sizes="100vw"
-              width="1600"
-              height="1066"
+              sizes="(min-width: 900px) 40vw, 100vw"
             />
             <img
               src={heroFallback.src}
               alt={imageAlt}
-              width="1600"
-              height="1066"
+              width="1086"
+              height="1448"
               fetchpriority="high"
               decoding="async"
             />
@@ -149,7 +143,7 @@ const jsonLd = {
     <!-- ================= 2. PRÉSENTATION ================= -->
     <section class="mjc-section" id="le-projet">
       <div class="mjc-wrap">
-        <h2 class="mjc-h2">Un ami avant une figure</h2>
+        <h2 class="mjc-h2">Il vient vous parler d'un ami.</h2>
 
         <div class="mjc-columns">
           <div class="mjc-prose">
@@ -157,16 +151,16 @@ const jsonLd = {
               Jésus. Cinq lettres, et déjà tout le monde a un avis.
             </p>
             <p>
-              Dans ce seul en scène, Steeve Gernez ne cherche ni à convaincre, ni à convertir, ni à
-              avoir raison. Il vient parler d'un ami. Avec du pain, de l'humour et quelques
-              questions, il cherche l'homme derrière la figure : celui qui marche, qui mange avec
-              ceux qu'on n'invite pas, qui touche ceux que plus personne ne touche et qui reste
-              présent dans la nuit.
+              Steeve Gernez entre dans l'histoire avec un pain de campagne et l'envie de vous
+              raconter quelqu'un. Jésus, comme on parle d'un ami : avec de l'affection, de
+              l'étonnement, de l'humour et des questions qui ne nous lâchent pas.
             </p>
             <p>
-              Une parole personnelle, drôle et profondément humaine, adressée à ceux qui croient, à
-              ceux qui doutent et à ceux qui se demandent simplement où va cet homme avec son pain.
+              Une généalogie prend des allures de marathon. Une table dérange parce qu'on y
+              accueille ceux qu'on ne fréquente pas. Le rire ouvre la porte à la confidence ;
+              l'amitié se mesure à la peur, au doute et au désir de recommencer.
             </p>
+            <p>Adapté du livre de Patrick Richard et mis en scène par Jacques Montembault, ce seul en scène s'adresse à ceux qui croient, à ceux qui doutent et aux curieux. Chacun y entre avec son histoire et en repart avec ses propres questions.</p>
           </div>
 
           <aside class="mjc-credits" aria-label="Informations sur le spectacle">
@@ -181,19 +175,19 @@ const jsonLd = {
                 <dd>Steeve Gernez</dd>
               </div>
               <div class="mjc-credit">
-                <dt>Mise en scène</dt>
-                <dd>Jacques Montembault</dd>
-              </div>
-              <div class="mjc-credit">
                 <dt>D'après le livre de</dt>
                 <dd>Patrick Richard</dd>
+              </div>
+              <div class="mjc-credit">
+                <dt>Mise en scène</dt>
+                <dd>Jacques Montembault</dd>
               </div>
               <div class="mjc-credit">
                 <dt>Production</dt>
                 <dd>Les Allumeurs d'Étoiles</dd>
               </div>
             </dl>
-            <p class="mjc-credits-note">Spectacle actuellement en création.</p>
+            <p class="mjc-credits-note">Premières représentations à Clermont-Ferrand en octobre 2026.</p>
           </aside>
         </div>
       </div>
@@ -229,15 +223,34 @@ const jsonLd = {
     <!-- ================= 4. SUIVRE LA CRÉATION ================= -->
     <section class="mjc-section" id="suivre-la-creation">
       <div class="mjc-wrap">
-        <h2 class="mjc-h2">Le spectacle se construit</h2>
+        <h2 class="mjc-h2">Deux premières. Et l'envie de continuer.</h2>
 
         <p class="mjc-section-lead">
-          Les répétitions ont commencé. Le texte prend corps, la mise en scène se précise et
-          l'aventure ne fait que commencer. Nous partagerons ici les premières images, les étapes de
-          travail et les dates à venir.
+          En octobre 2026, Monsieur Jésus-Christ a rencontré son public au Festival de théâtre
+          biblique de Clermont-Ferrand. Deux premières, un très bel accueil et déjà des demandes
+          pour la suite. Merci à celles et ceux qui étaient là : cette histoire commence à voyager.
         </p>
 
-        {actualites.length > 0 ? (
+        <div class="mjc-stage-photos">
+          <figure>
+            <img src={photoPain.src} srcset={photoPain.srcSet.attribute} sizes="(min-width: 700px) 45vw, 100vw" width="1086" height="1448" alt="Steeve Gernez assis, le pain entre les mains, dans un moment de confidence du spectacle" loading="lazy" decoding="async" />
+            <figcaption>Un pain, une présence, une parole qui se partage.</figcaption>
+          </figure>
+          <figure>
+            <img src={photoBrasOuverts.src} srcset={photoBrasOuverts.srcSet.attribute} sizes="(min-width: 700px) 45vw, 100vw" width="941" height="1672" alt="Steeve Gernez les bras ouverts face au public, auprès de la table et de la bougie" loading="lazy" decoding="async" />
+            <figcaption>Seul sur scène. Avec le public, tout près.</figcaption>
+          </figure>
+        </div>
+        <p class="mjc-photo-note">Clermont-Ferrand, octobre 2026.</p>
+
+      </div>
+    </section>
+
+    <section class="mjc-section mjc-section-deep" id="les-etapes">
+      <div class="mjc-wrap">
+        <h2 class="mjc-h2">Une histoire qui avance</h2>
+        <p class="mjc-section-lead">Du livre aux répétitions, des premières rencontres avec le public aux prochains rendez-vous : retrouvez les étapes de l'aventure.</p>
+        {actualites.length > 0 && (
           <div class="mjc-actus">
             {actualites.map((a) => (
               <article class="mjc-actu">
@@ -252,34 +265,68 @@ const jsonLd = {
               </article>
             ))}
           </div>
-        ) : (
-          <div class="mjc-soon">
-            <p class="mjc-soon-label">À suivre</p>
-            <p class="mjc-soon-text">
-              Les premières nouvelles de la création seront publiées ici au fil des répétitions.
-            </p>
-            <ul class="mjc-soon-list">
-              <li>Étapes de travail</li>
-              <li>Premières images</li>
-              <li>Paroles de l'équipe</li>
-              <li>Teaser</li>
-              <li>Premières dates</li>
-            </ul>
-          </div>
         )}
       </div>
     </section>
 
-    <!-- ================= 5. DEUX PARCOURS ================= -->
+    <section class="mjc-section" id="prochaines-dates">
+      <div class="mjc-wrap">
+        <h2 class="mjc-h2">La suite se prépare près de chez vous</h2>
+        <p class="mjc-section-lead">Après Clermont-Ferrand, de nouveaux rendez-vous se dessinent en décembre 2026.</p>
+        <ul class="mjc-dates" aria-label="Prochaines représentations annoncées">
+          {prochainesDates.map((event) => (
+            <li>
+              <time datetime={event.data.date.toISOString().slice(0, 10)}>{event.data.date.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}</time>
+              <span>{event.data.ville}{event.data.spectacle.includes('scolaire') && ' — représentation scolaire'}</span>
+            </li>
+          ))}
+        </ul>
+        <p class="mjc-pending-date"><strong>Également en préparation : Chambéry, les 8 et 9 décembre 2026.</strong> Ces deux dates restent à confirmer.</p>
+        <p class="mjc-dates-note">Les lieux, horaires et modalités d'accueil seront précisés à mesure de leur confirmation.</p>
+        <a href="/tournee" class="mjc-link">Voir le calendrier des spectacles</a>
+      </div>
+    </section>
+
+    <!-- ================= 5. ACCUEILLIR ET SOUTENIR ================= -->
+    <section class="mjc-section mjc-invitation-section" id="accueillir">
+      <div class="mjc-wrap mjc-invitation">
+        <div>
+          <h2 class="mjc-h2">Et si cette rencontre avait lieu chez vous ?</h2>
+          <p class="mjc-section-lead">Un théâtre, une association, une paroisse, un festival : votre lieu peut devenir la prochaine étape de l'aventure.</p>
+        </div>
+        <div class="mjc-prose">
+          <p>Vous avez envie de proposer un spectacle qui fait sourire, questionne et ouvre la conversation ? Parlons de votre public, de votre lieu et des dates que vous imaginez.</p>
+          <p>L'équipe d'Allumeurs d'étoiles vous transmettra le dossier de présentation et les éléments techniques pour préparer ensemble l'accueil du spectacle.</p>
+          <a href="/contact?sujet=programmation-mjc" class="mjc-btn mjc-btn-primary">Parlons d'une représentation</a>
+          <p class="mjc-direct-contact">Ou écrivez à <a href="mailto:contact@allumeursdetoiles.com?subject=Monsieur%20J%C3%A9sus-Christ%20%E2%80%94%20accueillir%20le%20spectacle">contact@allumeursdetoiles.com</a></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="mjc-section mjc-support-section" id="soutenir">
+      <div class="mjc-wrap mjc-support">
+        <div>
+          <h2 class="mjc-h2">Nous l'avons fait naître.<br />Aidons-le à poursuivre sa route.</h2>
+          <p class="mjc-section-lead">Sur scène, un homme. Autour de lui, une histoire d'amitié et toutes les personnes qui rendent cette aventure possible.</p>
+        </div>
+        <div class="mjc-prose">
+          <p>Parce qu'elle croit à ce spectacle, Allumeurs d'étoiles a avancé une partie des frais de création : répétitions, déplacements, mise en scène, décor et communication.</p>
+          <p>Les premières ont eu lieu. Le financement de la création reste à compléter. La collecte vise à réunir <strong>5 000 €</strong> pour contribuer aux dépenses déjà engagées et à venir, et aborder plus sereinement la suite.</p>
+          <p>Un don, du montant qui vous convient, nous aide à faire vivre ce spectacle et à le porter vers d'autres publics. Merci aux premiers donateurs et à toutes celles et ceux qui font circuler cette histoire.</p>
+          <a href={fundraiserUrl} class="mjc-btn mjc-btn-primary" target="_blank" rel="noopener noreferrer">Je soutiens sur HelloAsso<span class="sr-only"> (nouvel onglet)</span></a>
+          <p class="mjc-support-note">Don libre à partir de 1 €. Les dons sont reçus par Allumeurs d'étoiles. Retrouvez l'avancement actualisé et le détail du projet sur HelloAsso.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 6. GARDER LE LIEN ================= -->
     <section class="mjc-section mjc-section-deep">
       <div class="mjc-wrap">
         <div class="mjc-paths">
           <article class="mjc-path">
-            <p class="mjc-path-tag">Public</p>
-            <h2 class="mjc-path-title">Suivre l'aventure</h2>
+            <h2 class="mjc-path-title">Recevoir des nouvelles</h2>
             <p>
-              Premières images, étapes de création et prochaines représentations : restez au courant
-              de la suite.
+              Prochaines représentations, nouvelles images, étapes de l'aventure : gardons le lien.
             </p>
 
             <!--
@@ -317,12 +364,12 @@ const jsonLd = {
               <div class="mjc-consent">
                 <input type="checkbox" id="mjc-consent" name="consentement" value="oui" required />
                 <label for="mjc-consent">
-                  J'accepte de recevoir des nouvelles de la création de « Monsieur Jésus-Christ ».
+                  J'accepte de recevoir des nouvelles de « Monsieur Jésus-Christ ».
                   Mon adresse ne servira qu'à cela et je peux me désinscrire à tout moment.
                 </label>
               </div>
 
-              <button type="submit" class="mjc-btn mjc-btn-primary">Suivre la création</button>
+              <button type="submit" class="mjc-btn mjc-btn-primary">Recevoir les nouvelles</button>
 
               <p class="mjc-form-message" id="mjc-form-message" role="status" aria-live="polite"></p>
 
@@ -334,14 +381,13 @@ const jsonLd = {
           </article>
 
           <article class="mjc-path mjc-path-pro">
-            <p class="mjc-path-tag">Professionnels</p>
-            <h2 class="mjc-path-title">Accueillir le spectacle</h2>
+            <h2 class="mjc-path-title">Une histoire à faire circuler</h2>
             <p>
-              Vous représentez un théâtre, un lieu culturel, une association, une paroisse ou un
-              festival ? Échangeons dès maintenant autour du projet.
+              Vous pensez à un lieu, à une équipe, à quelqu'un que ce spectacle pourrait toucher ?
+              Transmettez-lui cette page. Les rencontres commencent souvent ainsi.
             </p>
-            <a href="/contact?sujet=programmation-mjc" class="mjc-btn mjc-btn-primary">
-              Parler du spectacle
+            <a href="#le-projet" class="mjc-btn mjc-btn-ghost">
+              Revenir au spectacle
             </a>
           </article>
         </div>
@@ -352,7 +398,7 @@ const jsonLd = {
     <section class="mjc-share-section">
       <div class="mjc-wrap">
         <div class="mjc-share">
-          <p class="mjc-share-text">Ce projet vous parle ? Faites-le découvrir.</p>
+          <p class="mjc-share-text">Cette histoire vous parle ? Faites-la découvrir.</p>
           <div class="mjc-share-actions">
             <button type="button" class="mjc-btn mjc-btn-ghost" id="mjc-share-native" hidden>
               Partager
@@ -427,7 +473,7 @@ const jsonLd = {
   /* ============================ 1. HERO ============================ */
   .mjc-hero {
     background-color: var(--mjc-cream);
-    padding: clamp(3rem, 7vw, 6rem) 0 clamp(3rem, 6vw, 5rem);
+    padding: clamp(2rem, 5vw, 4rem) 0 clamp(3rem, 6vw, 5rem);
     position: relative;
     overflow: hidden;
   }
@@ -510,7 +556,7 @@ const jsonLd = {
     display: inline-flex;
     align-items: center;
     gap: 0.6rem;
-    margin: 0 0 2rem;
+    margin: 0 0 1.2rem;
     padding: 0.45rem 1.1rem;
     border: 1px solid rgba(158, 78, 50, 0.4);
     border-radius: 999px;
@@ -532,7 +578,7 @@ const jsonLd = {
 
   .mjc-lead {
     max-width: 30ch;
-    margin: 0 0 2.4rem;
+    margin: 0 0 1rem;
     font-family: var(--font-heading);
     font-size: clamp(1.3rem, 2.9vw, 1.9rem);
     font-style: italic;
@@ -554,8 +600,9 @@ const jsonLd = {
   }
 
   .mjc-hero-media img {
-    aspect-ratio: 1600 / 1066;
-    object-fit: cover;
+    aspect-ratio: 3 / 4;
+    object-fit: contain;
+    background: #080808;
     border-radius: 2px;
     box-shadow: 0 18px 50px rgba(36, 49, 58, 0.18);
   }
@@ -813,6 +860,39 @@ const jsonLd = {
     gap: 1.5rem;
   }
 
+  .mjc-dates {
+    margin: 0 0 1.75rem;
+    padding: 0;
+    list-style: none;
+  }
+
+  .mjc-dates li {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 2rem;
+    padding: 1.25rem 0;
+    border-bottom: 1px solid var(--mjc-line);
+    font-size: 1.15rem;
+  }
+
+  .mjc-dates time {
+    flex: 0 1 16rem;
+    color: var(--mjc-terracotta);
+    font-weight: 600;
+  }
+
+  .mjc-dates li span {
+    font-weight: 600;
+  }
+
+  .mjc-pending-date,
+  .mjc-dates-note {
+    max-width: 65ch;
+    margin: 0 0 1.25rem;
+    line-height: 1.8;
+    color: var(--mjc-ink-soft);
+  }
+
   .mjc-actu {
     padding: 1.75rem;
     background-color: var(--mjc-paper);
@@ -924,6 +1004,75 @@ const jsonLd = {
 
   .mjc-path .mjc-btn {
     margin-top: auto;
+  }
+
+  /* Les deux invitations restent identifiables après un scan du QR code. */
+  .mjc-hero-intro {
+    max-width: 48ch;
+    margin: 0 0 1.6rem;
+    font-size: 1.05rem;
+    line-height: 1.65;
+    color: var(--mjc-ink-soft);
+  }
+
+  .mjc-hero-discover {
+    display: inline-block;
+    margin-top: 1.3rem;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    color: var(--mjc-ink);
+  }
+
+  .mjc-stage-photos {
+    display: grid;
+    gap: 1.5rem;
+    align-items: start;
+  }
+
+  .mjc-stage-photos figure { margin: 0; min-width: 0; }
+  .mjc-stage-photos img { display: block; width: 100%; height: auto; background: #080808; }
+  .mjc-stage-photos figcaption { margin-top: .8rem; font-size: 1rem; color: var(--mjc-ink-soft); }
+  .mjc-photo-note { margin: 1rem 0 2.4rem; font-size: .8rem; color: var(--mjc-ink-soft); }
+  .mjc-history { border-top: 1px solid var(--mjc-line); padding-top: 1.4rem; }
+  .mjc-history summary { cursor: pointer; font-weight: 600; line-height: 1.5; }
+  .mjc-history .mjc-actus { margin-top: 1.4rem; }
+  .mjc-invitation, .mjc-support { display: grid; gap: 1.6rem; align-items: start; }
+  .mjc-invitation-section { background: var(--mjc-paper); }
+  .mjc-invitation .mjc-section-lead, .mjc-support .mjc-section-lead { margin-bottom: 0; }
+  .mjc-direct-contact { margin-top: 1.2rem !important; font-size: .95rem !important; overflow-wrap: anywhere; }
+  .mjc-direct-contact a { color: var(--mjc-terracotta); text-decoration: underline; text-underline-offset: 3px; }
+  .mjc-support-section { background: var(--mjc-ink); }
+  .mjc-support-section .mjc-h2 { color: var(--mjc-cream); }
+  .mjc-support-section .mjc-section-lead, .mjc-support-section .mjc-prose p { color: #e1ded5; }
+  .mjc-support-section .mjc-btn-primary { background: #f0c9a6; color: #24313a; }
+  .mjc-support-section .mjc-btn-primary:hover { background: #fff0db; }
+  .mjc-support-section .mjc-support-note { margin-top: 1.1rem; font-size: .88rem; line-height: 1.6; }
+  .mjc-btn { max-width: 100%; text-wrap: balance; }
+  .mjc-btn:focus-visible, .mjc-link:focus-visible, .mjc-hero-discover:focus-visible, summary:focus-visible {
+    outline: 3px solid #9e4e32; outline-offset: 5px;
+  }
+  .mjc-support-section .mjc-btn:focus-visible { outline-color: #f0c9a6; }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+  @media (min-width: 700px) {
+    .mjc-stage-photos { grid-template-columns: 1fr 1fr; }
+    .mjc-stage-photos img { height: 36rem; object-fit: contain; }
+  }
+
+  @media (min-width: 900px) {
+    .mjc-invitation, .mjc-support { grid-template-columns: 1fr 1fr; gap: 3.5rem; }
+    .mjc-support .mjc-h2 { font-size: clamp(1.8rem, 3vw, 2.5rem); }
+  }
+
+  @media (max-width: 699px) {
+    .mjc-hero-media { max-width: 30rem; width: 100%; justify-self: center; }
+    .mjc-hero-media img { max-height: 33rem; }
+    .mjc-hero-cta { gap: .7rem; }
+    .mjc-hero-cta .mjc-btn { width: 100%; }
+    .mjc-eyebrow { letter-spacing: .12em; font-size: .75rem; margin-bottom: 1rem; }
+    .mjc-signature { letter-spacing: .06em; text-transform: none; margin-bottom: 1rem; }
+    .mjc-status { letter-spacing: .04em; text-transform: none; font-size: .78rem; }
+    .mjc-lead { font-size: 1.35rem; }
   }
 
   /* ---------- Formulaire de suivi (bloc Public) ---------- */
@@ -1114,7 +1263,7 @@ const jsonLd = {
     }
 
     .mjc-hero-media img {
-      aspect-ratio: 1200 / 1484;
+      aspect-ratio: 3 / 4;
     }
 
     .mjc-columns {
@@ -1196,7 +1345,7 @@ const jsonLd = {
         confirmation.setAttribute('role', 'status');
         confirmation.innerHTML =
           '<p><strong>C\'est noté, merci !</strong> ' +
-          'Votre inscription aux nouvelles de la création de « Monsieur Jésus-Christ » ' +
+          'Votre inscription aux nouvelles de « Monsieur Jésus-Christ » ' +
           'a bien été enregistrée.</p>';
         form.replaceWith(confirmation);
       } catch {
