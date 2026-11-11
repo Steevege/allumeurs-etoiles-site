@@ -60,7 +60,7 @@ const jsonLd = {
   url: 'https://allumeursdetoiles.com/mjc/',
   image: 'https://allumeursdetoiles.com/images/mjc/partage-clermont-20261020.jpg',
   inLanguage: 'fr',
-  creativeWorkStatus: 'Spectacle créé, premières représentations en octobre 2026',
+  creativeWorkStatus: 'Spectacle créé en octobre 2026, en tournée',
   genre: 'Théâtre',
   author: { '@type': 'Person', name: 'Steeve Gernez' },
   actor: { '@type': 'Person', name: 'Steeve Gernez' },
@@ -243,6 +243,23 @@ const jsonLd = {
         </div>
         <p class="mjc-photo-note">Clermont-Ferrand, octobre 2026.</p>
 
+        <h3 class="mjc-video-title" id="voir-le-spectacle">Voir le spectacle</h3>
+        <div class="mjc-stage-photos mjc-videos">
+          <figure>
+            <video controls preload="none" playsinline poster="/videos/mjc/mjc-clermont-poster.jpg" width="1080" height="1350">
+              <source src="/videos/mjc/mjc-clermont-30s.mp4" type="video/mp4" />
+            </video>
+            <figcaption>Premières images, Clermont-Ferrand (30 secondes).</figcaption>
+          </figure>
+          <figure>
+            <video controls preload="none" playsinline poster="/videos/mjc/mjc-extrait-aimer-poster.jpg" width="720" height="1280">
+              <source src="/videos/mjc/mjc-extrait-aimer-c-est-facile.mp4" type="video/mp4" />
+            </video>
+            <figcaption>Extrait : « Aimer, c'est facile ? »</figcaption>
+          </figure>
+        </div>
+        <p class="mjc-photo-note">Le teaser du spectacle, tourné en novembre 2026, sera publié ici début décembre.</p>
+
       </div>
     </section>
 
@@ -272,7 +289,7 @@ const jsonLd = {
     <section class="mjc-section" id="prochaines-dates">
       <div class="mjc-wrap">
         <h2 class="mjc-h2">La suite se prépare près de chez vous</h2>
-        <p class="mjc-section-lead">Après Clermont-Ferrand, de nouveaux rendez-vous se dessinent en décembre 2026.</p>
+        <p class="mjc-section-lead">Après Clermont-Ferrand, le spectacle part sur les routes en décembre 2026. D'autres dates se préparent pour 2027.</p>
         <ul class="mjc-dates" aria-label="Prochaines représentations annoncées">
           {prochainesDates.map((event) => (
             <li>
@@ -281,7 +298,7 @@ const jsonLd = {
             </li>
           ))}
         </ul>
-        <p class="mjc-pending-date"><strong>Également en préparation : Chambéry, les 8 et 9 décembre 2026.</strong> Ces deux dates restent à confirmer.</p>
+        <p class="mjc-pending-date"><strong>Également en préparation : Chambéry, les 8 et 9 décembre 2026,</strong> et Chevry en mars 2027. Ces dates restent à confirmer.</p>
         <p class="mjc-dates-note">Les lieux, horaires et modalités d'accueil seront précisés à mesure de leur confirmation.</p>
         <a href="/tournee" class="mjc-link">Voir le calendrier des spectacles</a>
       </div>
@@ -297,6 +314,19 @@ const jsonLd = {
         <div class="mjc-prose">
           <p>Vous avez envie de proposer un spectacle qui fait sourire, questionne et ouvre la conversation ? Parlons de votre public, de votre lieu et des dates que vous imaginez.</p>
           <p>L'équipe d'Allumeurs d'étoiles vous transmettra le dossier de présentation et les éléments techniques pour préparer ensemble l'accueil du spectacle.</p>
+          <div class="mjc-practical" id="etablissements">
+            <h3>Pour un établissement scolaire, une paroisse ou un catéchuménat</h3>
+            <ul>
+              <li><strong>Public :</strong> les élèves à partir de la 4e (collège et lycée), les adultes, les catéchumènes, les curieux.</li>
+              <li><strong>Durée :</strong> environ une heure de jeu, suivie d'un échange avec la salle.</li>
+              <li><strong>Lieu :</strong> une salle, un théâtre ou une église (le noir aide, mais n'est pas indispensable). Un espace de jeu de 6 m sur 4 m suffit.</li>
+              <li><strong>Technique :</strong> le spectacle est autonome : Steeve apporte la lumière et le son. Il faut environ trois heures d'installation.</li>
+              <li><strong>Jauge :</strong> jusqu'à 250 personnes environ.</li>
+              <li><strong>Pour les enseignants :</strong> un livret pédagogique accompagne le spectacle.</li>
+              <li><strong>Calendrier :</strong> des dates restent possibles pendant le Carême 2027 et pour l'année 2027-2028.</li>
+            </ul>
+            <p>Pour parler d'une date : Aude Gernez, <a href="tel:+33613248228">06 13 24 82 28</a>.</p>
+          </div>
           <a href="/contact?sujet=programmation-mjc" class="mjc-btn mjc-btn-primary">Parlons d'une représentation</a>
           <p class="mjc-direct-contact">Ou écrivez à <a href="mailto:contact@allumeursdetoiles.com?subject=Monsieur%20J%C3%A9sus-Christ%20%E2%80%94%20accueillir%20le%20spectacle">contact@allumeursdetoiles.com</a></p>
         </div>
@@ -311,8 +341,8 @@ const jsonLd = {
         </div>
         <div class="mjc-prose">
           <p>Parce qu'elle croit à ce spectacle, Allumeurs d'étoiles a avancé une partie des frais de création : répétitions, déplacements, mise en scène, décor et communication.</p>
-          <p>Les premières ont eu lieu. Le financement de la création reste à compléter. La collecte vise à réunir <strong>5 000 €</strong> pour contribuer aux dépenses déjà engagées et à venir, et aborder plus sereinement la suite.</p>
-          <p>Un don, du montant qui vous convient, nous aide à faire vivre ce spectacle et à le porter vers d'autres publics. Merci aux premiers donateurs et à toutes celles et ceux qui font circuler cette histoire.</p>
+          <p><strong>Objectif atteint : merci !</strong> En un mois, plus de trente personnes ont dépassé l'objectif de 5 000 € fixé pour couvrir les frais de création. De 20 € à bien plus, chaque don a compté.</p>
+          <p>La collecte continue jusqu'au <strong>20 décembre 2026</strong>, avec une deuxième étape à <strong>7 000 €</strong> : le tournage du teaser, en novembre, puis une première partie de matériel plus léger et plus rapide à installer, pour jouer partout où on nous attend. Ce matériel restera à l'association.</p>
           <a href={fundraiserUrl} class="mjc-btn mjc-btn-primary" target="_blank" rel="noopener noreferrer">Je soutiens sur HelloAsso<span class="sr-only"> (nouvel onglet)</span></a>
           <p class="mjc-support-note">Don libre à partir de 1 €. Les dons sont reçus par Allumeurs d'étoiles. Retrouvez l'avancement actualisé et le détail du projet sur HelloAsso.</p>
         </div>
@@ -1031,6 +1061,13 @@ const jsonLd = {
 
   .mjc-stage-photos figure { margin: 0; min-width: 0; }
   .mjc-stage-photos img { display: block; width: 100%; height: auto; background: #080808; }
+  .mjc-videos video { display: block; width: 100%; height: auto; max-height: 36rem; background: #080808; object-fit: contain; }
+  .mjc-video-title { margin: 3rem 0 1.2rem; font-size: 1.35rem; }
+  .mjc-practical { margin: 1.6rem 0 1.8rem; padding: 1.4rem 1.5rem; border-left: 3px solid var(--mjc-terracotta); background: rgba(0,0,0,.03); }
+  .mjc-practical h3 { margin: 0 0 .8rem; font-size: 1.15rem; }
+  .mjc-practical ul { margin: 0 0 1rem; padding-left: 1.1rem; }
+  .mjc-practical li { margin: .35rem 0; }
+  .mjc-practical a { color: var(--mjc-terracotta); text-decoration: underline; text-underline-offset: 3px; }
   .mjc-stage-photos figcaption { margin-top: .8rem; font-size: 1rem; color: var(--mjc-ink-soft); }
   .mjc-photo-note { margin: 1rem 0 2.4rem; font-size: .8rem; color: var(--mjc-ink-soft); }
   .mjc-history { border-top: 1px solid var(--mjc-line); padding-top: 1.4rem; }
