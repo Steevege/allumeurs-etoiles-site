@@ -294,11 +294,12 @@ const jsonLd = {
           {prochainesDates.map((event) => (
             <li>
               <time datetime={event.data.date.toISOString().slice(0, 10)}>{event.data.date.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}</time>
-              <span>{event.data.ville}{event.data.spectacle.includes('scolaire') && ' — représentation scolaire'}</span>
+              <span>{event.data.ville}{event.data.spectacle.includes('scolaire') && ' — représentation scolaire'}{event.data.lieu && `, ${event.data.lieu}`}{event.data.heure && `, à ${event.data.heure}`}</span>
             </li>
           ))}
         </ul>
-        <p class="mjc-pending-date"><strong>Également en préparation : Chambéry, les 8 et 9 décembre 2026,</strong> et Chevry en mars 2027. Ces dates restent à confirmer.</p>
+        <p class="mjc-pending-date"><strong>Chambéry, le 9 décembre :</strong> représentation ouverte aux familles, à partir de 13 ans. Participation libre, inscription obligatoire.</p>
+        <p class="mjc-pending-date"><strong>Également en préparation : Chevry, en mars 2027.</strong> Cette date reste à confirmer.</p>
         <p class="mjc-dates-note">Les lieux, horaires et modalités d'accueil seront précisés à mesure de leur confirmation.</p>
         <a href="/tournee" class="mjc-link">Voir le calendrier des spectacles</a>
       </div>
